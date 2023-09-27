@@ -13,8 +13,6 @@ def efile_string(st):
 
 def save_top_earners_from_xml(xml_url, company_name):
 
-    ein = xml_url.split("object_id=")[1]
-
     # Get xml file response
     resp = requests.get(xml_url)
 
@@ -64,4 +62,4 @@ def save_top_earners_from_xml(xml_url, company_name):
 
         writer.writeheader()
         writer.writerows(employee_dicts)
-    print(f"CSV Saved for {company_name}")
+    print(f"CSV saved for {company_name}")
