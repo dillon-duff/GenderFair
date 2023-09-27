@@ -46,7 +46,7 @@ def save_top_earners_from_company_name(company_name):
     for e, name in ordered_eins:
         url_for_xml = None
         next_xml_url = get_xml_url_from_ein(e)
-        if next_xml_url and next_xml_url != -1:
+        if next_xml_url != -1:
             url_for_xml = next_xml_url
             saved = save_top_earners_from_xml(url_for_xml, name)
             if saved != -1:
