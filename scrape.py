@@ -1,6 +1,4 @@
 import requests
-import sys
-import json
 from bs4 import BeautifulSoup
 from xml_parsing import *
 from difflib import SequenceMatcher
@@ -15,7 +13,14 @@ def string_similarity(a, b):
 
 
 def get_best_matching_eins_from_company_name(company_name):
+    """Returns sorted list of dictionary items of companies that best match the given name.
 
+    Args:
+        string (company_name): company's name string
+    
+    Returns:
+        list of (ein, name) for all results in order by best matching name to company_name (ein is a company's UID)
+    """
     PARAMS = {'q': company_name}
 
     r = requests.get(url=propublica_api_url, params=PARAMS)
@@ -36,6 +41,14 @@ def get_best_matching_eins_from_company_name(company_name):
 
 
 def get_xml_url_from_ein(ein):
+    """Returns most recent URL for 990 XML form
+
+    Args:
+        string (ein): company's UID
+    
+    Returns:
+        string: most recent URL for 990 XML form
+    """
     propublica_url = propublica_base_url + str(ein)
     page = requests.get(propublica_url)
     soup = BeautifulSoup(page.content, "html.parser")
