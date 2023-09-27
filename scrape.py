@@ -74,15 +74,19 @@ def save_top_earners_from_company_name(company_name):
             f"Failed to find any company with name similar to: {company_name}")
 
     url_for_xml = None
+    done = False
     for e, name in ordered_eins:
+        url_for_xml = None
         next_xml_url = get_xml_url_from_ein(e)
         if next_xml_url and next_xml_url != -1:
             url_for_xml = next_xml_url
             saved = save_top_earners_from_xml(url_for_xml, name)
             if saved != -1:
+                done = True
                 break
-
-    if url_for_xml is None:
+    
+    if not done:
+        print(f"No valid 990s could be found for {company_name}")
         return -1
 
 
