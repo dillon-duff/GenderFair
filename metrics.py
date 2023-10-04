@@ -89,10 +89,10 @@ def guess_gender(name):
 
 
 if __name__ == "__main__":
-    generate_pay_gap_metric("Dig")
-    # s = " "
-    # while len(s) > 0:
-    #     s = str(input("\nEnter company name to get top earners from: "))
-    #     if len(s) <= 0:
-    #         break
-    #     generate_pay_gap_metric(s)
+    # generate_pay_gap_metric("Dig")
+    s = " "
+    while len(s) > 0:
+        s = str(input("\nEnter company name to get top earners from: "))
+        if len(s) <= 0:
+            break
+        generate_pay_gap_metric(s)
