@@ -3,6 +3,7 @@ import requests
 from scrape import get_xml_url_from_ein
 from xml_parsing import save_top_earners_from_xml
 from xml_parsing_cats import save_top_earners_categories_from_xml
+from xml_parsing_website import save_website_from_xml
 
 
 propublica_api_url = "https://projects.propublica.org/nonprofits/api/v2/search.json"
@@ -81,6 +82,29 @@ def save_top_earners_categories_from_company_name(company_name):
         print(f"No valid 990s could be found for {company_name}")
         return -1
     
+    
+def save_website_from_company_name(company_name):
+    ordered_eins = get_best_matching_eins_from_company_name(company_name)
+    if len(ordered_eins) == 0:
+        print(
+            f"Failed to find any company with name similar to: {company_name}")
+
+    url_for_xml = None
+    done = False
+    for e, name in ordered_eins:
+        url_for_xml = None
+        next_xml_url = get_xml_url_from_ein(e)
+        if next_xml_url != -1:
+            url_for_xml = next_xml_url
+            saved = save_website_from_xml(url_for_xml, name)
+            if saved != -1:
+                done = True
+                break
+
+    if not done:
+        print(f"No valid 990s could be found for {company_name}")
+        return -1
+    
 
 def string_similarity(a, b):
     return SequenceMatcher(None, a.lower(), b.lower()).ratio()
@@ -94,4 +118,5 @@ if __name__ == "__main__":
             break
         save_top_earners_from_company_name(s)
         #save_top_earners_categories_from_company_name(s)
+        #save_website_from_company_name(s)
 
