@@ -18,8 +18,6 @@ def write_top_companies_from_report(report_filename, max_companies, dest_filenam
     df = pd.read_excel(report_filename, sheet_name="Organizations")
     df = df.sort_values(by=['total_staff'], ascending=False)
 
-    import pdb
-    pdb.set_trace()
     if dest_filename is None:
         dest_filename = f"Candid-Demographics-Top-{max_companies}.csv"
     eins = df["ein"].values
@@ -77,4 +75,4 @@ def write_top_companies_from_report(report_filename, max_companies, dest_filenam
 
 if __name__ == "__main__":
     write_top_companies_from_report(
-        "Candid-Demographics-Monthly-Report (1).xlsx", 5000)
+        "Candid-Demographics-Monthly-Report (1).xlsx", 60000)
