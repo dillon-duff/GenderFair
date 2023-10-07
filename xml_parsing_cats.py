@@ -32,13 +32,13 @@ def save_top_earners_categories_from_xml(xml_url, company_name):
     root = root[1]
 
     # Find the root for the Schedule J Data (Compensation Information)
-    root990 = root.find(efile_string('IRS990'))
+    schedule_j_root = root.find(efile_string('IRS990'))
 
-    if not root990:
+    if not schedule_j_root:
         print("Invalid XML file. Could be submitted under protest")
         return -1
 
-    key_employee_group = root990.findall(efile_string('Form990PartVIISectionAGrp'))
+    key_employee_group = schedule_j_root.findall(efile_string('Form990PartVIISectionAGrp'))
 
     # Save data for each employee in this dictionary
     employee_dicts = []
