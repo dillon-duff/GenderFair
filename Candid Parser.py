@@ -2,7 +2,7 @@ import pandas as pd
 import xml.etree.ElementTree as ET
 
 def to_xml(row, root):
-    company = ET.SubElement(root, "company") 
+    company = ET.SubElement(root, "company")
     for col in row.index:
         if pd.notna(row[col]):
             ET.SubElement(company, col).text = str(row[col])
