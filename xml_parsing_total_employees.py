@@ -41,6 +41,6 @@ def save_num_employees_from_xml(xml_url, company_name):
     total_employees = root990.find(efile_string('EmployeeCnt'))
 
     # Write data to text file
-    filename = f"total_employees_{company_name}.txt"  
+    filename = f"total_compensation_{company_name}.txt"  
     f = open(filename, "w")
     f.write(total_employees.text)
