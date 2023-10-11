@@ -163,7 +163,7 @@ if __name__ == "__main__":
         s = str(input("\nEnter company name to get top earners from: "))
         if len(s) <= 0:
             break
-        save_top_earners_from_company_name(s)
+        #save_top_earners_from_company_name(s)
         #save_top_earners_categories_from_company_name(s)
         #save_website_from_company_name(s)
         #save_num_employees_from_company_name(s)
