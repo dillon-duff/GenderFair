@@ -1,7 +1,6 @@
 from difflib import SequenceMatcher
 import requests
 from scrape import get_xml_url_from_ein
-from xml_parsing import save_top_earners_from_xml
 
 
 propublica_api_url = "https://projects.propublica.org/nonprofits/api/v2/search.json"
@@ -45,8 +44,7 @@ if __name__ == "__main__":
         s = str(input("\nEnter company name to get top earners from: "))
         if len(s) <= 0:
             break
-        #save_top_earners_from_company_name(s)
-        #save_top_earners_categories_from_company_name(s)
-        #save_website_from_company_name(s)
-        #save_num_employees_from_company_name(s)
-
+        # save_top_earners_from_company_name(s)
+        # save_top_earners_categories_from_company_name(s)
+        # save_website_from_company_name(s)
+        # save_num_employees_from_company_name(s)
