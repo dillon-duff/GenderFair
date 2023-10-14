@@ -7,27 +7,10 @@ def populate_990_fields(filename):
     pass
 
 
-def get_990_info_for_company(company_name):
-    ordered_eins = get_best_matching_eins_from_company_name(company_name)
-    if len(ordered_eins) == 0:
-        print(
-            f"Failed to find any company with name similar to: {company_name}")
+def get_990_info_for_company(ein):
 
-    url_for_xml = None
-    done = False
-    for e, name in ordered_eins:
-        url_for_xml = None
-        next_xml_url = get_xml_url_from_ein(e)
-        if next_xml_url != -1:
-            url_for_xml = next_xml_url
-            info = get_990_info_from_xml(url_for_xml)
-            if info != -1:
-                done = True
-                break
-                
-    if not done:
-        print(f"No valid 990s could be found for {company_name}")
-        return -1
+    xml_url = get_xml_url_from_ein(ein)
+    info = get_990_info_from_xml(xml_url)
 
     return info
 
@@ -111,4 +94,4 @@ def get_990_info_from_xml(xml_url):
 
 
 if __name__ == "__main__":
-    print(get_990_info_for_company("Feeding America"))
+    print(get_990_info_for_company(get_best_matching_eins_from_company_name("Feeding America")[0]))
