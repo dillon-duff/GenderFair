@@ -93,9 +93,13 @@ def get_990_info_from_xml(xml_url):
     total_employees = root990.find(efile_string('EmployeeCnt')).text
     total_compensation = root990.find(
         efile_string('CYSalariesCompEmpBnftPaidAmt')).text
+    
+    revenue_root = root.find(efile_string("IRS990"))
+    revenue = int(revenue_root.find(
+        efile_string("CYTotalRevenueAmt")).text)
 
     info = {"top_earners": employee_dict, "total_compensation": total_compensation, "categories": employee_categories_dicts,
-            "web_address": web_address, "num_employees": total_employees, "total_compensation": total_compensation}
+            "web_address": web_address, "num_employees": total_employees, "total_compensation": total_compensation, "total_revenue": revenue}
 
     return info
 
