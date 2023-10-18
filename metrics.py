@@ -3,7 +3,7 @@ import json
 import os
 import glob
 import requests
-
+# from names_dataset import NameDataset, NameWrapper
 
 # api_key = "38538c851bd3b555ef2cdd8eb8b907ff29f7f50baaa11d76314d1ef7640797d9"
 # url_before_name = "https://gender-api.com/get?key=" + api_key + "&name="
@@ -108,3 +108,4 @@ if __name__ == "__main__":
         if len(s) <= 0:
             break
         generate_pay_gap_metric(s)
+    
