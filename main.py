@@ -1,6 +1,8 @@
 from difflib import SequenceMatcher
 import requests
-from scrape import get_xml_url_from_ein
+import pandas as pd
+from io import BytesIO
+from xml_parsing import get_990_info_for_company
 
 
 propublica_api_url = "https://projects.propublica.org/nonprofits/api/v2/search.json"
@@ -38,13 +40,35 @@ def string_similarity(a, b):
     return SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
 
+def get_candid_top_df():
+    """Returns all organizations with > 50 employees from Candid's Demographics
+    """
+    candid_demographics_url = "https://info.candid.org/candid-demographics"
+    resp = requests.get(candid_demographics_url)
+    b = BytesIO(resp.content)
+    df = pd.read_excel(BytesIO(resp.content), sheet_name="Organizations")
+    df = df[df['total_staff'] >= 50]
+
+    return df
+
+
+def get_propublica_top_df():
+    pass
+
+
 if __name__ == "__main__":
-    s = " "
-    while len(s) > 0:
-        s = str(input("\nEnter company name to get top earners from: "))
-        if len(s) <= 0:
-            break
-        # save_top_earners_from_company_name(s)
-        # save_top_earners_categories_from_company_name(s)
-        # save_website_from_company_name(s)
-        # save_num_employees_from_company_name(s)
+    candid_top_df = get_candid_top_df()
+
+    def add_info_for_org(row):
+        info = get_990_info_for_company(row['ein'])
+        if info == -1:
+            return None
+        for k, v in info.items():
+            row[k] = v
+        return row
+
+    candid_top_df = candid_top_df.apply(add_info_for_org, axis=1)
+
+    # Get min revenue
+    # Use min revenue to get all ProPublica with revenue >= this
+    # Merge by EIN

@@ -3,23 +3,12 @@ import json
 import os
 import glob
 import requests
-# from names_dataset import NameDataset, NameWrapper
+
 
 # api_key = "38538c851bd3b555ef2cdd8eb8b907ff29f7f50baaa11d76314d1ef7640797d9"
 # url_before_name = "https://gender-api.com/get?key=" + api_key + "&name="
 
 url_before_name = "https://api.genderize.io?name="
-
-
-def get_company_csv(company):
-    path = os.getcwd()
-    extension = 'csv'
-    os.chdir(path)
-    files = glob.glob('*.{}'.format(extension))
-    for file in files:
-        if company.lower() in file.lower():
-            return file
-    return None
 
 
 def get_names_from_dataFrame(dataFrame):
@@ -57,44 +46,53 @@ def format_gender_data_frame(dataFrame):
     return df
 
 
-def generate_pay_gap_metric(company):
+def generate_pay_gap_metric(df):
 
-    csv_file_name = get_company_csv(company)
-    df = pd.read_csv(csv_file_name)
+    if 'PersonNm' not in df:
+        return -1
+
     calibrated_df = format_gender_data_frame(df)
 
-    avg_comp = calibrated_df.groupby('gender')['compensation'].mean()
+    sum_comp = calibrated_df.groupby('gender')['compensation'].sum()
 
-    male_total_comp = avg_comp['male']
-    male_count = len(calibrated_df[calibrated_df['gender'] == 'male'])
-    female_total_comp = avg_comp['female']
-    female_count = len(calibrated_df[calibrated_df['gender'] == 'female'])
+    if 'male' in sum_comp:
+        male_total_comp = sum_comp['male']
+        male_count = len(calibrated_df[calibrated_df['gender'] == 'male'])
+    else:
+        male_total_comp = 0
+        male_count = 0
 
-    average_male_salary = male_total_comp/male_count
-    average_female_salary = female_total_comp/female_count
-    pay_gap = ((average_male_salary - average_female_salary) /
-               average_male_salary)*100
-    percent_male = male_count/(male_count+female_count)
-    percent_female = female_count/(male_count+female_count)
+    if 'female' in sum_comp:
+        female_total_comp = sum_comp['female']
+        female_count = len(calibrated_df[calibrated_df['gender'] == 'female'])
+    else:
+        female_total_comp = 0
+        female_count = 0
 
-    result = {'Average_Female_Salary': average_female_salary, "Average_Male_Salary": average_male_salary,
-              "Pay_Gap": pay_gap, "percent_male": percent_male, "percent_female": percent_female}
-    company_name = csv_file_name[csv_file_name.rindex(
-        '_')+1:].removesuffix(".csv")
-    print(f'{company_name} Gender Report:')
-    print(
-        f'Percent Male: {percent_male}, Percent Female: {percent_female}, Women are paid {pay_gap:.2f}% less')
+    average_male_salary = 0 if male_count == 0 else male_total_comp/male_count
+    average_female_salary = 0 if female_count == 0 else female_total_comp/female_count
+
+    pay_gap = -1 if average_male_salary == 0 else ((average_male_salary - average_female_salary) /
+                                                   average_male_salary)*100
+    percent_male = 0 if (
+        male_count+female_count) == 0 else male_count/(male_count+female_count)
+    percent_female = 0 if (
+        male_count+female_count) == 0 else female_count/(male_count+female_count)
+
+    result = {'average_female_salary': average_female_salary, "average_male_salary": average_male_salary,
+              "pay_gap": pay_gap, "percent_male": percent_male, "percent_female": percent_female}
+    # print(f'Gender Report:')
+    # print(
+    #     f'Percent Male: {percent_male}, Percent Female: {percent_female}, Women are paid {pay_gap:.2f}% less')
+
     return result
 
 
 # TODO: CHANGE TO AN AI AGENT SO WE DONT RUN OUT OF REQUESTS
 def guess_gender(name):
-    # print(name)
     url_after_name = url_before_name + name
-    # print(url_after_name)
     req = requests.get(url_after_name)
     results = json.loads(req.text)
-    print(results)
     return results
 
 #!: RAN OUT OF REQUESTS
@@ -108,4 +106,3 @@ if __name__ == "__main__":
         if len(s) <= 0:
             break
         generate_pay_gap_metric(s)
-    

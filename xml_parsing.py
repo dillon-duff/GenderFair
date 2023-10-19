@@ -1,8 +1,8 @@
 import xml.etree.ElementTree as ET
 import requests
 from scrape import *
-from main import *
-import csv
+import pandas as pd
+from metrics import *
 
 
 def efile_string(st):
@@ -34,6 +34,12 @@ def get_990_info_from_xml(xml_url):
     tree = ET.parse(filename)
     root = tree.getroot()
 
+    business_name = root[0].find(efile_string('Filer')).find(
+        efile_string('BusinessName'))
+    org_name = ""
+    for c in business_name:
+        org_name += c.text
+
     # The root currently has ReturnHeader and ReturnData as children.
     # We are only concerned with the ReturnData so we can
     # redefine the root from being the parents of both of these
@@ -44,14 +50,14 @@ def get_990_info_from_xml(xml_url):
     root990 = root.find(efile_string('IRS990'))
 
     if not root990:
-        print("Invalid XML file. Could be submitted under protest")
+        print("Invalid XML file, no IRS990 root.")
         return -1
 
     # Find the root for the Schedule J Data (Compensation Information)
     schedule_j_root = root.find(efile_string('IRS990ScheduleJ'))
 
     if not schedule_j_root:
-        print("Invalid XML file. Could be submitted under protest")
+        print("Invalid XML file, no Schedule J root.")
         return -1
 
     key_employee_group = schedule_j_root.findall(
@@ -67,6 +73,9 @@ def get_990_info_from_xml(xml_url):
             text = child.text
             employee_dict[tag] = text
         employee_dicts.append(employee_dict)
+
+    if len(employee_dicts) == 0:
+        return -1
 
     total_compensation = root990.find(
         efile_string('CYSalariesCompEmpBnftPaidAmt')).text
@@ -93,17 +102,35 @@ def get_990_info_from_xml(xml_url):
     total_employees = root990.find(efile_string('EmployeeCnt')).text
     total_compensation = root990.find(
         efile_string('CYSalariesCompEmpBnftPaidAmt')).text
-    
+
     revenue_root = root.find(efile_string("IRS990"))
     revenue = int(revenue_root.find(
         efile_string("CYTotalRevenueAmt")).text)
 
-    info = {"top_earners": employee_dict, "total_compensation": total_compensation, "categories": employee_categories_dicts,
-            "web_address": web_address, "num_employees": total_employees, "total_compensation": total_compensation, "total_revenue": revenue}
+    df = pd.DataFrame(employee_dicts)
 
+    if 'TotalCompensationFilingOrgAmt' in df:
+        df['TotalCompensationFilingOrgAmt'] = df['TotalCompensationFilingOrgAmt'].astype(
+            'float64')
+    if 'TotalCompensationRltdOrgsAmt' in df:
+        df['TotalCompensationRltdOrgsAmt'] = df['TotalCompensationRltdOrgsAmt'].astype(
+            'float64')
+
+    info = generate_pay_gap_metric(df)
+    if info == -1:
+        return -1
+    info['total_compensation'] = total_compensation
+    info['web_address'] = web_address
+    info['num_employees'] = total_employees
+    info['total_revenue'] = revenue
+    info['org_name'] = org_name
+
+    # info = {"top_earners": employee_dicts, "total_compensation": total_compensation, "categories": employee_categories_dicts,
+    #         "web_address": web_address, "num_employees": total_employees, "total_compensation": total_compensation, "total_revenue": revenue}
     return info
 
 
 if __name__ == "__main__":
-    print(get_990_info_for_company(
-        get_best_matching_eins_from_company_name("Feeding America")[0]))
+    info = get_990_info_for_company("363673599")
+    for key, item in info.items():
+        print(f"\n{key}: {item}")
