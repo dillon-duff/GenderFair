@@ -1,6 +1,0 @@
-for candid parser must run:
-pip install pandas openpyxl
-
-
-
-ALso run: pip install beaut

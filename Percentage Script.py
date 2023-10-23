@@ -36,7 +36,7 @@ def calculate_percentages(input_file, output_file, control_column_pairs):
 
 # Example usage:
 # Replace with your input Excel file
-input_file = 'Candid-Demographics-Top-60000.csv'
+input_file = 'Candid-Top.csv'
 # Replace with your desired output Excel file
 output_file = 'PercentageCalculated.xlsx'
 

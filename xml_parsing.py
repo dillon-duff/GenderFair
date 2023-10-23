@@ -3,6 +3,8 @@ import requests
 from scrape import *
 import pandas as pd
 from metrics import *
+import uuid
+import os
 
 
 def efile_string(st):
@@ -16,22 +18,37 @@ def efile_string(st):
 def get_990_info_for_company(ein):
 
     xml_url = get_xml_url_from_ein(ein)
-    info = get_990_info_from_xml(xml_url)
+    if xml_url == -1:
+        return -1
+
+    file_prefix = int(uuid.uuid1())
+    info = get_990_info_from_xml(xml_url, file_prefix)
+
+    try:
+        os.remove(f'{file_prefix}.xml')
+    except:
+        pass
+
+    if info == -1:
+        return -1
 
     return info
 
 
-def get_990_info_from_xml(xml_url):
+def get_990_info_from_xml(xml_url, file_prefix):
     # Get xml file response
     resp = requests.get(xml_url)
 
     # Save the file
-    filename = '990.xml'
+    filename = f'{file_prefix}.xml'
     with open(filename, "wb") as f:
         f.write(resp.content)
 
+    f.close()
+
     # Parse the XML
     tree = ET.parse(filename)
+
     root = tree.getroot()
 
     business_name = root[0].find(efile_string('Filer')).find(
@@ -98,13 +115,16 @@ def get_990_info_from_xml(xml_url):
             employee_dict[tag] = text
         employee_categories_dicts.append(employee_dict)
 
-    web_address = root990.find(efile_string('WebsiteAddressTxt')).text
-    total_employees = root990.find(efile_string('EmployeeCnt')).text
-    total_compensation = root990.find(
+    web_address = 'N/A' if root990.find(efile_string('WebsiteAddressTxt')
+                                        ) is None else root990.find(efile_string('WebsiteAddressTxt')).text
+    total_employees = -1 if root990.find(efile_string(
+        'EmployeeCnt')) is None else root990.find(efile_string('EmployeeCnt')).text
+    total_compensation = -1 if root990.find(
+        efile_string('CYSalariesCompEmpBnftPaidAmt')) is None else root990.find(
         efile_string('CYSalariesCompEmpBnftPaidAmt')).text
 
     revenue_root = root.find(efile_string("IRS990"))
-    revenue = int(revenue_root.find(
+    revenue = -1 if revenue_root is None else int(revenue_root.find(
         efile_string("CYTotalRevenueAmt")).text)
 
     df = pd.DataFrame(employee_dicts)

@@ -3,7 +3,7 @@ import json
 import os
 import glob
 import requests
-
+import random
 
 # api_key = "38538c851bd3b555ef2cdd8eb8b907ff29f7f50baaa11d76314d1ef7640797d9"
 # url_before_name = "https://gender-api.com/get?key=" + api_key + "&name="
@@ -33,7 +33,10 @@ def format_gender_data_frame(dataFrame):
     genders = []
     accuracies = []
     for name in names:
-        results = guess_gender(name.split()[0])
+        if isinstance(name, str):
+            results = guess_gender(name.split()[0])
+        else:
+            results = guess_gender("random")
         gender = results['gender']
         genders.append(gender)
         accuracy = results['probability']
@@ -41,30 +44,31 @@ def format_gender_data_frame(dataFrame):
 
     genders = pd.Series(genders, name="gender")
     accuracies = pd.Series(accuracies, name="accuracy")
+    totalComp = pd.Series(totalComp, name="compensation")
 
-    df = pd.concat([names, genders, accuracies, totalComp], axis=1)
+    df = pd.concat([genders, accuracies, totalComp], axis=1)
     return df
 
 
 def generate_pay_gap_metric(df):
 
-    if 'PersonNm' not in df:
+    if 'PersonNm' not in df or 'TotalCompensationFilingOrgAmt' not in df:
         return -1
 
     calibrated_df = format_gender_data_frame(df)
 
     sum_comp = calibrated_df.groupby('gender')['compensation'].sum()
 
-    if 'male' in sum_comp:
-        male_total_comp = sum_comp['male']
-        male_count = len(calibrated_df[calibrated_df['gender'] == 'male'])
+    if 'M' in sum_comp:
+        male_total_comp = sum_comp['M']
+        male_count = len(calibrated_df[calibrated_df['gender'] == 'M'])
     else:
         male_total_comp = 0
         male_count = 0
 
-    if 'female' in sum_comp:
-        female_total_comp = sum_comp['female']
-        female_count = len(calibrated_df[calibrated_df['gender'] == 'female'])
+    if 'F' in sum_comp:
+        female_total_comp = sum_comp['F']
+        female_count = len(calibrated_df[calibrated_df['gender'] == 'F'])
     else:
         female_total_comp = 0
         female_count = 0
@@ -88,12 +92,23 @@ def generate_pay_gap_metric(df):
     return result
 
 
+gender_df = pd.read_csv('name_gender_dataset.csv')
+gender_df['Name'] = gender_df['Name'].str.lower()
+
 # TODO: CHANGE TO AN AI AGENT SO WE DONT RUN OUT OF REQUESTS
+
+
 def guess_gender(name):
-    url_after_name = url_before_name + name
-    req = requests.get(url_after_name)
-    results = json.loads(req.text)
-    return results
+    name = name.lower()
+    if name not in gender_df['Name'].values:
+        # print(f"Guessing for: {name}")
+        return {'gender': random.choice(['M', 'F']), 'probability': 0.5}
+    return {'gender': gender_df[gender_df['Name'] == name]['Gender'].values[0], 'probability': gender_df[gender_df['Name'] == name]['Probability'].values[0]}
+    # url_after_name = url_before_name + name
+    # req = requests.get(url_after_name)
+    # results = json.loads(req.text)
+    # print(results)
+    # return results
 
 #!: RAN OUT OF REQUESTS
 
