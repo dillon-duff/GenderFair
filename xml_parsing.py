@@ -5,6 +5,29 @@ import pandas as pd
 from metrics import *
 import uuid
 import os
+import zipfile_deflate64 as zipfile
+import time
+
+def find_and_extract_990(ein, filename, start_year=2021, end_year=2023):
+    index_folder = 'indexes'
+    archive_folder = '990_xml_archive'
+
+    for year in reversed(range(start_year, end_year+1)):
+        index_file = f'{index_folder}/index_{year}.csv'
+        if os.path.exists(index_file):
+            df = pd.read_csv(index_file)            
+            match = df[df['EIN'] == int(ein.replace("-", ""))]
+            if not match.empty:
+                object_id = match['OBJECT_ID'].values[0]
+                year_folder = f'{archive_folder}/{year}'
+                for zip_filename in filter(lambda x : ".zip" in x, os.listdir(year_folder)):
+                    with zipfile.ZipFile(f'{year_folder}/{zip_filename}', 'r') as zip_ref:
+                        xml_filename = f'{object_id}_public.xml'
+                        if xml_filename in zip_ref.namelist():
+                            zip_ref.extract(xml_filename)
+                            os.rename(xml_filename, f'{filename}')
+                            return 0
+    return -1
 
 
 def efile_string(st):
@@ -16,14 +39,15 @@ def efile_string(st):
 
 
 def get_990_info_for_company(ein):
-
-    xml_url = get_xml_url_from_ein(ein)
-    if xml_url == -1:
-        return -1
-
     file_prefix = int(uuid.uuid1())
-    info = get_990_info_from_xml(xml_url, file_prefix)
-
+    start = time.time()
+    find_and_extract_990(ein, f'{file_prefix}.xml')
+    end = time.time()
+    print(f"Extraction took {abs(start-end)} seconds")
+    start = time.time()
+    info = get_990_info_from_xml(file_prefix)
+    end = time.time()
+    print(f"Getting info took {end-start} seconds")
     try:
         os.remove(f'{file_prefix}.xml')
     except:
@@ -35,17 +59,12 @@ def get_990_info_for_company(ein):
     return info
 
 
-def get_990_info_from_xml(xml_url, file_prefix):
-    # Get xml file response
-    resp = requests.get(xml_url)
+def get_990_info_from_xml(file_prefix):
 
-    # Save the file
     filename = f'{file_prefix}.xml'
-    with open(filename, "wb") as f:
-        f.write(resp.content)
 
-    f.close()
-
+    if filename not in os.listdir():
+        return -1
     # Parse the XML
     tree = ET.parse(filename)
 
@@ -100,20 +119,20 @@ def get_990_info_from_xml(xml_url, file_prefix):
     key_employee_group = root990.findall(
         efile_string('Form990PartVIISectionAGrp'))
 
-    # Save data for each employee in this dictionary
-    employee_categories_dicts = []
+    # # Save data for each employee in this dictionary
+    # employee_categories_dicts = []
 
-    for employee in key_employee_group:
-        employee_dict = {}
-        for child in employee:
-            tag = child.tag.replace("{http://www.irs.gov/efile}", "")
-            if (tag.__eq__("IndividualTrusteeOrDirectorInd") | tag.__eq__("OfficerInd") | tag.__eq__("HighestCompensatedEmployeeInd") | tag.__eq__("KeyEmployeeInd") | tag.__eq__("FormerOfcrDirectorTrusteeInd")):
-                text = tag
-                tag = "Category"
-            else:
-                text = child.text
-            employee_dict[tag] = text
-        employee_categories_dicts.append(employee_dict)
+    # for employee in key_employee_group:
+    #     employee_dict = {}
+    #     for child in employee:
+    #         tag = child.tag.replace("{http://www.irs.gov/efile}", "")
+    #         if (tag.__eq__("IndividualTrusteeOrDirectorInd") | tag.__eq__("OfficerInd") | tag.__eq__("HighestCompensatedEmployeeInd") | tag.__eq__("KeyEmployeeInd") | tag.__eq__("FormerOfcrDirectorTrusteeInd")):
+    #             text = tag
+    #             tag = "Category"
+    #         else:
+    #             text = child.text
+    #         employee_dict[tag] = text
+    #     employee_categories_dicts.append(employee_dict)
 
     web_address = 'N/A' if root990.find(efile_string('WebsiteAddressTxt')
                                         ) is None else root990.find(efile_string('WebsiteAddressTxt')).text
@@ -151,6 +170,6 @@ def get_990_info_from_xml(xml_url, file_prefix):
 
 
 if __name__ == "__main__":
-    info = get_990_info_for_company("363673599")
+    info = get_990_info_for_company("205138278")
     for key, item in info.items():
         print(f"\n{key}: {item}")

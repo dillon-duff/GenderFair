@@ -94,9 +94,6 @@ def add_info_for_org(row):
                 row[k] = v
         return row
 
-def fetch_data(row):
-        return add_info_for_org(row)
-
 if __name__ == "__main__":
     # Get Candid >= 50 employees
     candid_top_df = get_candid_top_df()
@@ -108,10 +105,10 @@ if __name__ == "__main__":
     # # candid_top_df = pd.DataFrame([r for r in data if r is not None])
 
     # Threaded
-    num_threads = 10
+    num_threads = 25
 
     with ThreadPoolExecutor(max_workers=num_threads) as executor:
-        data = list(executor.map(fetch_data, [row for _, row in candid_top_df.iterrows()]))
+        data = list(executor.map(add_info_for_org, [row for _, row in candid_top_df.iterrows()]))
 
     candid_top_df = pd.DataFrame([r for r in data if r is not None])
 
@@ -121,6 +118,11 @@ if __name__ == "__main__":
 
     # Use min revenue to get all ProPublica with revenue >= this
     propublica_top_df = get_propublica_top_df(min_revenue=min_revenue)
+
+    with ThreadPoolExecutor(max_workers=num_threads) as executor:
+        data = list(executor.map(add_info_for_org, [row for _, row in propublica_top_df.iterrows()]))
+
+    propublica_top_df = pd.DataFrame([r for r in data if r is not None])
 
     # Merge by EIN
     candid_top_df['ein'] = candid_top_df['ein'].map(lambda x : x.replace("-", "")).astype("int")
