@@ -94,6 +94,9 @@ def add_info_for_org(row):
                 row[k] = v
         return row
 
+import time
+import matplotlib.pyplot as plt
+import copy
 if __name__ == "__main__":
     # Get Candid >= 50 employees
     candid_top_df = get_candid_top_df()
@@ -104,10 +107,10 @@ if __name__ == "__main__":
     # # data = [add_info_for_org(row) for _, row in candid_top_df.iterrows()]    
     # # candid_top_df = pd.DataFrame([r for r in data if r is not None])
 
-    # Threaded
-    num_threads = 25
+    # Multi-processing
+    num_procs = 250
 
-    with ThreadPoolExecutor(max_workers=num_threads) as executor:
+    with ThreadPoolExecutor(max_workers=num_procs) as executor:
         data = list(executor.map(add_info_for_org, [row for _, row in candid_top_df.iterrows()]))
 
     candid_top_df = pd.DataFrame([r for r in data if r is not None])
@@ -117,20 +120,18 @@ if __name__ == "__main__":
     print(f"Min revenue: {min_revenue}")
 
     # Use min revenue to get all ProPublica with revenue >= this
-    propublica_top_df = get_propublica_top_df(min_revenue=min_revenue)
+    propublica_top_df = get_propublica_top_df(min_revenue=min_revenue).rename(columns={"EIN":"ein"})
 
-    with ThreadPoolExecutor(max_workers=num_threads) as executor:
+
+    with ThreadPoolExecutor(max_workers=num_procs) as executor:
         data = list(executor.map(add_info_for_org, [row for _, row in propublica_top_df.iterrows()]))
 
     propublica_top_df = pd.DataFrame([r for r in data if r is not None])
 
     # Merge by EIN
-    candid_top_df['ein'] = candid_top_df['ein'].map(lambda x : x.replace("-", "")).astype("int")
-    candid_with_propublica = propublica_top_df.merge(candid_top_df, left_on='EIN', right_on='ein', how='inner')
+    # candid_top_df['ein'] = candid_top_df['ein'].map(lambda x : x.replace("-", "")).astype("int")
+    # candid_with_propublica = propublica_top_df.merge(candid_top_df, left_on='EIN', right_on='ein', how='inner')
 
-    candid_top_df.to_csv("Candid-Top.csv")
-    propublica_top_df.to_csv("ProPublica-Top.csv")
-    candid_with_propublica.to_csv("Candid-Top-With-ProPublica-Info.csv")
-
-
-    
+    # candid_top_df.to_csv("Candid-Top.csv")
+    # propublica_top_df.to_csv("ProPublica-Top.csv")
+    # candid_with_propublica.to_csv("Candid-Top-With-ProPublica-Info.csv")
