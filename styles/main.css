@@ -1,0 +1,35 @@
+body {
+  background: #3e3e3e;
+}
+
+#heading {
+  color: white;
+  text-align: center;
+  font: 2.6em Verdana;
+}
+
+.page-container {
+  margin-top: 150px;
+}
+
+#searchbar {
+  text-align: center;
+}
+
+input {
+  all: unset;
+  text-align: left;
+  font: 16px system-ui;
+  color: #fff;
+  height: 100%;
+  width: 600px;
+  margin-top: 40px;
+  padding: 6px 10px;
+  border: 1px solid #fff;
+  border-radius: 20px;
+}
+
+::placeholder {
+  color: #fff;
+  opacity: 0.8; 
+}
