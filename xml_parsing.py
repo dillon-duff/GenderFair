@@ -109,6 +109,7 @@ def get_990_info_from_xml(file_prefix):
             text = child.text
             employee_dict[tag] = text
         employee_dicts.append(employee_dict)
+        
 
     if len(employee_dicts) == 0:
         return -1
@@ -133,7 +134,7 @@ def get_990_info_from_xml(file_prefix):
     #             text = child.text
     #         employee_dict[tag] = text
     #     employee_categories_dicts.append(employee_dict)
-
+    
     web_address = 'N/A' if root990.find(efile_string('WebsiteAddressTxt')
                                         ) is None else root990.find(efile_string('WebsiteAddressTxt')).text
     total_employees = -1 if root990.find(efile_string(
@@ -170,6 +171,7 @@ def get_990_info_from_xml(file_prefix):
 
 
 if __name__ == "__main__":
-    info = get_990_info_for_company("205138278")
+    info = get_990_info_for_company("43007211")
     for key, item in info.items():
         print(f"\n{key}: {item}")
+    # print(pd.DataFrame(info).to_csv("People.csv"))

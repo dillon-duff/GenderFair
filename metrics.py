@@ -31,22 +31,18 @@ def format_gender_data_frame(dataFrame):
     names = get_names_from_dataFrame(dataFrame)
     totalComp = get_total_compensation_from_data_frame(dataFrame)
     genders = []
-    accuracies = []
     for name in names:
         if isinstance(name, str):
             results = guess_gender(name.split()[0])
         else:
-            results = guess_gender("random")
+            results = guess_gender("~~~~~~~~~~~~~~~~~")
         gender = results['gender']
         genders.append(gender)
-        accuracy = results['probability']
-        accuracies.append(accuracy)
 
     genders = pd.Series(genders, name="gender")
-    accuracies = pd.Series(accuracies, name="accuracy")
     totalComp = pd.Series(totalComp, name="compensation")
 
-    df = pd.concat([genders, accuracies, totalComp], axis=1)
+    df = pd.concat([genders, totalComp], axis=1)
     return df
 
 
@@ -101,9 +97,9 @@ gender_df['Name'] = gender_df['Name'].str.lower()
 def guess_gender(name):
     name = name.lower()
     if name not in gender_df['Name'].values:
-        # print(f"Guessing for: {name}")
-        return {'gender': random.choice(['M', 'F']), 'probability': 0.5}
-    return {'gender': gender_df[gender_df['Name'] == name]['Gender'].values[0], 'probability': gender_df[gender_df['Name'] == name]['Probability'].values[0]}
+        print(f"Guessing for: {name}")        
+        return {'gender': random.choice(['M', 'F'])}
+    return {'gender': gender_df[gender_df['Name'] == name]['Gender'].values[0]}
     # url_after_name = url_before_name + name
     # req = requests.get(url_after_name)
     # results = json.loads(req.text)
@@ -114,10 +110,23 @@ def guess_gender(name):
 
 
 if __name__ == "__main__":
-    # generate_pay_gap_metric("Dig")
-    s = " "
-    while len(s) > 0:
-        s = str(input("\nEnter company name to get top earners from: "))
-        if len(s) <= 0:
-            break
-        generate_pay_gap_metric(s)
+    # # generate_pay_gap_metric("Dig")
+    # s = " "
+    # while len(s) > 0:
+    #     s = str(input("\nEnter company name to get top earners from: "))
+    #     if len(s) <= 0:
+    #         break
+    #     generate_pay_gap_metric(s)
+
+    df = pd.read_csv("People.csv")
+
+    def add_gender_info(row):    
+        name = row['PersonNm'].split()[0].lower()
+        guess = guess_gender(name)
+        row['gender'] = guess['gender']
+        print(f"Name: {name}, Gender: {guess['gender']}")  
+        return row
+    df = df.apply(add_gender_info, axis=1)
+    print(df.head(10))
+    
+    # df.to_csv("People.csv")
