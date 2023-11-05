@@ -1,4 +1,4 @@
-body {
+#mainBody {
   background: #3e3e3e;
 }
 
@@ -7,6 +7,39 @@ body {
   text-align: center;
   font: 2.6em Verdana;
 }
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #333;
+  font-family: Arial, sans-serif;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav-links li {
+  padding: 14px 20px;
+}
+
+.nav-links a:hover,
+.nav-links a:focus {
+  color: #aaa5a5;
+}
+
+.nav-links a {
+  position: relative;
+  color: #dcd5d5;
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+
 
 .page-container {
   margin-top: 150px;
@@ -31,5 +64,63 @@ input {
 
 ::placeholder {
   color: #fff;
-  opacity: 0.8; 
+  opacity: 0.8;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#vizBody {
+  background: #8fb188;
+}
+
+#barChart {
+  display: block;
+}
+
+#searchBox {
+  margin-left: 25%;
+  width: 50%;
+}
+
+#d3viz {
+  margin-left: 25%;
+}
+
+.autocomplete-items {
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  margin-left: 25%;
+  width: 50%;
+  left: 0;
+  right: 0;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #8e8e8e;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+  background-color: #625f5f;
+}
+
+.autocomplete-active {
+  background-color: DodgerBlue !important;
+  color: #ffffff;
 }
