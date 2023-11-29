@@ -20,7 +20,7 @@ def get_best_matching_eins_from_company_name(company_name):
     Returns:
         list of (ein, name) for all results in order by best matching name to company_name (ein is a company's UID)
     """
-    PARAMS = {'q': company_name}
+    PARAMS = {"q": company_name}
 
     r = requests.get(url=propublica_api_url, params=PARAMS)
 
@@ -33,10 +33,17 @@ def get_best_matching_eins_from_company_name(company_name):
         similarity = string_similarity(company_name, org_name)
         similarities[i] = similarity
 
-    sorted_similarities = sorted(
-        similarities.items(), key=lambda x: x[1], reverse=True)
+    sorted_similarities = sorted(similarities.items(), key=lambda x: x[1], reverse=True)
 
-    return list(map(lambda x: (data["organizations"][x[0]]["ein"], data["organizations"][x[0]]["name"]), sorted_similarities))
+    return list(
+        map(
+            lambda x: (
+                data["organizations"][x[0]]["ein"],
+                data["organizations"][x[0]]["name"],
+            ),
+            sorted_similarities,
+        )
+    )
 
 
 def string_similarity(a, b):
@@ -44,25 +51,26 @@ def string_similarity(a, b):
 
 
 def get_candid_top_df():
-    """Returns all organizations with > 50 employees from Candid's Demographics
-    """
+    """Returns all organizations with > 50 employees from Candid's Demographics"""
     candid_demographics_url = "https://info.candid.org/candid-demographics"
     resp = requests.get(candid_demographics_url)
     b = BytesIO(resp.content)
     df = pd.read_excel(BytesIO(resp.content), sheet_name="Organizations")
-    df = df[df['total_staff'] >= 50]
+    df = df[df["total_staff"] >= 50]
 
-    df = df.reset_index().drop('index', axis=1)
-    df = df.apply(lambda col: pd.to_numeric(col, errors='ignore'))
-    
+    df = df.reset_index().drop("index", axis=1)
+    df = df.apply(lambda col: pd.to_numeric(col, errors="ignore"))
 
     return df
 
 
 def fetch_org_info(ein):
-    propublica_org_api_url = "https://projects.propublica.org/nonprofits/api/v2//organizations/"
+    propublica_org_api_url = (
+        "https://projects.propublica.org/nonprofits/api/v2//organizations/"
+    )
     propub_info = requests.get(url=propublica_org_api_url + f"{ein}.json").json()
     return propub_info
+
 
 def get_propublica_top_df(min_revenue):
     base_url = "https://www.irs.gov/pub/irs-soi/"
@@ -75,58 +83,88 @@ def get_propublica_top_df(min_revenue):
 
         data = StringIO(response.text)
         df = pd.read_csv(data)
-        
+
         dataframes[file_name] = df
 
     combined_df = pd.concat(dataframes.values(), ignore_index=True)
-    combined_df = combined_df.dropna(subset=['INCOME_AMT'])
+    combined_df = combined_df.dropna(subset=["INCOME_AMT"])
 
-    combined_df = combined_df[combined_df['INCOME_AMT'] >= min_revenue]
+    combined_df = combined_df[combined_df["INCOME_AMT"] >= min_revenue]
     return combined_df
 
+
 def add_info_for_org(row):
+    try:
+
         row = row.copy()
-        info = get_990_info_for_company(row['ein'])
-        if info == -1:
+        info = get_990_info_for_company(row["ein"])
+        if info == -1 or info is None:
             return None
         for k, v in info.items():
             if k not in row:
                 row[k] = v
         return row
+    except Exception as e:
+        return None
+
 
 import time
 import matplotlib.pyplot as plt
 import copy
+from multiprocessing import Pool
+
 if __name__ == "__main__":
-    # Get Candid >= 50 employees
+    absolute_start = time.time()
+
+    # # Get Candid >= 50 employees
     candid_top_df = get_candid_top_df()
 
-    # Get info from 990 for Candid >= 50 employees
+    # # Get info from 990 for Candid >= 50 employees
 
-    # Non-threaded
-    # # data = [add_info_for_org(row) for _, row in candid_top_df.iterrows()]    
-    # # candid_top_df = pd.DataFrame([r for r in data if r is not None])
+    # # Non-threaded
+    # # # data = [add_info_for_org(row) for _, row in candid_top_df.iterrows()]
+    # # # candid_top_df = pd.DataFrame([r for r in data if r is not None])
 
-    # Multi-processing
-    num_procs = 250
+    # # Multi-processing
+    num_procs = 10
 
-    with ThreadPoolExecutor(max_workers=num_procs) as executor:
-        data = list(executor.map(add_info_for_org, [row for _, row in candid_top_df.iterrows()]))
+    with Pool(num_procs) as pool:
+        data = pool.map(add_info_for_org, [row for _, row in candid_top_df.iterrows()])
 
     candid_top_df = pd.DataFrame([r for r in data if r is not None])
 
-    # Get min revenue
-    min_revenue = candid_top_df['total_revenue'].min()
-    print(f"Min revenue: {min_revenue}")
+    # # Get min revenue
+    min_revenue = candid_top_df["total_revenue"].min()
+    # print(f"Min revenue: {min_revenue}")
 
     # Use min revenue to get all ProPublica with revenue >= this
-    propublica_top_df = get_propublica_top_df(min_revenue=min_revenue).rename(columns={"EIN":"ein"})
+    # propublica_top_df = pd.read_csv("ProPublica-Top.csv").rename(columns={"EIN": "ein"}).loc[:, ["ein"]]
+    propublica_top_df = (
+        get_propublica_top_df(min_revenue=min_revenue)
+        .rename(columns={"EIN": "ein"})
+        .loc[:, ["ein"]]
+    )
 
+    with Pool(num_procs) as pool:
+        data = pool.map(
+            add_info_for_org, [row for _, row in propublica_top_df.iterrows()]
+        )
 
-    with ThreadPoolExecutor(max_workers=num_procs) as executor:
-        data = list(executor.map(add_info_for_org, [row for _, row in propublica_top_df.iterrows()]))
+    absolute_end = time.time()
+
+    print(f"ALL DONE!!!! (took {absolute_end-absolute_start} seconds)")
 
     propublica_top_df = pd.DataFrame([r for r in data if r is not None])
+
+    propublica_top_df.to_csv("990-Top-11-23.csv")
+    candid_top_df.to_csv("Candid-Top-11-23.csv")
+    # propublica_top_df.drop(columns=['ICO', 'org_name', 'ZIP',
+    #                                 'GROUP', 'SUBSECTION', 'AFFILIATION',
+    #                                   'CLASSIFICATION', 'RULING', 'DEDUCTIBILITY',
+    #                                     'FOUNDATION', 'ACTIVITY', 'ORGANIZATION',
+    #                                     'STATUS', 'TAX_PERIOD', 'ASSET_CD', 'INCOME_CD',
+    #                                       'FILING_REQ_CD', 'PF_FILING_REQ_CD', 'ACCT_PD',
+    #                                         'ASSET_AMT', 'INCOME_AMT', 'REVENUE_AMT', 'NTEE_CD', 'SORT_NAME'])
 
     # Merge by EIN
     # candid_top_df['ein'] = candid_top_df['ein'].map(lambda x : x.replace("-", "")).astype("int")
