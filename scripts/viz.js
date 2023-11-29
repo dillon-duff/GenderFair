@@ -32,6 +32,7 @@ d3.csv('data/Candid-Top.csv').then(function (data) {
     });
 
 
+
     // Search box autocomplete
     document.getElementById('searchBox').addEventListener('input', function (e) {
         let a, b, i, val = this.value;
