@@ -1,7 +1,7 @@
 import firebase_admin
 from firebase_admin import firestore
 from firebase_admin import credentials
-
+import csv
 
 
 
@@ -9,149 +9,178 @@ import openpyxl
 
 ##WHAT TO DO WITH CREDENTIAL JSON?
 # Insecure to store in public repository
-cred = credentials.Certificate("cred.json")
+cred = credentials.Certificate("gender-fair-82d21-firebase-adminsdk-xzaw3-cdfe37aea6.json")
 
 firebase_admin.initialize_app(cred)
+
+
 db = firestore.client()
 batch = db.batch()
 
+
 def connect_to_database():
+    #TODO: IMPLEMENT METHOD
     return
 def add_company(company_json):
+    #TODO: IMPLEMENT METHOD
     #ADD COMPANY TO FIREBASE
     return
 def remove_company(company_id):
+    #TODO: IMPLEMENT METHOD
     #REMOVE COMPANY FROM FIREBASE
     return
-def add_all_companies_from_xl():
+    
+def populate_database():
+    add_candid_data()
+    add_990_data()
+    return
+    
+
+def add_990_data():
     #LOOP THROUGH CSV ADDING TO FIREBASE
-    default_excel_file = "PercentageCalculated.xlsx"
-    workbook = openpyxl.load_workbook(default_excel_file)
-    sheet = workbook.active  # Gets the active sheet
-    header_row = sheet[1]
-    COLUMN_MAP = {cell.value: count for count,cell in enumerate(header_row)}
-    for count,row in enumerate(sheet.iter_rows(values_only=True)):
-        if(count>1):
-            docRef = db.collection("non-for-profits").doc(); #automatically generate unique id
-            batch.set(docRef, build_company_from_xl(row));
+    # default_excel_file = "PercentageCalculated.xlsx"
+    # workbook = openpyxl.load_workbook(default_excel_file)
+    # sheet = workbook.active  # Gets the active sheet
+    # header_row = sheet[1]
+    # COLUMN_MAP = {cell.value: count for count,cell in enumerate(header_row)}
+    with open('990-Top-11-23.csv') as f:
+        reader = csv.DictReader(f, delimiter=',')
+        for row in enumerate(reader):
+            docRef = db.collection("non-for-profits-990").doc(); #automatically generate unique id
+            batch.set(docRef, build_company_from_candid_data(row));
     batch.commit()
     return
+
+
 def get_company(company):
     #RETURN COMPANY FROM FIREBASE
+    #TODO: IMPLEMENT METHOD
     return
 
-def build_company_from_xl(xl_row):
-    csv_json = {"ein": xl_row[COLUMN_MAP["ein"]],
-                "name": xl_row[COLUMN_MAP["org_name"]],
-                "city": xl_row[COLUMN_MAP["city"]],
-                "state": xl_row[COLUMN_MAP["state_code"]],
-
-                "leaders": {"gender": xl_row[COLUMN_MAP["gender1_leader"]],
-                            "race": xl_row[COLUMN_MAP["race_leader"]],
-                            "orientation": xl_row[COLUMN_MAP["orientation_leader"]],
-                            "disability": xl_row[COLUMN_MAP["disability_status_leader"]]},
-
-                "total_board_members": xl_row[COLUMN_MAP["total_board"]],
-
-                "board_race":{"asian": xl_row[COLUMN_MAP["asian_board"]],
-                            "black": xl_row[COLUMN_MAP["black_board"]],
-                            "hispanic": xl_row[COLUMN_MAP["hispanic_board"]],
-                            "middle_eastern": xl_row[COLUMN_MAP["middle_eastern_board"]],
-                            "multi_racial": xl_row[COLUMN_MAP["multi_racial_board"]],
-                            "native_american": xl_row[COLUMN_MAP["native_american_board"]],
-                            "pacific_islander": xl_row[COLUMN_MAP["pacific_islander_board"]],
-                            "white": xl_row[COLUMN_MAP["white_board"]],
-                            "other": xl_row[COLUMN_MAP["other_ethnicity_board"]],
-                            "unknown": xl_row[COLUMN_MAP["race_unknown_board"]],
-                            "declined": xl_row[COLUMN_MAP["race_decline_to_state_board"]]},
-
-                "board_gender":{"female": xl_row[COLUMN_MAP["female_board"]],
-                                 "male": xl_row[COLUMN_MAP["male_board"]],
-                                 "transgender": xl_row[COLUMN_MAP["trans_board"]],
-                                 "cis": xl_row[COLUMN_MAP["cis_board"]],
-                                 "non_binary": xl_row[COLUMN_MAP["non_binary_board"]],
-                "unknown": xl_row[COLUMN_MAP["gender_unknown_board"]] if xl_row[COLUMN_MAP["gender_unknown_board"]] != None else 0 + 
-                            xl_row[COLUMN_MAP["gender2_unknown_board"]] if xl_row[COLUMN_MAP["gender2_unknown_board"]]  != None else 0,
-                "declined": xl_row[COLUMN_MAP["gender_decline_to_state_board"]] if xl_row[COLUMN_MAP["gender_decline_to_state_board"]] !=None else 0
-                                   + xl_row[COLUMN_MAP["gender2_decline_to_state_board"]] if xl_row[COLUMN_MAP["gender2_decline_to_state_board"]] !=None else 0},
-
-                "board_orientation":{"straight": xl_row[COLUMN_MAP["straight_board"]],
-                                    "lgbtqia": xl_row[COLUMN_MAP["lgbtqia_board"]],
-                                    "unknown": xl_row[COLUMN_MAP["orientation_unknown_board"]],
-                                    "declined": xl_row[COLUMN_MAP["orientation_decline_to_state_board"]] },
-                
-                "board_disability":{"with_disability": xl_row[COLUMN_MAP["with_disability_board"]],
-                                    "without_disability": xl_row[COLUMN_MAP["without_disability_board"]],
-                                    "unknown": xl_row[COLUMN_MAP["disability_unknown_board"]],
-                                    "declined": xl_row[COLUMN_MAP["disability_decline_to_state_board"]]},
-
-                "total_senior_staff_members": xl_row[COLUMN_MAP["total_senior_staff"]],
-
-                "senior_staff_race":{"asian": xl_row[COLUMN_MAP["asian_senior_staff"]],
-                            "black": xl_row[COLUMN_MAP["black_senior_staff"]],
-                            "hispanic": xl_row[COLUMN_MAP["hispanic_senior_staff"]],
-                            "middle_eastern": xl_row[COLUMN_MAP["middle_eastern_senior_staff"]],
-                            "multi_racial": xl_row[COLUMN_MAP["multi_racial_senior_staff"]],
-                            "native_american": xl_row[COLUMN_MAP["native_american_senior_staff"]],
-                            "pacific_islander": xl_row[COLUMN_MAP["pacific_islander_senior_staff"]],
-                            "white": xl_row[COLUMN_MAP["white_senior_staff"]],
-                            "other": xl_row[COLUMN_MAP["other_ethnicity_senior_staff"]],
-                            "unknown": xl_row[COLUMN_MAP["race_unknown_senior_staff"]],
-                            "declined": xl_row[COLUMN_MAP["race_decline_to_state_senior_staff"]]},
-
-                "senior_staff_gender":{"female": xl_row[COLUMN_MAP["female_senior_staff"]],
-                                 "male": xl_row[COLUMN_MAP["male_senior_staff"]],
-                                 "transgender": xl_row[COLUMN_MAP["trans_senior_staff"]],
-                                 "cis": xl_row[COLUMN_MAP["cis_senior_staff"]],
-                                 "non_binary": xl_row[COLUMN_MAP["non_binary_senior_staff"]],
-                                 "unknown": xl_row[COLUMN_MAP["gender_unknown_senior_staff"]] if xl_row[COLUMN_MAP["gender_unknown_senior_staff"]] != None else 0 + 
-                            xl_row[COLUMN_MAP["gender2_unknown_senior_staff"]] if xl_row[COLUMN_MAP["gender2_unknown_senior_staff"]]  != None else 0,
-                "declined": xl_row[COLUMN_MAP["gender_decline_to_state_senior_staff"]] if xl_row[COLUMN_MAP["gender_decline_to_state_senior_staff"]] !=None else 0
-                                   + xl_row[COLUMN_MAP["gender2_decline_to_state_senior_staff"]] if xl_row[COLUMN_MAP["gender2_decline_to_state_senior_staff"]] !=None else 0},
-
-                "senior_staff_orientation":{"straight": xl_row[COLUMN_MAP["straight_senior_staff"]],
-                                    "lgbtqia": xl_row[COLUMN_MAP["lgbtqia_senior_staff"]],
-                                    "unknown": xl_row[COLUMN_MAP["orientation_unknown_senior_staff"]],
-                                    "declined": xl_row[COLUMN_MAP["orientation_decline_to_state_senior_staff"]] },
-                
-                "senior_staff_disability":{"with_disability": xl_row[COLUMN_MAP["with_disability_senior_staff"]],
-                                    "without_disability": xl_row[COLUMN_MAP["without_disability_senior_staff"]],
-                                    "unknown": xl_row[COLUMN_MAP["disability_unknown_senior_staff"]],
-                                    "declined": xl_row[COLUMN_MAP["disability_decline_to_state_senior_staff"]]} ,
-
-                "total_staff_members": xl_row[COLUMN_MAP["total_staff"]],
-
-                "staff_race":{"asian": xl_row[COLUMN_MAP["asian_staff"]],
-                            "black": xl_row[COLUMN_MAP["black_staff"]],
-                            "hispanic": xl_row[COLUMN_MAP["hispanic_staff"]],
-                            "middle_eastern": xl_row[COLUMN_MAP["middle_eastern_staff"]],
-                            "multi_racial": xl_row[COLUMN_MAP["multi_racial_staff"]],
-                            "native_american": xl_row[COLUMN_MAP["native_american_staff"]],
-                            "pacific_islander": xl_row[COLUMN_MAP["pacific_islander_staff"]],
-                            "white": xl_row[COLUMN_MAP["white_staff"]],
-                            "other": xl_row[COLUMN_MAP["other_ethnicity_staff"]],
-                            "unknown": xl_row[COLUMN_MAP["race_unknown_staff"]],
-                            "declined": xl_row[COLUMN_MAP["race_decline_to_state_staff"]]},
-
-                "staff_gender":{"female": xl_row[COLUMN_MAP["female_staff"]],
-                                 "male": xl_row[COLUMN_MAP["male_staff"]],
-                                 "transgender": xl_row[COLUMN_MAP["trans_staff"]],
-                                 "cis": xl_row[COLUMN_MAP["cis_staff"]],
-                                 "non_binary": xl_row[COLUMN_MAP["non_binary_staff"]],
-                                 "unknown": xl_row[COLUMN_MAP["gender_unknown_staff"]] if xl_row[COLUMN_MAP["gender_unknown_staff"]] != None else 0 + 
-                            xl_row[COLUMN_MAP["gender2_unknown_staff"]] if xl_row[COLUMN_MAP["gender2_unknown_staff"]]  != None else 0,
-                "declined": xl_row[COLUMN_MAP["gender_decline_to_state_staff"]] if xl_row[COLUMN_MAP["gender_decline_to_state_staff"]] !=None else 0
-                                   + xl_row[COLUMN_MAP["gender2_decline_to_state_staff"]] if xl_row[COLUMN_MAP["gender2_decline_to_state_staff"]] !=None else 0},
-
-                "staff_orientation":{"straight": xl_row[COLUMN_MAP["straight_staff"]],
-                                    "lgbtqia": xl_row[COLUMN_MAP["lgbtqia_staff"]],
-                                    "unknown": xl_row[COLUMN_MAP["orientation_unknown_staff"]],
-                                    "declined": xl_row[COLUMN_MAP["orientation_decline_to_state_staff"]] },
-                
-                "staff_disability":{"with_disability": xl_row[COLUMN_MAP["with_disability_staff"]],
-                                    "without_disability": xl_row[COLUMN_MAP["without_disability_staff"]],
-                                    "unknown": xl_row[COLUMN_MAP["disability_unknown_staff"]],
-                                    "declined": xl_row[COLUMN_MAP["disability_decline_to_state_staff"]]}            
+def build_company_from_990_data(csv_row):
+    csv_json = {"ein": csv_row["ein"],
+                "name": csv_row["org_name"],
+            
+                "metrics":{"average_female_salary" : csv_row["average_female_salary"],
+                          "average_male_salary" : csv_row["average_male_salary"],
+                          "pay_gap" : csv_row["pay_gap"],
+                          "percent_male" : csv_row["percent_male"],
+                          "percent_female" : csv_row["percent_female"],
+                          "avg_employee_comp" : csv_row["avg_employee_comp"],
+                          "highest_salary" : csv_row["highest_salary"],
+                          "total_compensation" : csv_row["total_compensation"],
+                          "web_address" : csv_row["web_address"],
+                          "num_employees" : csv_row["num_employees"],
+                          "total_revenue" : csv_row["total_revenue"]
+                }        
     }
     return csv_json
+
+
+def build_company_from_candid_data(csv_row):
+    csv_json = {"ein": csv_row['ein'],
+                "name": csv_row["org_name"],
+                "city": csv_row["city"],
+                "state": csv_row["state_code"],
+
+
+                "total_board_members": csv_row["total_board"],
+
+                "board_race":{"asian": csv_row["asian_board"],
+                            "black": csv_row["black_board"],
+                            "hispanic": csv_row["hispanic_board"],
+                            "middle_eastern": csv_row["middle_eastern_board"],
+                            "multi_racial": csv_row["multi_racial_board"],
+                            "native_american": csv_row["native_american_board"],
+                            "pacific_islander": csv_row["pacific_islander_board"],
+                            "white": csv_row["white_board"],
+                            "other": csv_row["other_ethnicity_board"],
+                            "unknown": csv_row["race_unknown_board"],
+                            "declined": csv_row["race_decline_to_state_board"]},
+
+                "board_gender":{"female": csv_row["female_board"],
+                                 "male": csv_row["male_board"],
+                                 "transgender": csv_row["trans_board"],
+                                 "cis": csv_row["cis_board"],
+                                 "non_binary": csv_row["non_binary_board"],
+                "unknown": csv_row["gender_unknown_board"] if csv_row["gender_unknown_board"] != None else 0 + 
+                            csv_row["gender2_unknown_board"] if csv_row["gender2_unknown_board"]  != None else 0,
+                "declined": csv_row["gender_decline_to_state_board"] if csv_row["gender_decline_to_state_board"] !=None else 0
+                                   + csv_row["gender2_decline_to_state_board"] if csv_row["gender2_decline_to_state_board"] !=None else 0},
+
+                "total_senior_staff_members": csv_row["total_senior_staff"],
+
+                "senior_staff_race":{"asian": csv_row["asian_senior_staff"],
+                            "black": csv_row["black_senior_staff"],
+                            "hispanic": csv_row["hispanic_senior_staff"],
+                            "middle_eastern": csv_row["middle_eastern_senior_staff"],
+                            "multi_racial": csv_row["multi_racial_senior_staff"],
+                            "native_american": csv_row["native_american_senior_staff"],
+                            "pacific_islander": csv_row["pacific_islander_senior_staff"],
+                            "white": csv_row["white_senior_staff"],
+                            "other": csv_row["other_ethnicity_senior_staff"],
+                            "unknown": csv_row["race_unknown_senior_staff"],
+                            "declined": csv_row["race_decline_to_state_senior_staff"]},
+
+                "senior_staff_gender":{"female": csv_row["female_senior_staff"],
+                                 "male": csv_row["male_senior_staff"],
+                                 "transgender": csv_row["trans_senior_staff"],
+                                 "cis": csv_row["cis_senior_staff"],
+                                 "non_binary": csv_row["non_binary_senior_staff"],
+                                 "unknown": csv_row["gender_unknown_senior_staff"] if csv_row["gender_unknown_senior_staff"] != None else 0 + 
+                            csv_row["gender2_unknown_senior_staff"] if csv_row["gender2_unknown_senior_staff"]  != None else 0,
+                "declined": csv_row["gender_decline_to_state_senior_staff"] if csv_row["gender_decline_to_state_senior_staff"] !=None else 0
+                                   + csv_row["gender2_decline_to_state_senior_staff"] if csv_row["gender2_decline_to_state_senior_staff"] !=None else 0},
+
+        
+                "total_staff_members": csv_row["total_staff"],
+
+                "staff_race":{"asian": csv_row["asian_staff"],
+                            "black": csv_row["black_staff"],
+                            "hispanic": csv_row["hispanic_staff"],
+                            "middle_eastern": csv_row["middle_eastern_staff"],
+                            "multi_racial": csv_row["multi_racial_staff"],
+                            "native_american": csv_row["native_american_staff"],
+                            "pacific_islander": csv_row["pacific_islander_staff"],
+                            "white": csv_row["white_staff"],
+                            "other": csv_row["other_ethnicity_staff"],
+                            "unknown": csv_row["race_unknown_staff"],
+                            "declined": csv_row["race_decline_to_state_staff"]},
+
+                "staff_gender":{"female": csv_row["female_staff"],
+                                 "male": csv_row["male_staff"],
+                                 "transgender": csv_row["trans_staff"],
+                                 "cis": csv_row["cis_staff"],
+                                 "non_binary": csv_row["non_binary_staff"],
+                                 "unknown": csv_row["gender_unknown_staff"] if csv_row["gender_unknown_staff"] != None else 0 + 
+                            csv_row["gender2_unknown_staff"] if csv_row["gender2_unknown_staff"]  != None else 0,
+                "declined": csv_row["gender_decline_to_state_staff"] if csv_row["gender_decline_to_state_staff"] !=None else 0
+                                   + csv_row["gender2_decline_to_state_staff"] if csv_row["gender2_decline_to_state_staff"] !=None else 0},
+
+                "metrics":{"average_female_salary" : csv_row["average_female_salary"],
+                          "average_male_salary" : csv_row["average_male_salary"],
+                          "pay_gap" : csv_row["pay_gap"],
+                          "percent_male" : csv_row["percent_male"],
+                          "percent_female" : csv_row["percent_female"],
+                          "avg_employee_comp" : csv_row["avg_employee_comp"],
+                          "highest_salary" : csv_row["highest_salary"],
+                          "total_compensation" : csv_row["total_compensation"],
+                          "web_address" : csv_row["web_address"],
+                          "num_employees" : csv_row["num_employees"],
+                          "total_revenue" : csv_row["total_revenue"]
+                }        
+    }
+    return csv_json
+
+def add_candid_data():
+    with open('Candid-Top-11-29-Trimmed.csv','r') as f:
+        reader = csv.DictReader(f)
+        for row in enumerate(reader):
+            docRef = db.collection("non-for-profits").document(); #automatically generate unique id
+            entry = build_company_from_candid_data(row[1])
+            batch.set(docRef, entry);
+    batch.commit()
+    return
+
+add_candid_data()
 
