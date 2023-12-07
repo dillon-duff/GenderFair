@@ -3,10 +3,9 @@ import requests
 import pandas as pd
 from io import BytesIO
 from xml_parsing import get_990_info_for_company
-from multiprocessing import Pool, cpu_count
+from multiprocessing import Pool
 from io import StringIO
-from concurrent.futures import ThreadPoolExecutor
-
+import time
 
 propublica_api_url = "https://projects.propublica.org/nonprofits/api/v2/search.json"
 
@@ -95,7 +94,6 @@ def get_propublica_top_df(min_revenue):
 
 def add_info_for_org(row):
     try:
-
         row = row.copy()
         info = get_990_info_for_company(row["ein"])
         if info == -1 or info is None:
@@ -108,10 +106,7 @@ def add_info_for_org(row):
         return None
 
 
-import time
-import matplotlib.pyplot as plt
-import copy
-from multiprocessing import Pool
+
 
 if __name__ == "__main__":
     absolute_start = time.time()
@@ -122,8 +117,8 @@ if __name__ == "__main__":
     # # Get info from 990 for Candid >= 50 employees
 
     # # Non-threaded
-    # # # data = [add_info_for_org(row) for _, row in candid_top_df.iterrows()]
-    # # # candid_top_df = pd.DataFrame([r for r in data if r is not None])
+    # data = [add_info_for_org(row) for _, row in candid_top_df.iterrows()]
+    # candid_top_df = pd.DataFrame([r for r in data if r is not None])
 
     # # Multi-processing
     num_procs = 10
@@ -156,20 +151,14 @@ if __name__ == "__main__":
 
     propublica_top_df = pd.DataFrame([r for r in data if r is not None])
 
-    propublica_top_df.to_csv("990-Top-11-23.csv")
-    candid_top_df.to_csv("Candid-Top-11-23.csv")
-    # propublica_top_df.drop(columns=['ICO', 'org_name', 'ZIP',
-    #                                 'GROUP', 'SUBSECTION', 'AFFILIATION',
-    #                                   'CLASSIFICATION', 'RULING', 'DEDUCTIBILITY',
-    #                                     'FOUNDATION', 'ACTIVITY', 'ORGANIZATION',
-    #                                     'STATUS', 'TAX_PERIOD', 'ASSET_CD', 'INCOME_CD',
-    #                                       'FILING_REQ_CD', 'PF_FILING_REQ_CD', 'ACCT_PD',
-    #                                         'ASSET_AMT', 'INCOME_AMT', 'REVENUE_AMT', 'NTEE_CD', 'SORT_NAME'])
+    
 
     # Merge by EIN
-    # candid_top_df['ein'] = candid_top_df['ein'].map(lambda x : x.replace("-", "")).astype("int")
+    candid_top_df['ein'] = candid_top_df['ein'].map(lambda x : x.replace("-", "")).astype("int")
     # candid_with_propublica = propublica_top_df.merge(candid_top_df, left_on='EIN', right_on='ein', how='inner')
 
-    # candid_top_df.to_csv("Candid-Top.csv")
-    # propublica_top_df.to_csv("ProPublica-Top.csv")
+    propublica_top_df = [propublica_top_df[~propublica_top_df['ein'].isin(candid_top_df['ein'])]]
+
     # candid_with_propublica.to_csv("Candid-Top-With-ProPublica-Info.csv")
+    propublica_top_df.to_csv("990-Top-12-6.csv")
+    candid_top_df.to_csv("Candid-Top-12-6.csv")

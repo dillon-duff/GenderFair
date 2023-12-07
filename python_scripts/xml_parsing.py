@@ -36,8 +36,8 @@ def find_and_extract_990(ein, filename, start_year=2021, end_year=2023):
 
 
 def find_and_extract_990_unzipped(ein, filename, start_year=2021, end_year=2023):
-    index_folder = "indexes"
-    archive_folder = "990_xml_archive"
+    index_folder = "../indexes"
+    archive_folder = "../990_xml_archive"
 
     for year in reversed(range(start_year, end_year + 1)):
         index_file = f"{index_folder}/index_{year}.csv"
@@ -70,20 +70,14 @@ def efile_string(st):
 
 def get_990_info_for_company(ein):
     file_prefix = int(uuid.uuid1())
-    # start = time.time()
     xml_string = find_and_extract_990_unzipped(ein, f"{file_prefix}.xml")
-    # end = time.time()
-    # print(f"Extraction took {abs(start-end)} seconds")
     if xml_string == -1:
-        # print(f"No valid XML for EIN: {ein}")
+        # print(f"No valid XML string for EIN: {ein}")
         return -1
-    # start = time.time()
     info = get_990_info_from_xml(xml_string)
     if info == -1:
-        # print(f"No valid XML for EIN: {ein}")
+        # print(f"No valid XML info for EIN: {ein}")
         return -1
-    # end = time.time()
-    # print(f"Getting info took {end-start} seconds")
     try:
         os.remove(f"{file_prefix}.xml")
     except:
@@ -93,14 +87,6 @@ def get_990_info_for_company(ein):
 
 
 def get_990_info_from_xml(xml_string):
-
-    # filename = f"{file_prefix}.xml"
-
-    # if filename not in os.listdir():
-    #     print(f"XML file could not be found")
-    #     return -1
-    # Parse the XML
-    # tree = ET.parse(filename)
     try:
         # Parse the XML string
         tree = ET.ElementTree(ET.fromstring(xml_string))
@@ -150,13 +136,55 @@ def get_990_info_from_xml(xml_string):
             employee_dicts.append(employee_dict)
 
         if len(employee_dicts) == 0:
+            # print("Error: No employees lsited in highest compensated")
             return -1
+
+        key_employee_group_categories = root990.findall(
+            efile_string("Form990PartVIISectionAGrp")
+        )
+
+        # Save data for each employee in this dictionary
+        employee_categories_dicts = []
+
+        for employee in key_employee_group_categories:
+            employee_dict = {}
+            for child in employee:
+                tag = child.tag.replace("{http://www.irs.gov/efile}", "")
+                if (
+                    tag.__eq__("IndividualTrusteeOrDirectorInd")
+                    | tag.__eq__("OfficerInd")
+                    | tag.__eq__("HighestCompensatedEmployeeInd")
+                    | tag.__eq__("KeyEmployeeInd")
+                    | tag.__eq__("FormerOfcrDirectorTrusteeInd")
+                ):
+                    text = tag
+                    tag = "Category"
+                else:
+                    text = child.text
+                employee_dict[tag] = text
+            employee_categories_dicts.append(employee_dict)
+
+        names_category_pairs = pd.DataFrame(
+            [
+                (d["PersonNm"].lower().split()[0], d["Category"])
+                for d in employee_categories_dicts
+            ]
+        )
+        names_category_pairs[0] = names_category_pairs[0].apply(
+            lambda x: guess_gender(x)["gender"]
+        )
+        grouped = names_category_pairs.groupby([1, 0]).size().unstack(fill_value=0)
+
+        grouped_percentage = grouped.div(grouped.sum(axis=1), axis=0) * 100
+
+        category_gender_percentage_dict = grouped_percentage.to_dict(orient='index')
+
+
+        
 
         total_compensation = root990.find(
             efile_string("CYSalariesCompEmpBnftPaidAmt")
         ).text
-
-        key_employee_group = root990.findall(efile_string("Form990PartVIISectionAGrp"))
 
         web_address = (
             "N/A"
@@ -217,8 +245,9 @@ def get_990_info_from_xml(xml_string):
         info["total_revenue"] = revenue
         info["org_name"] = org_name
 
-        # info = {"top_earners": employee_dicts, "total_compensation": total_compensation, "categories": employee_categories_dicts,
-        #         "web_address": web_address, "num_employees": total_employees, "total_compensation": total_compensation, "total_revenue": revenue}
+        for category, gender_distribution in category_gender_percentage_dict.items():
+            info[f"{category}_percent_female"] = gender_distribution['F']
+
         return info
 
     except ET.ParseError as e:
@@ -230,7 +259,6 @@ def get_990_info_from_xml(xml_string):
 
 
 if __name__ == "__main__":
-    info = get_990_info_for_company("43007211")
+    info = get_990_info_for_company("311640316")
     for key, item in info.items():
         print(f"\n{key}: {item}")
-    # print(pd.DataFrame(info).to_csv("People.csv"))
