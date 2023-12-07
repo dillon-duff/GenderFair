@@ -30,15 +30,15 @@ def calculate_percentages(input_file, output_file, control_column_pairs):
             df[col] = (df[col] / df[control_column]) * 100
 
     # Save the modified DataFrame to a new Excel file
-    df.to_excel(output_file, index=False)
+    df.to_csv(output_file, index=False)
     print(f"Percentage calculation completed. Results saved to {output_file}")
 
 
 # Example usage:
 # Replace with your input Excel file
-input_file = 'Candid-Top.csv'
+input_file = 'Candid-Top-11-23.csv'
 # Replace with your desired output Excel file
-output_file = 'PercentageCalculated.xlsx'
+output_file = 'Candid-Top-11-29.csv'
 
 # Define multiple pairs of control columns and associated columns
 control_column_pairs = [
@@ -50,4 +50,4 @@ control_column_pairs = [
                                                   'other_ethnicity_staff', 'race_decline_to_state_staff', 'race_unknown_staff', 'female_staff', 'male_staff', 'non_binary_staff', 'gender_decline_to_state_staff', 'gender_unknown_staff', 'trans_staff', 'cis_staff']}
 ]
 
-calculate_percentages(input_file, output_file, control_column_pairs)
+# calculate_percentages(input_file, output_file, control_column_pairs)
