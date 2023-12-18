@@ -18,6 +18,7 @@ function addHighlightedNameMatches(data, inputValue, parentElement) {
             b.addEventListener("click", function (e) {
                 document.getElementById('searchBox').value = this.getElementsByTagName("input")[0].value;
                 createBarChartForOrg(data, this.getElementsByTagName("input")[0].value);
+                createCircleComparison(data, this.getElementsByTagName("input")[0].value);
                 closeAllLists();
             });
             parentElement.appendChild(b);
@@ -199,5 +200,104 @@ function createBarChartForOrg(data, org_name) {
                 .style("opacity", 0);
         });
 
+
+}
+
+function createCircleComparison(data, org_name) {
+
+    d3.select('#d3viz2 svg').remove();
+    const orgData = data.find(d => d.org_name === org_name);
+    console.log(orgData);
+    highest_salary = Math.round(+orgData.highest_salary);
+    avg_employee_comp = Math.round(+orgData.avg_employee_comp);
+
+    const width = 450, height = 450;
+    const svg = d3.select("#d3viz2").append("svg").attr("width", width).attr("height", height);
+    const scaleFactor = 0.0001;
+
+    const hierarchyData = {
+        "name": "Salaries",
+        "children": [
+            { "name": "Highest Salary", "value": highest_salary * scaleFactor },
+            { "name": "Average Employee Salary", "value": avg_employee_comp * scaleFactor }
+        ]
+    };
+
+    console.log(hierarchyData);
+
+    const pack = d3.pack().size([width, height]).padding(5);
+    const root = d3.hierarchy(hierarchyData).sum(d => d.value);
+    const nodes = pack(root).descendants();
+
+    const node = svg.selectAll("circle")
+        .data(nodes.filter(d => d.depth === 1))
+        .join("circle")
+        .attr("r", d => d.r)
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y)
+        .style("fill", "lightblue")
+        .style("fill-opacity", 0.3)
+        .attr("stroke", "#b3a2c8")
+        .style("stroke-width", 4)
+        .call(d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended));
+
+
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", 20)
+        .text("Salary Comparison")
+        .attr("text-anchor", "middle")
+        .style("font-size", "24px")
+        .style("fill", "black");
+
+    node.on("mouseover", function (event, d) {
+        d3.select("#tooltip")
+            .style("display", "block")
+            .html(d.data.name + "<br>$" + Intl.NumberFormat().format(Math.round(d.data.value / scaleFactor)))
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 20) + "px");
+    })
+        .on("mouseout", function () {
+            d3.select("#tooltip").style("display", "none");
+        });
+
+
+
+    const simulation = d3.forceSimulation()
+        .force("center", d3.forceCenter().x(width / 2).y(height / 2))
+
+    simulation
+        .nodes(nodes)
+        .on("tick", () => {
+            node
+                .attr("cx", function (d) {
+                    return d.x = Math.max(d.r, Math.min(width - d.r, d.x));
+                })
+                .attr("cy", function (d) {
+                    return d.y = Math.max(d.r, Math.min(height - d.r, d.y));
+                });
+        });
+
+
+
+    function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(.03).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+
+    function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+    }
+
+    function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(.03);
+        d.fx = null;
+        d.fy = null;
+    }
 
 }

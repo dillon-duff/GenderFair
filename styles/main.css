@@ -96,6 +96,9 @@ input {
 #d3viz {
   margin-left: 25%;
 }
+#d3viz2 {
+  margin-left: 25%;
+}
 
 .autocomplete-items {
   border: 1px solid #d4d4d4;
@@ -123,4 +126,50 @@ input {
 .autocomplete-active {
   background-color: DodgerBlue !important;
   color: #ffffff;
+}
+
+.scoreboard {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.org-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.org-name {
+  flex: 1;
+  font-weight: bold;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.score-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.gauge {
+  width: 100px;
+  height: 100px;
+  /* Additional styling for the gauges */
+  /* Consider adding shadows, gradients, or animations for a more dynamic look */
+}
+
+/* Add responsive design */
+@media (max-width: 600px) {
+  .org-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .score-container {
+    width: 100%;
+    padding: 10px;
+  }
 }

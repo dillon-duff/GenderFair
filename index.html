@@ -1,26 +1,69 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Gender Fair</title>
-    <link rel="stylesheet" href="styles/main.css" />
-  </head>
 
-  <body id="mainBody">
-    <nav class="navbar">
-      <ul class="nav-links">
-        <li><a href="viz.html">Visualizations</a></li>
-      </ul>
-    </nav>
+<head>
+  <meta charset="utf-8" />
+  <title>Gender Fair</title>
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+
+<body id="mainBody">
+  <nav class="navbar">
+    <ul class="nav-links">
+      <li><a href="viz.html">Visualizations</a></li>
+    </ul>
+  </nav>
 
 
-    <div id="listPage" class="container page-container">
-      <div id="heading">Non-Profit Organization Rankings</div>
+  <div id="listPage" class="container page-container">
+    <div id="heading">Non-Profit Organization Rankings</div>
 
-      <form id="searchbar">
-        <input type="search" placeholder="Search for a non-profit...">
-      </form>
+    <form id="searchbar">
+      <input type="search" placeholder="Search for a non-profit...">
+    </form>
+    <div class="scoreboard">
+      <div class="org-row">
+        <div class="org-name">org A</div>
+        <div class="score-container">
+          <div id="gaugeA1" class="gauge"></div>
+        </div>
+        <div class="score-container">
+          <div id="gaugeA2" class="gauge"></div>
+        </div>
+        <div class="score-container">
+          <div id="gaugeA3" class="gauge"></div>
+        </div>
+      </div>
+      <div class="org-row">
+        <div class="org-name">org B</div>
+        <div class="score-container">
+          <div id="gaugeB1" class="gauge"></div>
+        </div>
+        <div class="score-container">
+          <div id="gaugeB2" class="gauge"></div>
+        </div>
+        <div class="score-container">
+          <div id="gaugeB3" class="gauge"></div>
+        </div>
+      </div>
+      <div class="org-row">
+        <div class="org-name">org C</div>
+        <div class="score-container">
+          <div id="gaugeC1" class="gauge"></div>
+        </div>
+        <div class="score-container">
+          <div id="gaugeC2" class="gauge"></div>
+        </div>
+        <div class="score-container">
+          <div id="gaugeC3" class="gauge"></div>
+        </div>
+      </div>
     </div>
-    <script src="scripts/main.js"></script>
-  </body>
+  </div>
+
+
+</body>
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="scripts/main.js"></script>
+
 </html>
