@@ -51,19 +51,115 @@ function createGauge(containerId, score) {
 
 }
 
+function createCircularProgress(containerId, score) {
+  const width = 100, height = 100, radius = 40;
+  const svg = d3.select(`#${containerId}`)
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+  const backgroundArc = d3.arc()
+    .innerRadius(radius - 10)
+    .outerRadius(radius)
+    .startAngle(0)
+    .endAngle(Math.PI * 2);
+
+  svg.append("path")
+    .attr("d", backgroundArc)
+    .style("fill", "#ddd");
+
+  const percentScale = d3.scaleLinear()
+    .domain([0, 100])
+    .range([0, Math.PI * 2]);
+
+  const percentArc = d3.arc()
+    .innerRadius(radius - 10)
+    .outerRadius(radius)
+    .startAngle(0)
+    .endAngle(percentScale(score));
+
+  svg.append("path")
+    .attr("d", percentArc)
+    .style("fill", "orange");
+
+  svg.append("text")
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "middle")
+    .style("font-size", "20px")
+    .text(score);
+}
+
+function createHorizontalBar(containerId, score) {
+  const width = 200, height = 50;
+  const svg = d3.select(`#${containerId}`)
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .style("fill", "#ddd");
+
+  svg.append("rect")
+    .attr("width", (score / 100) * width)
+    .attr("height", height)
+    .style("fill", "orange");
+
+  svg.append("text")
+    .attr("x", (score / 100) * width - 5)
+    .attr("y", height / 2)
+    .attr("text-anchor", "end")
+    .attr("alignment-baseline", "middle")
+    .style("font-size", "14px")
+    .text(score);
+}
+
+function createScatterPlot(containerId, score) {
+  const width = 200, height = 100;
+  const padding = 20;
+
+  const svg = d3.select(`#${containerId}`)
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  // X scale
+  const xScale = d3.scaleLinear()
+    .domain([0, 100])
+    .range([padding, width - padding]);
+
+  // Base line
+  svg.append("line")
+    .attr("x1", padding)
+    .attr("y1", height / 2)
+    .attr("x2", width - padding)
+    .attr("y2", height / 2)
+    .style("stroke", "#ddd")
+    .style("stroke-width", 2);
+
+  svg.append("circle")
+    .attr("cx", xScale(score))
+    .attr("cy", height / 2)
+    .attr("r", 5)
+    .style("fill", "red");
+
+  svg.append("text")
+    .attr("x", xScale(score))
+    .attr("y", height / 2 + 20)
+    .text(score)
+    .style("font-size", "16px")
+    .attr("text-anchor", "start");
+}
+
 
 function scoreToAngle(score) {
   // Assuming score is in range 0-100
   const maxScore = 100;
   const angleRange = Math.PI;
   return (score / maxScore) * angleRange - (angleRange / 2);
-}
-function updateGauge(containerId, newScore) {
-  const newAngle = scoreToAngle(newScore);
-  d3.select(`#${containerId} line`)
-    .transition()
-    .duration(1000)
-    .attr("transform", `translate(${width / 2}, ${height}) rotate(${newAngle})`);
 }
 
 
@@ -85,8 +181,23 @@ document.addEventListener('DOMContentLoaded', function () {
       const score = getRandomScore();
       console.log("company", company, "score", score, "i", i);
 
-      // Replace this
-      // createGauge(`gauge${company}${i}`, score);
+      createCircularProgress(`gauge${company}${i}`, score);
     }
   });
+  ['C'].forEach(company => {
+    for (let i = 1; i <= 3; i++) {
+      const score = getRandomScore();
+      console.log("company", company, "score", score, "i", i);
+
+      createHorizontalBar(`gauge${company}${i}`, score);
+    }
+  });
+  ['D'].forEach(company => {
+    for (let i = 1; i <= 3; i++) {
+      const score = getRandomScore();
+      console.log("company", company, "score", score, "i", i);
+      createScatterPlot(`gauge${company}${i}`, score);
+    }
+  });
+
 });
