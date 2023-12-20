@@ -87,13 +87,10 @@ input {
   width: 50%;
 }
 
-#d3viz {
-  margin-left: 25%;
-}
-#d3viz2 {
-  margin-left: 25%;
-}
-#payGapViz {
+#d3viz,
+#d3viz2,
+#payGapViz,
+#boardCompViz {
   margin-left: 25%;
 }
 

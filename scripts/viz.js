@@ -16,10 +16,12 @@ function addHighlightedNameMatches(data, inputValue, parentElement) {
             b.innerHTML = `${orgName.substr(0, matchIndex)}<strong>${orgName.substr(matchIndex, inputValue.length)}</strong>${orgName.substr(matchIndex + inputValue.length)}`;
             b.innerHTML += "<input type='hidden' value='" + orgName + "'>";
             b.addEventListener("click", function (e) {
-                document.getElementById('searchBox').value = this.getElementsByTagName("input")[0].value;
-                createBarChartForOrg(data, this.getElementsByTagName("input")[0].value);
-                createCircleComparison(data, this.getElementsByTagName("input")[0].value);
-                createPayGapViz(data, this.getElementsByTagName("input")[0].value);
+                let n = this.getElementsByTagName("input")[0].value;
+                document.getElementById('searchBox').value = n;
+                createBarChartForOrg(data, n);
+                createCircleComparison(data, n);
+                createPayGapViz(data, n);
+                createBoardGenderCompositionViz(data, n)
                 closeAllLists();
             });
             parentElement.appendChild(b);
@@ -342,7 +344,7 @@ function createPayGapViz(data, org_name) {
         .attr("y", d => yScale(d))
         .attr("width", xScale.bandwidth())
         .attr("height", d => height - yScale(d))
-        .attr("fill", (d, i) => i === 0 ? "pink" : "blue");
+        .attr("fill", (d, i) => i === 0 ? "orange" : "blue");
 
     // Add labels for average salary
     svg.append("g")
@@ -381,9 +383,96 @@ function createPayGapViz(data, org_name) {
     // X-axis
     svg.append("g")
         .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(xScale));
+        .call(d3.axisBottom(xScale))
+        .selectAll("text")
+        .style("font-size", "14px");
 
     // Y-axis
     svg.append("g")
         .call(d3.axisLeft(yScale));
+}
+
+function createBoardGenderCompositionViz(data, org_name) {
+    d3.select('#boardCompViz svg').remove();
+    const orgData = data.find(d => d.org_name === org_name);
+
+    const width = 500, height = 400;
+    const radius = Math.min(width, height) / 2 - 40;
+    const svg = d3.select("#boardCompViz")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    const color = d3.scaleOrdinal()
+        .domain(["Female", "Male", "Non-Binary", "Decline to State", "Unknown"])
+        .range(["orange", "blue", "green", "purple", "grey"]);
+
+    const pie = d3.pie()
+        .value(d => d[1]);
+
+    const data_ready = pie(Object.entries({
+        "Female": orgData.female_board,
+        "Male": orgData.male_board,
+        "Non-Binary": orgData.non_binary_board,
+        "Decline to State": orgData.gender_decline_to_state_board,
+        "Unknown": orgData.gender_unknown_board
+    }));
+
+    const total = Object.entries({
+        "Female": orgData.female_board,
+        "Male": orgData.male_board,
+        "Non-Binary": orgData.non_binary_board,
+        "Decline to State": orgData.gender_decline_to_state_board,
+        "Unknown": orgData.gender_unknown_board
+    }).reduce((acc, curr) => acc + (+curr[1]), 0);
+
+    console.log(total)
+
+    const arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius);
+
+    svg
+        .selectAll('slices')
+        .data(data_ready)
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', d => color(d.data[0]))
+        .attr("stroke", "black")
+        .style("stroke-width", "2px")
+        .style("opacity", 0.7)
+        .on("mouseover", function (event, d) {
+            const categoryCount = d.data[1];
+            const categoryPercentage = ((categoryCount / total) * 100).toFixed(2);
+
+            d3.select("#tooltip")
+                .style("display", "block")
+                .html(d.data[0] + ": " + categoryPercentage + "% (" + categoryCount + " members)")
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 20) + "px");
+        })
+        .on("mouseout", function () {
+            d3.select("#tooltip").style("display", "none");
+        });
+
+    // Add a title
+    svg.append("text")
+        .attr("x", 0)
+        .attr("y", -height / 2 + 15)
+        .text("Board Composition by Gender")
+        .attr("text-anchor", "middle")
+        .style("font-size", "20px")
+        .style("font-weight", "bold");
+
+    // Add a label for the total number of board members
+    svg.append("text")
+        .attr("x", 0)
+        .attr("y", -height / 2 + 35)
+        .text("Total Board Members: " + total)
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("font-weight", "bold");
 }
