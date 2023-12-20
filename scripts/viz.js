@@ -19,6 +19,7 @@ function addHighlightedNameMatches(data, inputValue, parentElement) {
                 document.getElementById('searchBox').value = this.getElementsByTagName("input")[0].value;
                 createBarChartForOrg(data, this.getElementsByTagName("input")[0].value);
                 createCircleComparison(data, this.getElementsByTagName("input")[0].value);
+                createPayGapViz(data, this.getElementsByTagName("input")[0].value);
                 closeAllLists();
             });
             parentElement.appendChild(b);
@@ -300,4 +301,89 @@ function createCircleComparison(data, org_name) {
         d.fy = null;
     }
 
+}
+
+function createPayGapViz(data, org_name) {
+    d3.select('#payGapViz svg').remove();
+    data = data.find(d => d.org_name === org_name);
+    const width = 500, height = 400;
+    const margin = { top: 50, right: 30, bottom: 50, left: 60 };
+    const svg = d3.select("#payGapViz")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", -margin.top / 2)
+        .text("Pay Gap in Highest Compensated")
+        .attr("text-anchor", "middle")
+        .style("font-size", "20px")
+        .style("font-weight", "bold")
+        .style("fill", "#333");
+
+
+    const xScale = d3.scaleBand()
+        .range([0, width])
+        .domain(["Female", "Male"])
+        .padding(0.4);
+    const yScale = d3.scaleLinear()
+        .range([height, 0])
+        .domain([0, Math.max(data.average_female_salary, data.average_male_salary) * 1.1]);
+
+    svg.append("g")
+        .selectAll("rect")
+        .data([data.average_female_salary, data.average_male_salary])
+        .enter()
+        .append("rect")
+        .attr("x", (d, i) => xScale(i === 0 ? "Female" : "Male"))
+        .attr("y", d => yScale(d))
+        .attr("width", xScale.bandwidth())
+        .attr("height", d => height - yScale(d))
+        .attr("fill", (d, i) => i === 0 ? "pink" : "blue");
+
+    // Add labels for average salary
+    svg.append("g")
+        .selectAll("text")
+        .data([data.average_female_salary, data.average_male_salary])
+        .enter()
+        .append("text")
+        .text(d => `$${Intl.NumberFormat().format(Math.round(d))}`)
+        .attr("x", (d, i) => xScale(i === 0 ? "Female" : "Male") + xScale.bandwidth() / 2)
+        .attr("y", d => yScale(d) - 5)
+        .attr("text-anchor", "middle")
+        .style("fill", "black");
+
+    // Add Pay Gap Label
+    svg.append("text")
+        .text(`Pay Gap: ${(+data.pay_gap).toFixed(1)}%`)
+        .attr("x", width / 2)
+        .attr("y", 20)
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("fill", d => data.pay_gap > 0 ? "blue" : "orange");
+
+    // Add percentage labels
+    const percentages = [data.percent_female, data.percent_male];
+    svg.append("g")
+        .selectAll("text")
+        .data(percentages)
+        .enter()
+        .append("text")
+        .text(d => `${Math.round(d)}% pop.`)
+        .attr("x", (d, i) => xScale(i === 0 ? "Female" : "Male") + xScale.bandwidth() / 2)
+        .attr("y", height - 10)
+        .attr("text-anchor", "middle")
+        .attr("fill", "grey");
+
+    // X-axis
+    svg.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(xScale));
+
+    // Y-axis
+    svg.append("g")
+        .call(d3.axisLeft(yScale));
 }

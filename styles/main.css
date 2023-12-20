@@ -74,12 +74,6 @@ input {
 
 
 
-
-
-
-
-
-
 #vizBody {
   background: #8fb188;
 }
@@ -97,6 +91,9 @@ input {
   margin-left: 25%;
 }
 #d3viz2 {
+  margin-left: 25%;
+}
+#payGapViz {
   margin-left: 25%;
 }
 
@@ -158,11 +155,8 @@ input {
 .gauge {
   width: 100px;
   height: 100px;
-  /* Additional styling for the gauges */
-  /* Consider adding shadows, gradients, or animations for a more dynamic look */
 }
 
-/* Add responsive design */
 @media (max-width: 600px) {
   .org-row {
     flex-direction: column;
