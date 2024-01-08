@@ -10,7 +10,7 @@ function createGauge(containerId, score) {
 
   const needleLength = 70;
   const needlePivotX = width / 2;
-  const needlePivotY = height;
+  const needlePivotY = height * 0.75;
 
   const svg = d3.select(`#${containerId}`)
     .append("svg")
@@ -18,6 +18,15 @@ function createGauge(containerId, score) {
     .attr("height", height)
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+  // Label for minimum value
+  svg.append("text")
+    .attr("x", width / 2 - 60)
+    .attr("y", height)
+    .text("0")
+    .style("font-size", "10px")
+    .attr("text-anchor", "middle");
+
 
 
   // Create an arc for each section
@@ -29,13 +38,21 @@ function createGauge(containerId, score) {
       .innerRadius(40)
       .outerRadius(60)
       .startAngle(startAngle)
-      .endAngle(endAngle);
+      .endAngle(endAngle)
+      .cornerRadius(4);
 
     svg.append("path")
       .attr("d", sectionArc)
-      .attr("transform", `translate(${width / 2}, ${height})`)
+      .attr("transform", `translate(${width / 2}, ${height * 0.75})`)
       .style("fill", colors[i % colors.length]);
   }
+  // Base of needle
+  svg.append("circle")
+  .attr("cx", needlePivotX)
+  .attr("cy", needlePivotY)
+  .attr("r", 2.5)
+  .style("fill", "black")
+  .style("stroke", "none");
 
 
   const needleAngle = scoreToAngle(score) * (180 / Math.PI);
@@ -48,6 +65,16 @@ function createGauge(containerId, score) {
     .style("stroke", "black")
     .style("stroke-width", 2)
     .attr("transform", `rotate(${needleAngle}, ${needlePivotX}, ${needlePivotY})`);
+
+  const score_color = colors[Math.floor(score / 20)];
+  svg.append("text")
+    .attr("x", needlePivotX)
+    .attr("y", needlePivotY - 70)
+    .text(score)
+    .attr("text-anchor", "middle")
+    .style("font-size", "16px")
+    .style("font-weight", "bold")
+    .style("fill", "#222");
 
 }
 
@@ -172,32 +199,33 @@ document.addEventListener('DOMContentLoaded', function () {
   ['A'].forEach(company => {
     for (let i = 1; i <= 3; i++) {
       const score = getRandomScore();
+
       console.log("company", company, "score", score, "i", i);
       createGauge(`gauge${company}${i}`, score);
     }
   });
-  ['B'].forEach(company => {
-    for (let i = 1; i <= 3; i++) {
-      const score = getRandomScore();
-      console.log("company", company, "score", score, "i", i);
+  // ['B'].forEach(company => {
+  //   for (let i = 1; i <= 3; i++) {
+  //     const score = getRandomScore();
+  //     console.log("company", company, "score", score, "i", i);
 
-      createCircularProgress(`gauge${company}${i}`, score);
-    }
-  });
-  ['C'].forEach(company => {
-    for (let i = 1; i <= 3; i++) {
-      const score = getRandomScore();
-      console.log("company", company, "score", score, "i", i);
+  //     createCircularProgress(`gauge${company}${i}`, score);
+  //   }
+  // });
+  // ['C'].forEach(company => {
+  //   for (let i = 1; i <= 3; i++) {
+  //     const score = getRandomScore();
+  //     console.log("company", company, "score", score, "i", i);
 
-      createHorizontalBar(`gauge${company}${i}`, score);
-    }
-  });
-  ['D'].forEach(company => {
-    for (let i = 1; i <= 3; i++) {
-      const score = getRandomScore();
-      console.log("company", company, "score", score, "i", i);
-      createScatterPlot(`gauge${company}${i}`, score);
-    }
-  });
+  //     createHorizontalBar(`gauge${company}${i}`, score);
+  //   }
+  // });
+  // ['D'].forEach(company => {
+  //   for (let i = 1; i <= 3; i++) {
+  //     const score = getRandomScore();
+  //     console.log("company", company, "score", score, "i", i);
+  //     createScatterPlot(`gauge${company}${i}`, score);
+  //   }
+  // });
 
 });
