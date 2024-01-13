@@ -11,7 +11,7 @@ propublica_api_url = "https://projects.propublica.org/nonprofits/api/v2/search.j
 
 
 def get_best_matching_eins_from_company_name(company_name):
-    """Returns sorted list of dictionary items of companies that best match the given name from ProPublica
+    """Returns sorted list of dictionary items of companies that best match the given name.
 
     Args:
         string (company_name): company's name string
@@ -32,8 +32,7 @@ def get_best_matching_eins_from_company_name(company_name):
         similarity = string_similarity(company_name, org_name)
         similarities[i] = similarity
 
-    sorted_similarities = sorted(
-        similarities.items(), key=lambda x: x[1], reverse=True)
+    sorted_similarities = sorted(similarities.items(), key=lambda x: x[1], reverse=True)
 
     return list(
         map(
@@ -68,12 +67,11 @@ def fetch_org_info(ein):
     propublica_org_api_url = (
         "https://projects.propublica.org/nonprofits/api/v2//organizations/"
     )
-    propub_info = requests.get(
-        url=propublica_org_api_url + f"{ein}.json").json()
+    propub_info = requests.get(url=propublica_org_api_url + f"{ein}.json").json()
     return propub_info
 
 
-def get_top_df_990(min_revenue):
+def get_propublica_top_df(min_revenue):
     base_url = "https://www.irs.gov/pub/irs-soi/"
     file_names = ["eo1.csv", "eo2.csv", "eo3.csv", "eo4.csv"]
     dataframes = {}
@@ -124,8 +122,7 @@ if __name__ == "__main__":
     num_procs = 10
 
     with Pool(num_procs) as pool:
-        data = pool.map(add_info_for_org, [
-                        row for _, row in candid_top_df.iterrows()])
+        data = pool.map(add_info_for_org, [row for _, row in candid_top_df.iterrows()])
 
     candid_top_df = pd.DataFrame([r for r in data if r is not None])
 
@@ -134,32 +131,34 @@ if __name__ == "__main__":
     # print(f"Min revenue: {min_revenue}")
 
     # Use min revenue to get all ProPublica with revenue >= this
-    # top_df_990 = pd.read_csv("ProPublica-Top.csv").rename(columns={"EIN": "ein"}).loc[:, ["ein"]]
-    top_df_990 = (
-        get_top_df_990(min_revenue=min_revenue)
+    # propublica_top_df = pd.read_csv("ProPublica-Top.csv").rename(columns={"EIN": "ein"}).loc[:, ["ein"]]
+    propublica_top_df = (
+        get_propublica_top_df(min_revenue=min_revenue)
         .rename(columns={"EIN": "ein"})
         .loc[:, ["ein"]]
     )
 
     with Pool(num_procs) as pool:
         data = pool.map(
-            add_info_for_org, [row for _, row in top_df_990.iterrows()]
+            add_info_for_org, [row for _, row in propublica_top_df.iterrows()]
         )
 
     absolute_end = time.time()
 
     print(f"ALL DONE!!!! (took {absolute_end-absolute_start} seconds)")
 
-    top_df_990 = pd.DataFrame([r for r in data if r is not None])
+    propublica_top_df = pd.DataFrame([r for r in data if r is not None])
 
     # Merge by EIN
-    candid_top_df['ein'] = candid_top_df['ein'].map(
-        lambda x: x.replace("-", "")).astype("int")
-    # candid_with_propublica = top_df_990.merge(candid_top_df, left_on='EIN', right_on='ein', how='inner')
+    candid_top_df["ein"] = (
+        candid_top_df["ein"].map(lambda x: x.replace("-", "")).astype("int")
+    )
+    # candid_with_propublica = propublica_top_df.merge(candid_top_df, left_on='EIN', right_on='ein', how='inner')
 
-    top_df_990 = [
-        top_df_990[~top_df_990['ein'].isin(candid_top_df['ein'])]]
+    propublica_top_df = propublica_top_df[
+        ~propublica_top_df["ein"].isin(candid_top_df["ein"])
+    ]
 
     # candid_with_propublica.to_csv("Candid-Top-With-ProPublica-Info.csv")
-    top_df_990.to_csv("990-Top-12-6.csv")
+    propublica_top_df.to_csv("990-Top-12-6.csv")
     candid_top_df.to_csv("Candid-Top-12-6.csv")
