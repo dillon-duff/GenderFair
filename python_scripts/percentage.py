@@ -2,7 +2,6 @@ import pandas as pd
 
 
 def calculate_percentages(input_file, output_file, control_column_pairs):
-    # Read the Excel file into a pandas DataFrame
     df = pd.read_csv(input_file)
 
     for pair in control_column_pairs:
@@ -29,16 +28,19 @@ def calculate_percentages(input_file, output_file, control_column_pairs):
         for col in valid_columns:
             df[col] = (df[col] / df[control_column]) * 100
 
-    # Save the modified DataFrame to a new Excel file
+        # Validation
+        # percentage_sum = df[valid_columns].sum(axis=1)
+        # expected_sums = [0, 100, 200, 300]
+        # if not percentage_sum.apply(lambda x: any(abs(x - expected) <= 5 for expected in expected_sums)).all():
+        #     print(f"Warning: Sum of percentages for control column '{control_column}' is not within 5% of 0, 100, 200, or 300 in some rows.")
+        #     print(percentage_sum.apply(lambda x: any(abs(x - expected) <= 5 for expected in expected_sums)).value_counts())
+
     df.to_csv(output_file, index=False)
     print(f"Percentage calculation completed. Results saved to {output_file}")
 
 
-# Example usage:
-# Replace with your input Excel file
-input_file = 'Candid-Top-11-23.csv'
-# Replace with your desired output Excel file
-output_file = 'Candid-Top-11-29.csv'
+input_file = 'Candid-Top-12-6.csv'
+output_file = 'Candid-Top-12-6-Percentages.csv'
 
 # Define multiple pairs of control columns and associated columns
 control_column_pairs = [
@@ -50,4 +52,4 @@ control_column_pairs = [
                                                   'other_ethnicity_staff', 'race_decline_to_state_staff', 'race_unknown_staff', 'female_staff', 'male_staff', 'non_binary_staff', 'gender_decline_to_state_staff', 'gender_unknown_staff', 'trans_staff', 'cis_staff']}
 ]
 
-# calculate_percentages(input_file, output_file, control_column_pairs)
+calculate_percentages(input_file, output_file, control_column_pairs)
