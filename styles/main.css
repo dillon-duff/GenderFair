@@ -1,11 +1,60 @@
 #mainBody {
-  background: #3e3e3e;
+  background: white;
 }
 
 #heading {
-  color: white;
+  color: black;
   text-align: center;
   font: 2.6em Verdana;
+}
+
+#text {
+  color: black;
+  padding: 50px;
+  font: 100 Verdana;
+}
+
+#companyName {
+  color: black;
+  text-align: center;
+  padding: 50px;
+  background-color: lightblue;
+  width: 400px;
+  padding: 50px;
+  float: right;
+  margin: 20px;
+}
+
+#genInfo {
+  color: black;
+  padding: 50px;
+  background-color: lightblue;
+  width: 400px;
+  height: 150px;
+  padding: 50px;
+  margin: 20px;
+  float: right;
+  text-align: center;
+  position: relative;
+}
+
+#wrapper {
+  display: flex;
+  /* float: right; */
+  flex-flow: column;
+}
+
+#compLogo {
+  float: right;
+}
+
+.scoreText {
+  font-size: x-large;
+}
+
+#graphs {
+  text-align: center;
+  margin-top: 150px;
 }
 
 .navbar {
@@ -40,7 +89,6 @@
   transition: color 0.4s ease;
 }
 
-
 .page-container {
   margin-top: 150px;
 }
@@ -58,21 +106,14 @@ input {
   width: 600px;
   margin-top: 40px;
   padding: 6px 10px;
-  border: 1px solid #fff;
+  border: 1px solid black;
   border-radius: 20px;
 }
 
 ::placeholder {
-  color: #fff;
+  color: black;
   opacity: 0.8;
 }
-
-
-
-
-
-
-
 
 #vizBody {
   background: #8fb188;
@@ -126,7 +167,7 @@ input {
   display: flex;
   flex-direction: column;
   margin: 20px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
 
 .org-row {
@@ -164,5 +205,3 @@ input {
     padding: 10px;
   }
 }
-
-

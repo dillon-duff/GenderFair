@@ -1,69 +1,76 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <title>Gender Fair</title>
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <title>Gender Fair</title>
-  <link rel="stylesheet" href="styles/main.css" />
-</head>
+  <body id="mainBody">
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><a href="viz.html">Visualizations</a></li>
+      </ul>
+    </nav>
 
-<body id="mainBody">
-  <nav class="navbar">
-    <ul class="nav-links">
-      <li><a href="viz.html">Visualizations</a></li>
-    </ul>
-  </nav>
+    <img
+      src="logo.png"
+      alt="Logo"
+      width="200"
+      height="100"
+      style="transform: translate(0px, 60px)"
+    />
 
-
-  <div id="listPage" class="container page-container">
-    <div id="heading">Non-Profit Organization Rankings</div>
-
-    <form id="searchbar">
-      <input type="search" placeholder="Search for a non-profit...">
-    </form>
-    <div class="scoreboard">
+    <div id="listPage" class="container page-container">
+      <div id="heading">Non-Profit Organization Rankings</div>
+      <div id="text">Explain rating system</div>
+      <form id="searchbar">
+        <input type="search" placeholder="Search for a non-profit...." />
+      </form>
+      <div class="scoreboard">
       <div class="org-row header-row">
         <div class="org-name">Organization</div>
         <div class="score-container">Diversity</div>
         <div class="score-container">Pay</div>
         <div class="score-container">Leadership</div>
       </div>
-      <div class="org-row">
-        <div class="org-name">org A</div>
-        <div class="score-container">
-          <div id="gaugeA1" class="gauge"></div>
+        <div class="org-row">
+          <div class="org-name" id="specificOrganization">org A</div>
+          <div class="score-container">
+            <div id="gaugeA1" class="gauge"></div>
+          </div>
+          <div class="score-container">
+            <div id="gaugeA2" class="gauge"></div>
+          </div>
+          <div class="score-container">
+            <div id="gaugeA3" class="gauge"></div>
+          </div>
         </div>
-        <div class="score-container">
-          <div id="gaugeA2" class="gauge"></div>
+        <div class="org-row">
+          <div class="org-name">org B</div>
+          <div class="score-container">
+            <div id="gaugeB1" class="gauge"></div>
+          </div>
+          <div class="score-container">
+            <div id="gaugeB2" class="gauge"></div>
+          </div>
+          <div class="score-container">
+            <div id="gaugeB3" class="gauge"></div>
+          </div>
         </div>
-        <div class="score-container">
-          <div id="gaugeA3" class="gauge"></div>
+        <div class="org-row">
+          <div class="org-name">org C</div>
+          <div class="score-container">
+            <div id="gaugeC1" class="gauge"></div>
+          </div>
+          <div class="score-container">
+            <div id="gaugeC2" class="gauge"></div>
+          </div>
+          <div class="score-container">
+            <div id="gaugeC3" class="gauge"></div>
+          </div>
         </div>
-      </div>
-      <div class="org-row">
-        <div class="org-name">org B</div>
-        <div class="score-container">
-          <div id="gaugeB1" class="gauge"></div>
-        </div>
-        <div class="score-container">
-          <div id="gaugeB2" class="gauge"></div>
-        </div>
-        <div class="score-container">
-          <div id="gaugeB3" class="gauge"></div>
-        </div>
-      </div>
-      <div class="org-row">
-        <div class="org-name">org C</div>
-        <div class="score-container">
-          <div id="gaugeC1" class="gauge"></div>
-        </div>
-        <div class="score-container">
-          <div id="gaugeC2" class="gauge"></div>
-        </div>
-        <div class="score-container">
-          <div id="gaugeC3" class="gauge"></div>
-        </div>
-      </div>
       <div class="org-row">
         <div class="org-name">org D</div>
         <div class="score-container">
@@ -76,12 +83,70 @@
           <div id="gaugeD3" class="gauge"></div>
         </div>
       </div>
+      </div>
     </div>
-  </div>
 
+    <button onclick="update('var1')">Variable 1</button>
+    <button onclick="update('var2')">Variable 2</button>
 
-</body>
-<script src="https://d3js.org/d3.v6.min.js"></script>
-<script src="scripts/main.js"></script>
+    <div id="my_dataviz"></div>
+    <script>
+      const margin = { top: 30, right: 30, bottom: 60, left: 60 },
+        width = 460 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
 
+      const svg = d3
+        .select("#my_dataviz")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      const x = d3.scaleBand().range([0, width]).padding(0.2);
+      const xAxis = svg.append("g").attr("transform", `translate(0,${height})`);
+
+      const y = d3.scaleLinear().range([height, 0]);
+      const yAxis = svg.append("g").attr("class", "myYaxis");
+
+      // Creates / updates the plot
+      function update(selectedVar) {
+        // Parse the Data
+        d3.csv(
+          "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/barplot_change_data.csv"
+        ).then(function (data) {
+          // Add X axis
+          x.domain(data.map((d) => d.group));
+          xAxis.transition().duration(1000).call(d3.axisBottom(x));
+
+          // Add Y axis
+          y.domain([0, d3.max(data, (d) => +d[selectedVar])]);
+          yAxis.transition().duration(1000).call(d3.axisLeft(y));
+
+          const u = svg.selectAll("rect").data(data);
+
+          // update bars
+          u.join("rect")
+            .transition()
+            .duration(1000)
+            .attr("x", (d) => x(d.group))
+            .attr("y", (d) => y(d[selectedVar]))
+            .attr("width", x.bandwidth())
+            .attr("height", (d) => height - y(d[selectedVar]))
+            .attr("fill", "#69b3a2");
+        });
+      }
+
+      update("var1");
+    </script>
+
+<!-- How we can load in the data using d3 -->
+    <script>
+      d3.csv("data/Candid-Top.csv").then(function (data) {
+        console.log(data);
+      });
+    </script>
+  </body>
+  <!-- <script src="https://d3js.org/d3.v6.min.js"></script> -->
+  <script src="scripts/main.js"></script>
 </html>
