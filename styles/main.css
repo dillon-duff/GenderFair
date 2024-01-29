@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Raleway;
+  src: url('../Fonts/Raleway-VariableFont_wght.ttf');
+}
+
 #mainBody {
   background: white;
 }
@@ -5,13 +10,15 @@
 #heading {
   color: black;
   text-align: center;
-  font: 2.6em Verdana;
+  font-size: 2.6em;
+  font-family: Raleway;
 }
 
 #text {
   color: black;
   padding: 50px;
-  font: 100 Verdana;
+  font: 100;
+  font-family: Raleway;
 }
 
 #companyName {
@@ -62,7 +69,7 @@
   top: 0;
   width: 100%;
   background-color: #333;
-  font-family: Arial, sans-serif;
+  font-family: Raleway;
 }
 
 .nav-links {
@@ -101,10 +108,10 @@ input {
   all: unset;
   text-align: left;
   font: 16px system-ui;
-  color: #fff;
+  color: black;
   height: 100%;
   width: 600px;
-  margin-top: 40px;
+  /* margin-top: 10px; */
   padding: 6px 10px;
   border: 1px solid black;
   border-radius: 20px;
@@ -167,7 +174,7 @@ input {
   display: flex;
   flex-direction: column;
   margin: 20px;
-  font-family: "Arial", sans-serif;
+  font-family: Raleway;
 }
 
 .org-row {
@@ -177,22 +184,85 @@ input {
   padding: 10px 0;
 }
 
-.org-name {
+.header-name {
   flex: 1;
   font-weight: bold;
   text-align: left;
   padding-left: 20px;
 }
 
+.header-org {
+  flex: 0.7;
+  font-weight: bold;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.header-search {
+  flex: 0.7;
+  font-weight: bold;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.input-org {
+  flex: 0.7;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.header-rank {
+  font-weight: bold;
+  text-align: left;
+  flex: 0.2;
+}
+
+.input-rank {
+  flex: 0.2;
+  color: rgb(255, 94, 0);
+  font-size: 28px;
+}
+
 .score-container {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: left;
 }
 
 .gauge {
   width: 100px;
   height: 100px;
+}
+
+.score {
+  /* flex: 0.2; */
+  color: green;
+  font-size: 28px;
+  margin-left: 40px;
+}
+
+.rectangle {
+  height: 50px;
+  width: 975px;
+  background-color: green;
+  /* border-color: grey; */
+  flex: 0.95;
+  border-right: 30px solid grey;
+}
+
+#seperatorBar {
+  height: 5px;
+  width: 800px;
+  background-color: rgb(255, 94, 0);
+  margin: auto;
+  margin-top: 10px;
+}
+
+#explanation {
+  font-size: 15px;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 20px;
 }
 
 @media (max-width: 600px) {
@@ -201,7 +271,8 @@ input {
     align-items: flex-start;
   }
   .score-container {
-    width: 100%;
+    width: 700%;
     padding: 10px;
   }
 }
+

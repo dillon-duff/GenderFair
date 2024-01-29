@@ -19,35 +19,44 @@
       alt="Logo"
       width="200"
       height="100"
-      style="transform: translate(0px, 60px)"
+      style="transform: translate(0px, 60px);"
     />
 
     <div id="listPage" class="container page-container">
       <div id="heading">Non-Profit Organization Rankings</div>
-      <div id="text">Explain rating system</div>
-      <form id="searchbar">
-        <input type="search" placeholder="Search for a non-profit...." />
-      </form>
+      <div id="seperatorBar"></div>
+      <div id="explanation">These rankings are computed using ....Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore 
+        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
+        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
+        mollit anim id est laborum. Donpr perionga ipsum fugiato nulla partchiea fugoale genfairipsum. Duis aute irure dolor in reprehenderit in voluptate velit esse 
+        cillum dolore eu fugiat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
+        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariature Excerpter sint occaecat cupidatat non proident, sunt in 
+        culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+        </div>
+      <!-- <div id="text">Explain rating system</div> -->
       <div class="scoreboard">
       <div class="org-row header-row">
-        <div class="org-name">Organization</div>
-        <div class="score-container">Diversity</div>
-        <div class="score-container">Pay</div>
-        <div class="score-container">Leadership</div>
+        <div class="header-rank">Rank</div>
+        <div class="header-org">Organization</div>
+        <div class="header-name">Score</div>
+        <form id="searchbar" class="header-search">
+          <input type="search" placeholder="Search for a non-profit...." />
+        </form>
       </div>
         <div class="org-row">
-          <div class="org-name" id="specificOrganization">org A</div>
+          <div class="input-rank">#1</div>
+          <div class="input-org" id="specificOrganization">org A</div>
           <div class="score-container">
-            <div id="gaugeA1" class="gauge"></div>
+            <!-- <div id="gaugeA1" class="gauge"></div> -->
+            <div class="rectangle"></div>
+            <div class="score">95</div>
           </div>
-          <div class="score-container">
-            <div id="gaugeA2" class="gauge"></div>
-          </div>
-          <div class="score-container">
-            <div id="gaugeA3" class="gauge"></div>
           </div>
         </div>
-        <div class="org-row">
+        <!-- <div class="org-row">
+          <div class="org-name">1</div>
           <div class="org-name">org B</div>
           <div class="score-container">
             <div id="gaugeB1" class="gauge"></div>
@@ -82,11 +91,13 @@
         <div class="score-container">
           <div id="gaugeD3" class="gauge"></div>
         </div>
-      </div>
+      </div> -->
       </div>
     </div>
 
-    <button onclick="update('var1')">Variable 1</button>
+    <!-- Double bar graph code -->
+
+    <!-- <button onclick="update('var1')">Variable 1</button>
     <button onclick="update('var2')">Variable 2</button>
 
     <div id="my_dataviz"></div>
@@ -138,7 +149,7 @@
       }
 
       update("var1");
-    </script>
+    </script> -->
 
 <!-- How we can load in the data using d3 -->
     <script>
