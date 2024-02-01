@@ -2,7 +2,7 @@ import firebase_admin
 from firebase_admin import firestore
 from firebase_admin import credentials
 import csv
-
+import os
 
 
 import openpyxl
@@ -10,7 +10,7 @@ import openpyxl
 ##WHAT TO DO WITH CREDENTIAL JSON?
 # Insecure to store in public repository
 #TODO: MAKE SECURE
-cred = credentials.Certificate("gender-fair-82d21-firebase-adminsdk-xzaw3-cdfe37aea6.json")
+cred = credentials.Certificate("/Users/afrodaddy/Downloads/gender-fair-82d21-firebase-adminsdk-xzaw3-1fcb30d6c4.json")
 
 firebase_admin.initialize_app(cred)
 
@@ -44,12 +44,19 @@ def add_990_data():
     # sheet = workbook.active  # Gets the active sheet
     # header_row = sheet[1]
     # COLUMN_MAP = {cell.value: count for count,cell in enumerate(header_row)}
-    with open('990-Top-11-23.csv') as f:
-        reader = csv.DictReader(f, delimiter=',')
-        for row in enumerate(reader):
-            docRef = db.collection("non-for-profits-990").doc(); #automatically generate unique id
-            batch.set(docRef, build_company_from_candid_data(row));
-    batch.commit()
+    files = os.listdir('split_csvs')
+
+# Loop through each file in the folder
+    for file_name in files:
+        # Create the full file path
+        file_path = os.path.join('split_csvs', file_name)
+        with open(file_path) as f:
+            reader = csv.DictReader(f)
+            for row in enumerate(reader):
+                docRef = db.collection("non-for-profits").document(); #automatically generate unique id
+                entry = build_company_from_990_data(row[1])
+                batch.set(docRef, entry);
+        batch.commit()
     return
 
 
@@ -72,7 +79,12 @@ def build_company_from_990_data(csv_row):
                           "total_compensation" : csv_row["total_compensation"],
                           "web_address" : csv_row["web_address"],
                           "num_employees" : csv_row["num_employees"],
-                          "total_revenue" : csv_row["total_revenue"]
+                          "total_revenue" : csv_row["total_revenue"],
+                          "HighestCompensatedEmployeeInd_percent_female": csv_row["HighestCompensatedEmployeeInd_percent_female"],
+                          "IndividualTrusteeOrDirectorInd_percent_female": csv_row["IndividualTrusteeOrDirectorInd_percent_female"],
+                          "OfficerInd_percent_female":csv_row["OfficerInd_percent_female"],
+                          "KeyEmployeeInd_percent_female": csv_row["KeyEmployeeInd_percent_female"],
+                          "FormerOfcrDirectorTrusteeInd_percent_female":csv_row["FormerOfcrDirectorTrusteeInd_percent_female"]
                 }        
     }
     return csv_json
@@ -179,7 +191,7 @@ def build_company_from_candid_data(csv_row):
     return csv_json
 
 def add_candid_data():
-    with open('Candid-Top-12-6.csv','r') as f:
+    with open('Candid-Top-1-25.csv','r') as f:
         reader = csv.DictReader(f)
         for row in enumerate(reader):
             docRef = db.collection("non-for-profits").document(); #automatically generate unique id
@@ -188,5 +200,4 @@ def add_candid_data():
     batch.commit()
     return
 
-add_candid_data()
-
+populate_database()
