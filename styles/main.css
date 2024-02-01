@@ -55,14 +55,6 @@
   float: right;
 }
 
-.scoreText {
-  font-size: x-large;
-}
-
-#graphs {
-  text-align: center;
-  margin-top: 150px;
-}
 
 .navbar {
   position: fixed;
@@ -110,10 +102,9 @@ input {
   font: 16px system-ui;
   color: black;
   height: 100%;
-  width: 600px;
-  /* margin-top: 10px; */
+  width: 100%;
   padding: 6px 10px;
-  border: 1px solid black;
+  border: 1.5px solid black;
   border-radius: 20px;
 }
 
@@ -173,7 +164,8 @@ input {
 .scoreboard {
   display: flex;
   flex-direction: column;
-  margin: 20px;
+  width: 50%;
+  margin-left: 25%;
   font-family: Raleway;
 }
 
@@ -184,70 +176,71 @@ input {
   padding: 10px 0;
 }
 
+
+[class^="header-"] {
+  font-size: 1.5rem;
+}
+
+.header-rank,
+.input-rank {
+  flex: 0 0 10%;
+  font-weight: bold;
+  text-align: center;
+}
+
+.header-org,
+.input-org {
+  flex: 0 0 25%;
+  text-align: center;
+}
+
 .header-name {
-  flex: 1;
+  flex: 0 0 25%;
   font-weight: bold;
   text-align: left;
-  padding-left: 20px;
 }
 
 .header-org {
-  flex: 0.7;
   font-weight: bold;
-  text-align: left;
-  padding-left: 20px;
 }
 
 .header-search {
-  flex: 0.7;
-  font-weight: bold;
-  text-align: left;
-  padding-left: 20px;
-}
-
-.input-org {
-  flex: 0.7;
-  text-align: left;
-  padding-left: 20px;
-}
-
-.header-rank {
-  font-weight: bold;
-  text-align: left;
-  flex: 0.2;
-}
-
-.input-rank {
-  flex: 0.2;
-  color: rgb(255, 94, 0);
-  font-size: 28px;
+  flex: 0 0 35%;
+  display: flex;
+  justify-content: right;
 }
 
 .score-container {
-  flex: 1;
-  display: flex;
-  justify-content: left;
+  flex: 0 0 55%;
+  font-weight: bold;
+  text-align: left;
+  background-color: #ccc;
+  width: 100%;
 }
 
-.gauge {
-  width: 100px;
-  height: 100px;
+
+.input-org {
+  font-size: 1.5rem;
+}
+
+.input-rank {
+  color: rgb(255, 94, 0);
+  font-weight: bold;
+  font-size: 2rem;
 }
 
 .score {
-  /* flex: 0.2; */
+  flex: 0 0 10%;
   color: green;
-  font-size: 28px;
+  font-size: 1.75rem;
   margin-left: 40px;
+  font-weight: bold;
 }
 
 .rectangle {
-  height: 50px;
-  width: 975px;
+  height: 3rem;
+  width: 95%;
   background-color: green;
-  /* border-color: grey; */
-  flex: 0.95;
-  border-right: 30px solid grey;
 }
 
 #seperatorBar {
@@ -270,9 +263,9 @@ input {
     flex-direction: column;
     align-items: flex-start;
   }
+
   .score-container {
     width: 700%;
     padding: 10px;
   }
 }
-
