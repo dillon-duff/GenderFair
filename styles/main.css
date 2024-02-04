@@ -270,9 +270,6 @@ input {
   height: 50px;
   width: 975px;
   background-color: green;
-  /* border-color: grey; */
-  flex: 0.95;
-  border-right: 30px solid grey;
 }
 
 .mainCard {
