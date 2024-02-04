@@ -23,13 +23,15 @@
 
 #companyName {
   color: black;
-  text-align: center;
-  padding: 50px;
-  background-color: lightblue;
-  width: 400px;
-  padding: 50px;
-  float: right;
-  margin: 20px;
+  font-size: 40px;
+  font-family: Raleway;
+  margin-top: 50px;
+  margin-left: 225px;
+}
+
+
+.rightSideInfo {
+  margin-left: 50px;
 }
 
 #genInfo {
@@ -56,7 +58,30 @@
 }
 
 .scoreText {
-  font-size: x-large;
+  font-size: 40px;
+  font-family: Raleway;
+  margin-top: 30px;
+  margin-left: 225px;
+}
+
+.catHolder {
+  display: flex;
+  margin-top: 30px;
+  margin-left: 125px;
+}
+
+.catScoreText {
+  font-size: 20px;
+  flex:0.2;
+  font-family: Raleway;
+}
+
+.catScoreBar {
+  height: 20px;
+  background-color: green;
+  /* border-color: grey; */
+  flex: 0.5;
+  border-right: 30px solid grey;
 }
 
 #graphs {
@@ -250,9 +275,26 @@ input {
   border-right: 30px solid grey;
 }
 
+.mainCard {
+  height: 450px;
+  width: 1250px;
+  background-color: lightblue;
+  display: flex;
+  /* align-items: center; */
+  border-bottom: 1px solid #ccc;
+  /* padding: 10px 0; */
+  margin:auto
+}
+
+.circleGraphSpot {
+  height: 400px;
+  width: 400px;
+  background-color: grey;
+}
+
 #seperatorBar {
   height: 5px;
-  width: 800px;
+  width: 750px;
   background-color: rgb(255, 94, 0);
   margin: auto;
   margin-top: 10px;
@@ -275,4 +317,5 @@ input {
     padding: 10px;
   }
 }
+
 
