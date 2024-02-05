@@ -26,8 +26,8 @@ def split_csv(input_file, output_prefix, chunk_size):
         print(f"Saved {output_file}")
 
 # Specify your input CSV file, output prefix, and chunk size
-input_csv_file = '990-Top-1-25.csv'
-output_prefix = 'split_csvs/990125'
+input_csv_file = '990-Top-2-3.csv'
+output_prefix = 'split_csvs/990203'
 chunk_size = 1000
 
 # Split the CSV file

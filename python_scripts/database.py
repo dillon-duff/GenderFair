@@ -68,7 +68,7 @@ def get_company(company):
 def build_company_from_990_data(csv_row):
     csv_json = {"ein": csv_row["ein"],
                 "name": csv_row["org_name"],
-            
+                "category": csv_row["category"],
                 "metrics":{"average_female_salary" : csv_row["average_female_salary"],
                           "average_male_salary" : csv_row["average_male_salary"],
                           "pay_gap" : csv_row["pay_gap"],
@@ -95,7 +95,7 @@ def build_company_from_candid_data(csv_row):
                 "name": csv_row["org_name"],
                 "city": csv_row["city"],
                 "state": csv_row["state_code"],
-
+                "category": csv_row["category"],
                 "web": csv_row["web_address"],
                 "total_board_members": csv_row["total_board"],
                 
@@ -191,7 +191,7 @@ def build_company_from_candid_data(csv_row):
     return csv_json
 
 def add_candid_data():
-    with open('Candid-Top-1-25.csv','r') as f:
+    with open('Candid-Top-2-3.csv','r') as f:
         reader = csv.DictReader(f)
         for row in enumerate(reader):
             docRef = db.collection("non-for-profits").document(); #automatically generate unique id
