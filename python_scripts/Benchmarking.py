@@ -23,7 +23,7 @@ columns_to_analyze = [
 ]
 
 # Percentiles to calculate
-percentiles = [20, 40, 60, 80, 99]
+percentiles = [20, 40, 60, 80, 90]
 
 # Create a DataFrame to store the percentile values
 percentile_values = pd.DataFrame(index=columns_to_analyze, columns=percentiles)
@@ -45,7 +45,7 @@ file1.write(percentile_values.to_string())
 # import pandas as pd
 #
 # # Load your data
-# data = pd.read_csv('990-Top-1-18.csv')
+# data = pd.read_csv('C:\Users\diattabb\IdeaProjects\GenderFair\990-Top-1-25.csv')
 #
 # # Ensure 'avg_employee_comp' is not zero to avoid division by zero errors
 # data['highest_salary_to_avg_comp_ratio'] = data.apply(

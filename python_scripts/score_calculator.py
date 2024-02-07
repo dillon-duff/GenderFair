@@ -6,6 +6,9 @@ from python_scripts.database_new import DatabaseManager
 app = Flask(__name__)
 
 class ScoreCalculator:
+
+    def avgOffset(self,ratio):
+       return abs(50 - ratio)
     def calculate_scores(self, company_data):
         if not company_data or 'metrics' not in company_data:
             return None
@@ -48,11 +51,9 @@ class ScoreCalculator:
         # Calculate the percentage of white staff
         percentage_white = (white_staff / total_staff) * 100
 
-        if percentage_white < 50:
+        if percentage_white <= 61:
             return 5
-        elif percentage_white < 71:
-            return 3
-        else: return 0
+        else: return 0 #Maybe change it so do we sum POC instead of do it this way
     def has_populated_fields(self,json_data):
         fields_to_check = [
             "staff_race", "staff_gender", "senior_staff_race", "senior_staff_gender", "board_race", "board_gender"
@@ -69,20 +70,23 @@ class ScoreCalculator:
     def trustees(self, ratio):
         # Logic for score 1
         if ratio:  # placeholder
+
             ratio = float(ratio)
-            if ratio > 99:
+            ratio = self.avgOffset(ratio)
+
+            if ratio == self.avgOffset(50):
                 return 10
 
-            elif ratio > 60:
+            elif ratio < 5:
                 return 8
 
-            elif ratio > 45:
+            elif ratio < 15:
                 return 6
 
-            elif ratio > 33:
+            elif ratio < 20:
                 return 4
 
-            elif ratio > 20:
+            elif ratio < 25:
                 return 2
 
             else:
@@ -95,20 +99,23 @@ class ScoreCalculator:
     def highest_comp(self, ratio):
         # Logic for score 1
         if ratio:  # placeholder
+
             ratio = float(ratio)
-            if ratio > 99:
+            ratio = self.avgOffset(ratio)
+
+            if ratio == self.avgOffset(50):
                 return 10
 
-            elif ratio > 75:
+            elif ratio < 5:
                 return 8
 
-            elif ratio > 40:
+            elif ratio < 15:
                 return 6
 
-            elif ratio > 20:
+            elif ratio < 20:
                 return 4
 
-            elif ratio > 0:
+            elif ratio < 25:
                 return 2
 
             else:
@@ -122,27 +129,28 @@ class ScoreCalculator:
     def officers(self,ratio):
         if ratio:  # placeholder
             ratio = float(ratio)
-            if ratio > 99:
+            ratio = self.avgOffset(ratio)
+
+            if ratio == self.avgOffset(50):
                 return 10
 
-            elif ratio > 60:
+            elif ratio < 5:
                 return 8
 
-            elif ratio > 50:
-                 return 6
+            elif ratio < 15:
+                return 6
 
-            elif ratio > 33:
+            elif ratio < 20:
                 return 4
 
-            elif ratio > 20:
-                 return 2
+            elif ratio < 25:
+                return 2
 
             else:
-                 return 0
+                return 0
 
 
         else: return 0
-
 
     def pay_gap(self,ratio):
         if ratio:  # placeholder
@@ -172,7 +180,7 @@ class ScoreCalculator:
     def avg_salary(self,ratio):
         if ratio:  # placeholder
             ratio = float(ratio)
-            if ratio > 181781:
+            if ratio > 84320:
                 return 5
 
             elif ratio > 64639:
@@ -195,7 +203,8 @@ class ScoreCalculator:
 
     def pay_ratio(self,ratio, ratio1):
         if ratio:  # placeholder
-            if ratio =='' or ratio1 =='':
+
+            if ratio =='' or ratio1 =='' or float(ratio1) == 0:
                 return 0 #YOU NEED TO CHECK WHY THIS HAPPENS
             ratio = float(ratio) / float(ratio1)
             if ratio < 4.37:
