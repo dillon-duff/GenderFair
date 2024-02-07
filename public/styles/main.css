@@ -32,7 +32,7 @@
   font-size: 40px;
   font-family: Raleway;
   margin-top: 50px;
-  margin-left: 225px;
+  text-align: center;
 }
 
 
@@ -289,7 +289,7 @@ input {
   font-weight: bold;
   text-align: left;
   background-color: grey;
-  width: 100%;
+  width: 95%;
 }
 
 .gauge {
@@ -329,7 +329,7 @@ input {
 
 
 .mainCard {
-  height: 450px;
+  height: 520px;
   width: 1250px;
   background-color: lightblue;
   display: flex;

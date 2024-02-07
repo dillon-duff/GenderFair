@@ -79,8 +79,8 @@ function createGauge(score) {
     const colors = ["#FF0000", "#FFA500", "#FFFF00", "#008000", "#0000FF"];
     const sectionAngle = Math.PI / n;
 
-    const width = 400;
-    const height = 400;
+    const width = 500;
+    const height = 475;
     const margin = { top: 20, right: 20, bottom: 20, left: 0 };
 
     const needleLength = 200;
