@@ -220,7 +220,8 @@ function createBoardGenderCompositionViz(orgData) {
         .text("Board Composition by Gender")
         .attr("text-anchor", "middle")
         .style("font-size", "20px")
-        .style("font-weight", "bold");
+        .style("font-weight", "bold")
+        .style("font-family","Raleway");
 
     // Add a label for the total number of board members
     svg.append("text")
@@ -229,7 +230,8 @@ function createBoardGenderCompositionViz(orgData) {
         .text("Total Board Members: " + total)
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
-        .style("font-weight", "bold");
+        .style("font-weight", "bold")
+        .style("font-family","Raleway");
 }
 
 function formatNumberAbbreviated(num) {
