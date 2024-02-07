@@ -1,35 +1,144 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <title>Gender Fair</title>
-    <link rel="stylesheet" href="styles/main.css" />
-  </head>
 
-  <body>
-    <img
-      src="logo.png"
-      alt="Logo"
-      width="200"
-      height="100"
-      style="transform: translate(0px, 60px)"
-    />
-    <div class="container page-container">
-      <!-- <img src="logo.png" alt="Logo" width="600" height="300" id="compLogo"/> -->
-      <div id="wrapper">
-        <div id="companyName" class="scoreText">Organization A</div>
-        <div id="genInfo">
-          <div class="scoreText">Total Score: 90/100</div>
-          <div class="scoreText">Leadership Score: 30/30</div>
-          <div class="scoreText">Pay Score: 10/20</div>
-          <div class="scoreText">Family Friendly Policies Score: 25/25</div>
-          <div class="scoreText">Diversity Score: 10/10</div>
+<head>
+  <meta charset="utf-8" />
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <title>Gender Fair</title>
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+
+<body>
+  <img src="logo.png" alt="Logo" width="200" height="100" style="transform: translate(0px, 60px)"
+    onclick="javascript:window.location='../';" />
+  <div class="container page-container">
+    <!-- <img src="logo.png" alt="Logo" width="600" height="300" id="compLogo"/> -->
+    <div class="mainCard">
+      <div class="circleGraphSpot"></div>
+      <div class="rightSideInfo">
+        <div id="companyName"></div>
+        <div id="seperatorBar" class="seperateFlex"></div>
+        <div class="scoreText"></div>
+        <div class="catHolder">
+          <div class="catScoreText">Leadership</div>
+          <div class="catScoreBar"></div>
         </div>
-
-        <div id="graphs">Insert graphs here!</div>
+        <div class="catHolder">
+          <div class="catScoreText">Pay</div>
+          <div class="catScoreBar"></div>
+        </div>
+        <div class="catHolder">
+          <div class="catScoreText">Diversity</div>
+          <div class="catScoreBar"></div>
+        </div>
+        <div class="catHolder">
+          <div class="catScoreText">Policy</div>
+          <div class="catScoreBar"></div>
+        </div>
       </div>
     </div>
-  </body>
-  <script src="scripts/main.js"></script>
+
+    <section class="breakdown_section" id="leadership">
+      <div class="breakdown_section_container">
+        <div class="information_portion">
+          <div class="title_container">
+            <h3 class="breakdown_title">Leadership</h3>
+            <div class="title_separator"></div>
+          </div>
+
+          <p>Gender diversity in leadership is crucial for fostering a more inclusive and effective organizational
+            environment.
+            Embracing diversity in leadership brings a multitude of benefits, starting with a wider range of
+            perspectives and
+            approaches to problem-solving. When both men and women are represented in leadership roles,
+            it enhances creativity, innovation, and decision-making by incorporating diverse viewpoints.Gender diversity
+            in
+            leadership is not only a matter of fairness but also a strategic advantage.
+            Companies with diverse leadership teams tend to outperform their counterparts by being more adaptable,
+            resilient, and in tune with a broad customer base. Ultimately, promoting gender diversity in leadership is a
+            forward-thinking investment that benefits individuals, organizations, and society as a whole..</p>
+        </div>
+        <div class="graph_portion">
+          <div class="graph_box_placeholder" id="leadershipGraph">
+            <div id="tooltip"
+              style="position: absolute; display: none; background: white; padding: 5px; border: 1px solid black; border-radius: 5px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="payGapText"></div>
+
+    <div id="highestPaidGraph"></div>
+    <div id="averagePaidGraph"></div>
+
+    <section class="breakdown_section" id="Pay">
+      <div class="breakdown_section_container">
+        <div class="graph_portion">
+          <div class="graph_box_placeholder" id="payGraph"></div>
+        </div>
+        <div class="information_portion information_portion_left">
+          <div class="title_container">
+            <h3 class="breakdown_title">Pay</h3>
+            <div class="title_separator_short"></div>
+          </div>
+
+          <p>Ensuring equal pay between genders is not just a matter of fairness but also a fundamental principle of
+            fostering a just and
+            equitable workplace. Achieving pay equity is a critical step towards dismantling gender-based discrimination
+            and
+            promoting a workplace culture that values the contributions of all employees, regardless of gender.
+            From a broader perspective, closing the gender pay gap is not only a moral imperative but also makes sound
+            business sense.
+            Companies that prioritize pay equity are likely to attract and retain diverse talent, enhancing their
+            reputation and competitiveness.
+            It reflects positively on organizational values, fostering a more inclusive and supportive work environment.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="breakdown_section" id="leadership">
+      <div class="breakdown_section_container_down">
+        <div class="information_portion_down">
+          <div class="title_container">
+            <h3 class="breakdown_title">Diversity</h3>
+            <div class="title_separator"></div>
+          </div>
+
+          <p>Racial diversity in the workplace is not just an ethical imperative but a powerful catalyst for success and
+            innovation.
+            A racially diverse workforce brings together individuals with unique perspectives, backgrounds, and
+            experiences, fostering a
+            rich tapestry of ideas and insights.Having a racially diverse workplace is crucial for understanding and
+            connecting with a
+            global customer base. It enables organizations to navigate the complexities of an interconnected world,
+            demonstrating cultural
+            competence and responsiveness. This, in turn, enhances the organization's ability to adapt to changing
+            market dynamics and meet
+            the diverse needs of its clientele. Moreover, a racially diverse workforce contributes to a positive and
+            inclusive workplace
+            culture. It creates an environment where individuals feel valued and represented, leading to increased
+            engagement and productivity.
+            Embracing diversity in all its forms also helps break down systemic barriers, promoting equal opportunities
+            for career advancement
+            and success for employees from different racial backgrounds.</p>
+        </div>
+        <div class="graph_portion_down
+          ">
+          <div class="graph_box_placeholder_wide" id="diversityGraph">
+            <div id="tooltip"
+              style="position: absolute; display: none; background: white; padding: 5px; border: 1px solid black; border-radius: 5px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</body>
+<script src="scripts/breakdown.js"></script>
+
 </html>

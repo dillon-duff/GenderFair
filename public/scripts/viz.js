@@ -476,3 +476,19 @@ function createBoardGenderCompositionViz(data, org_name) {
         .style("font-size", "14px")
         .style("font-weight", "bold");
 }
+
+
+
+
+async function getOrg990Xml(ein) {
+    try {
+        const response = await fetch(`https://get-org-990-xml-tbb72wgqza-uc.a.run.app?ein=${ein}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const xmlData = await response.text();
+        console.log(xmlData);
+    } catch (error) {
+        console.error("Error fetching data: ", error);
+    }
+}
