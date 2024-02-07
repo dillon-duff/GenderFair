@@ -221,7 +221,7 @@ function createBoardGenderCompositionViz(orgData) {
         .attr("text-anchor", "middle")
         .style("font-size", "20px")
         .style("font-weight", "bold")
-        .style("font-family","Raleway");
+        .attr("font-family","Raleway");
 
     // Add a label for the total number of board members
     svg.append("text")
@@ -231,7 +231,7 @@ function createBoardGenderCompositionViz(orgData) {
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
         .style("font-weight", "bold")
-        .style("font-family","Raleway");
+        .attr("font-family","Raleway");
 }
 
 function formatNumberAbbreviated(num) {
