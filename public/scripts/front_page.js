@@ -27,7 +27,7 @@ Promise.all([
 
     data_candid.forEach(function (org) {
         curr_rank++;
-        let score = 100 - curr_rank;
+        let score = org.total_score;
 
         const orgHtml = `
             <div class="org-row" data-ein="${org.ein}">

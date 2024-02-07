@@ -66,8 +66,9 @@
 
 .catHolder {
   display: flex;
-  margin-top: 30px;
+  margin-top: 11px;
   margin-left: 125px;
+  flex-direction: column;
 }
 
 .catScoreText {
@@ -283,6 +284,14 @@ input {
   width: 100%;
 }
 
+.cat-score-container {
+  flex: 0 0 55%;
+  font-weight: bold;
+  text-align: left;
+  background-color: grey;
+  width: 100%;
+}
+
 .gauge {
   width: 100px;
   height: 100px;
@@ -311,6 +320,13 @@ input {
   width: 95%;
   background-color: green;
 }
+
+.catRectangle {
+  height: 3rem;
+  width: 95%;
+  background-color: green;
+}
+
 
 .mainCard {
   height: 450px;

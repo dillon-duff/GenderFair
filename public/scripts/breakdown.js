@@ -19,7 +19,43 @@ d3.csv('data/Candid-Trimmed.csv').then(function (data) {
 
     document.querySelector("#companyName").insertAdjacentHTML('beforeend', this_org_data.org_name);
     document.querySelector("#payGapText").innerHTML = payGapText;
-    createGauge(94)
+    createGauge(this_org_data.total_score)
+
+
+    const leadership_score = parseInt(this_org_data['Trustees']) + parseInt(this_org_data['Highest Compensated']) + parseInt(this_org_data['Officers'])
+    let leadership_bar = `
+    <div class="cat-score-container">
+      <div class="rectangle" style="width: ${leadership_score / 30 * 100}%"></div>
+    </div>
+    `
+    document.querySelector("#leadership").insertAdjacentHTML('beforeend', leadership_bar);
+
+    const pay_score = parseInt(this_org_data['Pay Gap']) + parseInt(this_org_data['Average Salary']) + parseInt(this_org_data['CEO Pay Ratio'])
+    let pay_bar = `
+    <div class="cat-score-container">
+      <div class="rectangle" style="width: ${pay_score / 20 * 100}%"></div>
+    </div>
+    `
+    document.querySelector("#pay").insertAdjacentHTML('beforeend', pay_bar);
+
+
+    const diversity_score = parseInt(this_org_data['Candid Reporting']) + parseInt(this_org_data['Diversity Reporting'])
+
+    let diversity_bar = `
+    <div class="cat-score-container">
+      <div class="rectangle" style="width: ${diversity_score / 10 * 100}%"></div>
+    </div>
+    `
+    document.querySelector("#diversity").insertAdjacentHTML('beforeend', diversity_bar);
+
+    const policy_score = 0
+    let policy_bar = `
+    <div class="cat-score-container">
+      <div class="rectangle" style="width: ${policy_score}%"></div>
+    </div>
+    `
+    document.querySelector("#policy").insertAdjacentHTML('beforeend', policy_bar);
+
     createBoardGenderCompositionViz(this_org_data)
     createPayGraph(this_org_data)
     createCircleComparison(this_org_data)
