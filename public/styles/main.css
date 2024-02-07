@@ -444,8 +444,8 @@ input {
 #highestPaidGraph {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  padding-right: 54%;
+  
+  
 }
 
 section#Pay {
