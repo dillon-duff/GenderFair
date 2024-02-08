@@ -31,7 +31,8 @@ class ScoreCalculator:
         }
 
         final_score = self.aggregate_scores(scores)
-        return { "Name" : company_data['name'], "final_score": final_score, "individual_scores": scores}
+        return { "Name" : company_data['name'], "final_score": final_score, "individual_scores": scores,
+                 "Company Data": company_data}
 
     def white_staff(self,json_data):
         staff_race = json_data.get("staff_race", {})
