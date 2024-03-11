@@ -526,3 +526,21 @@ section#Pay {
     padding: 10px;
   }
 }
+
+.btn-group button {
+  background-color: grey; 
+  border: 1px solid black; 
+  color: white;
+  padding: 10px 24px;
+  cursor: pointer; 
+  display: block;
+}
+
+.btn-group button:not(:last-child) {
+  border-bottom: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: lightgrey;
+}
