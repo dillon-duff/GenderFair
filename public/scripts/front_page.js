@@ -1,6 +1,19 @@
 let data_candid;
 let data_990;
 
+// var lastScrollTop;
+// navbar = document.getElementById('navbar');
+// window.addEventListener('scroll',function(){
+// var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+// if(scrollTop > lastScrollTop){
+//     navbar.style.top='-80px';
+// }
+// else{
+//     navbar.style.top='0';
+// }
+// lastScrollTop = scrollTop;
+// });
+
 Promise.all([
     d3.csv('data/Candid-Trimmed.csv'),
     d3.csv('data/990-Top.csv')

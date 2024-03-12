@@ -11,13 +11,14 @@
 
 #mainBody {
   background: white;
+  margin: 0 0
 }
 
 #heading {
-  color: black;
+  color: #414141;
   text-align: center;
   font-size: 2.6em;
-  font-family: Raleway;
+  font-family: Poppins;
 }
 
 #text {
@@ -25,6 +26,81 @@
   padding: 50px;
   font: 100;
   font-family: Raleway;
+}
+
+/* index.js css */
+.trans_logo{
+  width: 50px;
+  height: 50px;
+  margin: 0 1%;
+}
+.index_section{
+  width: 100vh;
+}
+#ls_intro{
+  width:100vw;
+  min-height:  100vh;
+  max-width:100%; 
+
+
+}
+#ls_intro > .container{
+  background-image: url(https://source.unsplash.com/Cns0h4ypRyA);
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  height: 100vh;
+  margin-top: 0;
+  align-items: center;
+  color: white;
+  
+}
+#ls_intro > .container >.bottom_container{
+  margin: 6%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+#ls_intro > .container >.bottom_container > .text_container{
+  display: flex;
+  flex-direction: column;
+  max-width: 50%;
+  width: 30%;
+  align-items: flex-start;
+}
+#ls_intro > .container >.bottom_container > .text_container > h1{
+  font-family: Poppins;
+  font-weight: bold;
+  font-size: 2.8em;
+  margin: 0 0;
+} 
+#ls_intro > .container >.bottom_container > .text_container > p{
+  font-family: Raleway;
+}
+.button_bottom_container{
+  width: 30%;
+  display: flex;
+  justify-content: center
+}
+.ls_button{
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  font-family: Inter;
+  text-decoration: none;
+  border-radius: 20px;
+  background-color: #EE6033;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+} 
+.ls_button:hover {
+  background-color: #d85c36;
 }
 
 #companyName {
@@ -91,11 +167,21 @@
 }
 
 .navbar {
-  position: fixed;
-  top: 0;
+  /* top: 0; */
   width: 100%;
-  background-color: #333;
+  display: flex;
+  transition: top 0.3s;
   font-family: Raleway;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.navbar >h2{
+  font-family: Inter;
+  color: white
+
 }
 
 .nav-links {
