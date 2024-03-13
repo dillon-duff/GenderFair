@@ -1,3 +1,9 @@
+const femaleColor = '#b862fd';
+const maleColor = '#d69e62';
+let ethnicityDataStaff;
+let ethnicityDataBoard;
+let ethnicityDataSenior;
+let this_org_data;
 
 d3.csv('data/Candid-Trimmed.csv').then(function (data) {
     data.forEach(function (d) {
@@ -11,17 +17,22 @@ d3.csv('data/Candid-Trimmed.csv').then(function (data) {
     const ein = params.get('ein');
 
     console.log(ein)
-    const this_org_data = data.find(org => org.ein === ein)
+    // Find the current org's date
+    // TODO: Replace with API call
+    this_org_data = data.find(org => org.ein === ein)
     console.log(this_org_data)
 
+    // Add text 'Women are paid X% more/less
     const more_or_less = this_org_data.average_female_salary > this_org_data.average_male_salary ? "more" : "less"
     const payGapText = `Women are paid <span class='percentHighlight'>${Math.round(Math.abs(this_org_data.pay_gap))}%</span> ${more_or_less} than men at ${this_org_data.org_name}`
 
     document.querySelector("#companyName").insertAdjacentHTML('beforeend', this_org_data.org_name);
     document.querySelector("#payGapText").innerHTML = payGapText;
+
+    // Create score gauge
     createGauge(this_org_data.total_score)
 
-
+    // Add bars for score categories
     const leadership_score = parseInt(this_org_data['Trustees']) + parseInt(this_org_data['Highest Compensated']) + parseInt(this_org_data['Officers'])
     let leadership_bar = `
     <div class="cat-score-container">
@@ -56,10 +67,15 @@ d3.csv('data/Candid-Trimmed.csv').then(function (data) {
     `
     document.querySelector("#policy").insertAdjacentHTML('beforeend', policy_bar);
 
+    // Create and add all visualzations
     createBoardGenderCompositionViz(this_org_data)
     createPayGraph(this_org_data)
     createCircleComparison(this_org_data)
-    createDiversityGraph(this_org_data)
+    // createDiversityGraph(this_org_data)
+    ethnicityDataStaff = getEthnicityDataStaff(this_org_data);
+    ethnicityDataSenior = getEthnicityDataSenior(this_org_data);
+    ethnicityDataBoard = getEthnicityDataBoard(this_org_data);
+    createDiversityGraph(this_org_data, "senior");
 
 
 
@@ -164,7 +180,7 @@ function createBoardGenderCompositionViz(orgData) {
 
     const color = d3.scaleOrdinal()
         .domain(["Female", "Male", "Non-Binary", "Decline to State", "Unknown"])
-        .range(["#3fd796", "#0192f5", "green", "purple", "grey"]);
+        .range([femaleColor, maleColor, "green", "purple", "grey"]);
 
     const pie = d3.pie()
         .value(d => d[1]);
@@ -221,7 +237,7 @@ function createBoardGenderCompositionViz(orgData) {
         .attr("text-anchor", "middle")
         .style("font-size", "20px")
         .style("font-weight", "bold")
-        .attr("font-family","Raleway");
+        .attr("font-family", "Raleway");
 
     // Add a label for the total number of board members
     svg.append("text")
@@ -231,7 +247,7 @@ function createBoardGenderCompositionViz(orgData) {
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
         .style("font-weight", "bold")
-        .attr("font-family","Raleway");
+        .attr("font-family", "Raleway");
 }
 
 function formatNumberAbbreviated(num) {
@@ -257,8 +273,8 @@ function createPayGraph(orgData) {
     console.log(orgData);
 
     const data = [
-        { gender: 'Male', compensation: orgData.average_male_salary, color: "#d69e62" },
-        { gender: 'Female', compensation: orgData.average_female_salary, color: "#b862fd" }
+        { gender: 'Male', compensation: orgData.average_male_salary, color: maleColor },
+        { gender: 'Female', compensation: orgData.average_female_salary, color: femaleColor }
     ];
 
 
@@ -296,7 +312,7 @@ function createPayGraph(orgData) {
         .join("rect")
         .attr("x", x(0))
         .attr("y", (d) => y(d.gender))
-        .attr("fill", (d) => d.gender == "Female" ? "#b862fd" : "#d69e62")
+        .attr("fill", (d) => d.gender == "Female" ? femaleColor : maleColor)
         .attr("width", (d) => x(d.compensation) - x(0))
         .attr("height", y.bandwidth());
 
@@ -480,12 +496,8 @@ function createCircleComparison(orgData) {
 
 }
 
-function createDiversityGraph(orgData) {
-
-    d3.select('#diversityGraph svg').remove()
-
-
-    const ethnicityData = [
+function getEthnicityDataStaff(orgData) {
+    return [
         { ethnicity: "Asian", count: +orgData.asian_staff },
         { ethnicity: "Black", count: +orgData.black_staff },
         { ethnicity: "Hispanic", count: +orgData.hispanic_staff },
@@ -498,56 +510,140 @@ function createDiversityGraph(orgData) {
         { ethnicity: "Decline to state", count: +orgData.race_decline_to_state_staff },
         { ethnicity: "Unknown", count: +orgData.race_unknown_staff },
     ];
+}
 
+function getEthnicityDataBoard(orgData) {
+    return [
+        { ethnicity: "Asian", count: +orgData.asian_board },
+        { ethnicity: "Black", count: +orgData.black_board },
+        { ethnicity: "Hispanic", count: +orgData.hispanic_board },
+        { ethnicity: "Middle Eastern", count: +orgData.middle_eastern_board },
+        { ethnicity: "Native American", count: +orgData.native_american_board },
+        { ethnicity: "Pacific Islander", count: +orgData.pacific_islander_board },
+        { ethnicity: "White", count: +orgData.white_board },
+        { ethnicity: "Multi-Racial", count: +orgData.multi_racial_board },
+        { ethnicity: "Other", count: +orgData.other_ethnicity_board },
+        { ethnicity: "Decline to state", count: +orgData.race_decline_to_state_board },
+        { ethnicity: "Unknown", count: +orgData.race_unknown_board },
+    ];
+}
+
+function getEthnicityDataSenior(orgData) {
+    return [
+        { ethnicity: "Asian", count: +orgData.asian_senior_staff },
+        { ethnicity: "Black", count: +orgData.black_senior_staff },
+        { ethnicity: "Hispanic", count: +orgData.hispanic_senior_staff },
+        { ethnicity: "Middle Eastern", count: +orgData.middle_eastern_staff },
+        { ethnicity: "Native American", count: +orgData.native_american_senior_staff },
+        { ethnicity: "Pacific Islander", count: +orgData.pacific_islander_senior_staff },
+        { ethnicity: "White", count: +orgData.white_senior_staff },
+        { ethnicity: "Multi-Racial", count: +orgData.multi_racial_senior_staff },
+        { ethnicity: "Other", count: +orgData.other_ethnicity_senior_staff },
+        { ethnicity: "Decline to state", count: +orgData.race_decline_to_state_senior_staff },
+        { ethnicity: "Unknown", count: +orgData.race_unknown_senior_staff },
+    ];
+}
+
+function createDiversityGraph(orgData, ethnicityDataString) {
+    let ethnicityData;
+    let titleText;
+    switch (ethnicityDataString) {
+        case "senior":
+            ethnicityData = getEthnicityDataSenior(orgData);
+            titleText = "Senior Staff";
+            break;
+        case "board":
+            ethnicityData = getEthnicityDataBoard(orgData);
+            titleText = "Board Members"
+            break;
+        case "staff":
+            ethnicityData = getEthnicityDataStaff(orgData);
+            titleText = "Total Staff"
+            break;
+        default:
+            return;
+    }
+
+    // If the SVG doesn't exist, create it. Otherwise, select the existing SVG.
+    const svgExists = d3.select("#diversityGraph svg").empty() === false;
+    let svg;
     const margin = { top: 100, right: 30, bottom: 150, left: 70 },
         width = d3.select('body').node().getBoundingClientRect().width * 0.75 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
+    if (!svgExists) {
+        svg = d3.select("#diversityGraph")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+    } else {
+        svg = d3.select("#diversityGraph svg g");
+    }
 
-    const svg = d3.select("#diversityGraph")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    // X axis
+    // Update the scales
     const x = d3.scaleBand()
         .range([0, width])
         .domain(ethnicityData.map(d => d.ethnicity))
         .padding(0.2);
 
-    svg.append("g")
-        .attr("transform", `translate(0, ${height})`)
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(ethnicityData, d => d.count)])
+        .range([height, 0]);
+
+    // Update the axes
+    if (!svgExists) {
+        svg.append("g")
+            .attr("transform", `translate(0, ${height})`)
+            .attr("class", "x-axis");
+
+        svg.append("g")
+            .attr("class", "y-axis");
+    }
+
+    d3.select(".x-axis").transition().duration(1000)
         .call(d3.axisBottom(x))
         .selectAll("text")
         .attr("transform", "translate(-10,0) rotate(-45)")
         .style("text-anchor", "end")
         .style("font-size", "0.8rem");
 
-    // Add Y axis
-    const y = d3.scaleLinear()
-        .domain([0, d3.max(ethnicityData, d => d.count)])
-        .range([height, 0]);
-
-    svg.append("g")
+    d3.select(".y-axis").transition().duration(1000)
         .call(d3.axisLeft(y));
 
-    // Bars
-    svg.selectAll("mybar")
-        .data(ethnicityData)
-        .enter()
-        .append("rect")
+    // Bind the new data
+    const bars = svg.selectAll(".bar")
+        .data(ethnicityData, d => d.ethnicity);
+
+    // Enter new bars
+    bars.enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", d => x(d.ethnicity))
+        .attr("width", x.bandwidth())
+        .attr("fill", "#3fd796")
+        .attr("y", height)
+        .attr("height", 0)
+        .merge(bars) // Apply changes to both new and updating bars
+        .transition().duration(1000)
         .attr("x", d => x(d.ethnicity))
         .attr("y", d => y(d.count))
-        .attr("width", x.bandwidth())
-        .attr("height", d => height - y(d.count))
-        .attr("fill", "#30173f");
+        .attr("height", d => height - y(d.count));
 
+    // Remove old bars
+    bars.exit()
+        .transition().duration(1000)
+        .attr("y", height)
+        .attr("height", 0)
+        .remove();
+
+    svg.select("#x-axis-text").remove();
+    svg.select("#y-axis-text").remove();
 
 
     // X axis label
     svg.append("text")
+        .attr("id", "x-axis-text")
         .attr("text-anchor", "end")
         .attr("x", width / 2 + margin.left)
         .attr("y", height + margin.top + 20)
@@ -555,53 +651,34 @@ function createDiversityGraph(orgData) {
 
     // Y axis label
     svg.append("text")
+        .attr("id", "y-axis-text")
         .attr("text-anchor", "end")
         .attr("transform", "rotate(-90)")
         .attr("y", -margin.left + 20)
         .attr("x", -margin.top)
         .text("Staff Count");
 
-
-    const tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0)
-        .style("position", "absolute")
-        .style("text-align", "center")
-        .style("width", "80px")
-        .style("height", "14px")
-        .style("padding", "2px")
-        .style("font", "12px sans-serif")
-        .style("background", "lightsteelblue")
-        .style("border", "0px")
-        .style("border-radius", "8px")
-
-    svg.selectAll(".bar")
-        .data(ethnicityData)
-        .enter()
-        .append("rect")
-        .attr("x", d => x(d.ethnicity))
-        .attr("y", d => y(d.count))
-        .attr("width", x.bandwidth())
-        .attr("height", d => height - y(d.count))
-        .attr("fill", "#3fd796")
-        .on("mouseover", function (event, d) {
-            tooltip.transition()
-                .duration(200)
-                .style("opacity", .9);
-            tooltip.html(d.count)  // The text displayed in the tooltip (d is the datapoint for the bar, so count is the height)
-                .style("left", (event.pageX) + "px")
-                .style("top", (event.pageY - 28) + "px");
-        })
-        .on("mousemove", function (event) {
-            tooltip.style("left", (event.pageX) + "px")
-                .style("top", (event.pageY - 28) + "px");
-        })
-        .on("mouseout", function (d) {
-            tooltip.transition()
-                .duration(500)
-                .style("opacity", 0);
-        });
-
-
+    svg.select("#title").remove();
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", -50)
+        .attr("id", "title")
+        .text(titleText)
+        .attr("text-anchor", "middle")
+        .style("font-size", "24px")
+        .style("font-family", "Raleway")
+        .style("fill", "black");
 
 }
+
+
+
+document.querySelector("button#senior").addEventListener("click", function () {
+    createDiversityGraph(this_org_data, "senior")
+});
+document.querySelector("button#board").addEventListener("click", function () {
+    createDiversityGraph(this_org_data, "board")
+});
+document.querySelector("button#staff").addEventListener("click", function () {
+    createDiversityGraph(this_org_data, "staff")
+});
