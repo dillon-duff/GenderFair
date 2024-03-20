@@ -29,22 +29,25 @@
 }
 
 /* index.js css */
-.trans_logo{
+.trans_logo {
   width: 50px;
   height: 50px;
   margin: 0 1%;
 }
-.index_section{
+
+.index_section {
   width: 100vh;
 }
-#ls_intro{
-  width:100vw;
-  min-height:  100vh;
-  max-width:100%; 
+
+#ls_intro {
+  width: 100vw;
+  min-height: 100vh;
+  max-width: 100%;
 
 
 }
-#ls_intro > .container{
+
+#ls_intro>.container {
   background-image: url(https://source.unsplash.com/Cns0h4ypRyA);
   background-size: cover;
   display: flex;
@@ -55,37 +58,43 @@
   margin-top: 0;
   align-items: center;
   color: white;
-  
+
 }
-#ls_intro > .container >.bottom_container{
+
+#ls_intro>.container>.bottom_container {
   margin: 6%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
 }
-#ls_intro > .container >.bottom_container > .text_container{
+
+#ls_intro>.container>.bottom_container>.text_container {
   display: flex;
   flex-direction: column;
   max-width: 50%;
   width: 30%;
   align-items: flex-start;
 }
-#ls_intro > .container >.bottom_container > .text_container > h1{
+
+#ls_intro>.container>.bottom_container>.text_container>h1 {
   font-family: Poppins;
   font-weight: bold;
   font-size: 2.8em;
   margin: 0 0;
-} 
-#ls_intro > .container >.bottom_container > .text_container > p{
+}
+
+#ls_intro>.container>.bottom_container>.text_container>p {
   font-family: Raleway;
 }
-.button_bottom_container{
+
+.button_bottom_container {
   width: 30%;
   display: flex;
   justify-content: center
 }
-.ls_button{
+
+.ls_button {
   display: inline-block;
   padding: 10px 20px;
   font-size: 16px;
@@ -98,7 +107,8 @@
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
-} 
+}
+
 .ls_button:hover {
   background-color: #d85c36;
 }
@@ -178,10 +188,10 @@
   align-items: center;
   flex-wrap: nowrap;
 }
-.navbar >h2{
+
+.navbar>h2 {
   font-family: Inter;
   color: white
-
 }
 
 .nav-links {
@@ -520,7 +530,7 @@ input {
 
 .graph_portion {
   max-width: 40%;
-
+  display: flex;
 }
 
 .graph_portion_down {
@@ -530,8 +540,8 @@ input {
 #highestPaidGraph {
   display: flex;
   flex-direction: row;
-  
-  
+
+
 }
 
 section#Pay {
@@ -613,20 +623,65 @@ section#Pay {
   }
 }
 
-.btn-group button {
-  background-color: grey; 
-  border: 1px solid black; 
+/* .btn-group button {
+  background-color: grey;
+  border: 1px solid black;
   color: white;
   padding: 10px 24px;
-  cursor: pointer; 
+  cursor: pointer;
   display: block;
 }
 
 .btn-group button:not(:last-child) {
-  border-bottom: none; /* Prevent double borders */
+  border-bottom: none;
 }
 
-/* Add a background color on hover */
 .btn-group button:hover {
   background-color: lightgrey;
+} */
+
+
+
+
+
+
+
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  width: 10rem;
+}
+
+/* TODO: Change these colors, the first should be the 'lighter' color */
+
+.btn-group button {
+  background-color: #EE6033;
+  border: none;
+  color: white;
+  padding: 10px 0px 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 1.0s;
+  /* border-bottom: 1px solid white; */ /* This adds the border, but I kind of like it without */
+  text-align: left;
+}
+
+.btn-group button:last-child {
+  border-bottom: none;
+}
+
+
+.btn-group button.active,
+.btn-group button:hover {
+  background-color: #d85c36;
+}
+
+.btn-group button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #d85c36;
+}
+
+#genderBtnGroup {
+  justify-content: center;
 }
