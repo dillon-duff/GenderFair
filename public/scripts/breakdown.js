@@ -27,8 +27,18 @@ d3.csv('data/Candid-Trimmed.csv').then(function (data) {
     const more_or_less = this_org_data.average_female_salary > this_org_data.average_male_salary ? "more" : "less"
     const payGapText = `Women are paid <span class='percentHighlight'>${Math.round(Math.abs(this_org_data.pay_gap))}% ${more_or_less}</span> than men at ${this_org_data.org_name}`
 
+    var link = document.createElement("a");
+    // Set the href attribute
+    link.href = "https://" + this_org_data.web_address;
+    link.textContent = this_org_data.web_address;
+
     document.querySelector("#companyName").insertAdjacentHTML('beforeend', this_org_data.org_name);
+    document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
+
+
+
     // TODO: Add website link (we have this)
+
     document.querySelector("#payGapText").innerHTML = payGapText;
 
     // Create score gauge
