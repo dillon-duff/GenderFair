@@ -35,7 +35,16 @@ d3.csv('data/Candid-Trimmed.csv').then(function (data) {
     document.querySelector("#companyName").insertAdjacentHTML('beforeend', this_org_data.org_name);
     document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
 
+    // TODO: Add location, can't find in the data?
 
+    // var loc = document.createElement("text");
+    // numEmp.innerText = this_org_data.location;
+    // document.querySelector("#companyLocation").appendChild(loc)
+
+
+    var numEmp = document.createElement("text");
+    numEmp.innerText = this_org_data.num_employees + " Total Employees";
+    document.querySelector("#companyEmploy").appendChild(numEmp)
 
     // TODO: Add website link (we have this)
 

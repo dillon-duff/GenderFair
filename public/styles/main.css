@@ -687,7 +687,24 @@ section#Pay {
 }
 
 #companyWebsite {
-  padding-top: 0.5rem;
+  flex: 0 0 25%;
+  justify-content: center;
+  text-transform: lowercase;
+}
+
+#companyLocation {
   display: flex;
+  flex: 0 0 25%;
+  justify-content: center;
+}
+
+#companyEmploy {
+  display: flex;
+  justify-content: center;
+}
+
+#orgInfo {
+  padding-top: 1rem;
+  display:flex;
   justify-content: center;
 }
