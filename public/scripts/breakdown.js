@@ -35,11 +35,20 @@ d3.csv('data/Candid-Trimmed.csv').then(function (data) {
     document.querySelector("#companyName").insertAdjacentHTML('beforeend', this_org_data.org_name);
     document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
 
-    // TODO: Add location, can't find in the data?
+    function fixCapitalization(str) {
+        str = str.charAt(0).toUpperCase() + str.slice(1);
+        for (let i = 1; i < str.length-1; i++) {
+            if (str.charAt(i) === ' ') {
+                str = str.substring(0,i+1) + str.charAt(i+1).toUpperCase() + str.slice(i+2);
+                i++;
+            }
+        }
+        return str;
+    }
 
-    // var loc = document.createElement("text");
-    // numEmp.innerText = this_org_data.location;
-    // document.querySelector("#companyLocation").appendChild(loc)
+    var loc = document.createElement("text");
+    loc.innerText = fixCapitalization(this_org_data.city.toLowerCase()) + ", " + this_org_data.state_code;
+    document.querySelector("#companyLocation").appendChild(loc)
 
 
     var numEmp = document.createElement("text");
