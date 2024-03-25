@@ -9,29 +9,31 @@
 </head>
 
 <body id="mainBody">
- 
+
 
 
   <!-- <img src="logo.png" alt="Logo" width="200" height="100" style="transform: translate(0px, 60px);"/> -->
   <section class="index_section" id="ls_intro">
-    
-    <div class="container page-container">
-        <div class="navbar">
-          <img class="trans_logo" src="trans_logo1.png">
-          <h2>Gender Fair</h2>
-        </div>
-        <div class="bottom_container">
-          <div class="text_container">
-            <h1> Choose Fairness </h1>
-            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut lLorem ipsum dolor 
-              sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et doloreabore et dolore </p>
-          </div>
-         
-          <div class="button_bottom_container">
-            <a href="#" class="ls_button">See The Results</a>
-          </div>
 
+    <div class="container page-container">
+      <div class="navbar">
+        <img class="trans_logo" src="trans_logo1.png">
+        <h2>Gender Fair</h2>
+      </div>
+      <div class="bottom_container">
+        <div class="text_container">
+          <h1> Choose Fairness </h1>
+          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut lLorem ipsum
+            dolor
+            sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et doloreabore et dolore
+          </p>
         </div>
+
+        <div class="button_bottom_container">
+          <a href="#" class="ls_button">See The Results</a>
+        </div>
+
+      </div>
 
     </div>
   </section>
@@ -58,89 +60,52 @@
       sint occaecat cupidatat non proident, sunt in
       culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit
       esse cillum dolore eu fugiat nulla pariatur.
-      These rankings are computed using ....Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Donpr perionga
-       ipsum fugiato nulla partchiea fugoale genfairipsum. Duis aute irure dolor in reprehenderit in voluptate velit <br>
-       esse cillum dolore eugiat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-       Excepteur sint occaecat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur 
-       adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-       ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore 
-       eu fugiat nulla pariature Excerpter sint occaecat cupidatat non proident, sunt in culpa qui officia 
-       deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-        dolore eu fugiat nulla pariatur.
+      These rankings are computed using ....Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+      exercitation ullamco laboris
+      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+      dolore eu fugiat nulla
+      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+      laborum. Donpr perionga
+      ipsum fugiato nulla partchiea fugoale genfairipsum. Duis aute irure dolor in reprehenderit in voluptate velit <br>
+      esse cillum dolore eugiat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+      nulla pariatur.
+      Excepteur sint occaecat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
+      dolor sit amet, consectetur
+      adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+      nostrud exercitation
+      ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+      esse cillum dolore
+      eu fugiat nulla pariature Excerpter sint occaecat cupidatat non proident, sunt in culpa qui officia
+      deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+      dolore eu fugiat nulla pariatur.
 
     </div>
     <!-- <div id="text">Explain rating system</div> -->
-    <div class="scoreboard">
-      <div class="header-row">
-        <div class="header-rank">Rank</div>
-        <div class="header-org">Organization</div>
-        <div class="header-name">Score</div>
-        <form id="searchbar" class="header-search">
-          <input type="search" placeholder="Search for a non-profit...." />
-        </form>
+
+    <div class="pagination-container">
+      <div id="paginationControls">
+        <button onclick="changePage(-1)" class="pagination-btn">Prev</button>
+        <span id="currentPage">1</span>
+        <button onclick="changePage(1)" class="pagination-btn">Next</button>
       </div>
     </div>
+    <div class="table-container">
+      <div class="scoreboard">
+        <div class="header-row">
+          <div class="header-rank">Rank</div>
+          <div class="header-org">Organization</div>
+          <div class="header-name">Score</div>
+          <form id="searchbar" class="header-search">
+            <input id="searchBox" type="search" placeholder="Search for a non-profit...." />
+          </form>
+        </div>
+        <div class="data-rows"></div>
+      </div>
+    </div>
+
   </div>
   </div>
-
-  <!-- Double bar graph code -->
-  <!-- 
-  <button onclick="update('var1')">Variable 1</button>
-    <button onclick="update('var2')">Variable 2</button>
-
-    <div id="my_dataviz"></div>
-    <script>
-      const margin = { top: 30, right: 30, bottom: 60, left: 60 },
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
-
-      const svg = d3
-        .select("#my_dataviz")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-
-      const x = d3.scaleBand().range([0, width]).padding(0.2);
-      const xAxis = svg.append("g").attr("transform", `translate(0,${height})`);
-
-      const y = d3.scaleLinear().range([height, 0]);
-      const yAxis = svg.append("g").attr("class", "myYaxis");
-
-      // Creates / updates the plot
-      function update(selectedVar) {
-        // Parse the Data
-        d3.csv(
-          "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/barplot_change_data.csv"
-        ).then(function (data) {
-          // Add X axis
-          x.domain(data.map((d) => d.group));
-          xAxis.transition().duration(1000).call(d3.axisBottom(x));
-
-          // Add Y axis
-          y.domain([0, d3.max(data, (d) => +d[selectedVar])]);
-          yAxis.transition().duration(1000).call(d3.axisLeft(y));
-
-          const u = svg.selectAll("rect").data(data);
-
-          // update bars
-          u.join("rect")
-            .transition()
-            .duration(1000)
-            .attr("x", (d) => x(d.group))
-            .attr("y", (d) => y(d[selectedVar]))
-            .attr("width", x.bandwidth())
-            .attr("height", (d) => height - y(d[selectedVar]))
-            .attr("fill", "#69b3a2");
-        });
-      }
-
-      update("var1");
-    </script> -->
 </body>
 <script src="https://d3js.org/d3.v6.min.js"></script>
 <script src="scripts/front_page.js"></script>
