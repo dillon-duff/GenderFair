@@ -724,3 +724,8 @@ section#Pay {
   color: #333;
   border: 1px solid #FF0000;
 }
+
+.pagination-container {
+  text-align: center;
+  margin-top: 5rem;
+}

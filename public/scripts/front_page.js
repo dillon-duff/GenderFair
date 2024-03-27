@@ -36,7 +36,10 @@ function changePage(increment) {
 
     const startIdx = (currentPage - 1) * recordsPerPage;
     const endIdx = startIdx + recordsPerPage;
+    console.log(startIdx, endIdx)
     currentData = allData.slice(startIdx, endIdx);
+
+    // filteredData = [];
 
     renderData();
 }
@@ -52,6 +55,7 @@ function renderData() {
     } else {
         toRender = currentData;
     }
+    
 
     toRender.forEach(function (org) {
         curr_rank++;
@@ -112,8 +116,14 @@ Promise.all([
 
 document.getElementById('searchBox').addEventListener('input', function () {
     const query = this.value.toLowerCase();
-    filteredData = currentData.filter(d => d.org_name.toLowerCase().includes(query));
-    if (filteredData.length <= 0 && query !== '') {
+    if (!query) {
+        filteredData = [];
+        currentPage = 1;
+        changePage(0);
+        return;
+    }
+    filteredData = allData.filter(d => d.org_name.toLowerCase().includes(query));
+    if (filteredData.length <= 0) {
         this.classList.add('no-results');
         this.disabled = true;
         
@@ -123,7 +133,7 @@ document.getElementById('searchBox').addEventListener('input', function () {
         }, 500);
     } else {
         this.classList.remove('no-results');
-        this.disabled = false;
+        this.disabled = false;        
     }
     currentPage = 1;
     changePage(0);
