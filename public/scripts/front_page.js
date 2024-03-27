@@ -22,6 +22,14 @@ let filteredData = [];
 let currentData = [];
 let allData = [];
 
+function scrollSmoothTo(elementId) {
+    var element = document.getElementById(elementId);
+    element.scrollIntoView({
+      block: 'start',
+      behavior: 'smooth'
+    });
+  }
+
 function changePage(increment) {
     const numPages = Math.ceil(data_candid.length / recordsPerPage);
     lastPage = currentPage;
