@@ -1,15 +1,40 @@
-// var lastScrollTop;
-// navbar = document.getElementById('navbar');
-// window.addEventListener('scroll',function(){
-// var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-// if(scrollTop > lastScrollTop){
-//     navbar.style.top='-80px';
-// }
-// else{
-//     navbar.style.top='0';
-// }
-// lastScrollTop = scrollTop;
-// });
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js'
+import { getFirestore, doc, getDoc } from "https://cdnjs.cloudflare.com/ajax/libs/firebase/10.9.0/firebase-firestore.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAgMFt2ritERn0jQATbdhuqIp1ZDUNQ-oI",
+  authDomain: "gender-fair-82d21.firebaseapp.com",
+  databaseURL: "https://gender-fair-82d21-default-rtdb.firebaseio.com",
+  projectId: "gender-fair-82d21",
+  storageBucket: "gender-fair-82d21.appspot.com",
+  messagingSenderId: "607866022549",
+  appId: "1:607866022549:web:0bd2d5eb81d1447c72c99c",
+  measurementId: "G-KHE8JG192F"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Firestore
+const db = getFirestore(app);
+
+async function fetchDocumentByID(docID) {
+    const docRef = doc(db, "non-for-profits", docID);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+    } else {
+        console.log("No such document!");
+    }
+}
+
+fetchDocumentByID("001Dj1Z9GqSMOnHSYsyE").catch(console.error);
 
 
 let data_candid;
@@ -21,14 +46,15 @@ const recordsPerPage = 50;
 let filteredData = [];
 let currentData = [];
 let allData = [];
+let lastPage = currentPage;
 
 function scrollSmoothTo(elementId) {
     var element = document.getElementById(elementId);
     element.scrollIntoView({
-      block: 'start',
-      behavior: 'smooth'
+        block: 'start',
+        behavior: 'smooth'
     });
-  }
+}
 
 function changePage(increment) {
     const numPages = Math.ceil(data_candid.length / recordsPerPage);
@@ -63,7 +89,7 @@ function renderData() {
     } else {
         toRender = currentData;
     }
-    
+
 
     toRender.forEach(function (org) {
         curr_rank++;
@@ -86,7 +112,9 @@ function renderData() {
     document.querySelectorAll('.org-row').forEach(row => {
         row.addEventListener('click', function () {
             const ein = this.getAttribute('data-ein');
-            window.location.href = `${window.location.href}breakdown.html?ein=${ein}`;
+            const currentUrl = new URL(window.location.href);
+            const targetUrl = new URL(`breakdown.html?ein=${ein}`, currentUrl.origin);
+            window.location.href = targetUrl.href;
         });
     });
 }
@@ -134,14 +162,14 @@ document.getElementById('searchBox').addEventListener('input', function () {
     if (filteredData.length <= 0) {
         this.classList.add('no-results');
         this.disabled = true;
-        
+
         setTimeout(() => {
             this.disabled = false;
             this.focus();
         }, 500);
     } else {
         this.classList.remove('no-results');
-        this.disabled = false;        
+        this.disabled = false;
     }
     currentPage = 1;
     changePage(0);

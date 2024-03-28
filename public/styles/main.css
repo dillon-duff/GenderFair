@@ -314,6 +314,7 @@ input {
   align-items: center;
   border-bottom: 1px solid #ccc;
   padding: 10px 0;
+  cursor: pointer;
 }
 
 [class^="header-"] {
@@ -670,7 +671,8 @@ section#Pay {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 1.0s;
-  /* border-bottom: 1px solid white; */ /* This adds the border, but I kind of like it without */
+  /* border-bottom: 1px solid white; */
+  /* This adds the border, but I kind of like it without */
   text-align: left;
 }
 
@@ -715,7 +717,7 @@ section#Pay {
 
 #orgInfo {
   padding-top: 1.5rem;
-  display:flex;
+  display: flex;
   justify-content: center;
 }
 
