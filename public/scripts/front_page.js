@@ -55,6 +55,7 @@ function scrollSmoothTo(elementId) {
         behavior: 'smooth'
     });
 }
+window.scrollSmoothTo = scrollSmoothTo;
 
 function changePage(increment) {
     const numPages = Math.ceil(data_candid.length / recordsPerPage);
@@ -77,6 +78,8 @@ function changePage(increment) {
 
     renderData();
 }
+window.changePage = changePage;
+
 
 function renderData() {
     const container = document.querySelector('.data-rows');
@@ -118,7 +121,6 @@ function renderData() {
         });
     });
 }
-
 
 Promise.all([
     d3.csv('data/Candid-Trimmed.csv'),
