@@ -43,8 +43,6 @@
   width: 100vw;
   min-height: 100vh;
   max-width: 100%;
-
-
 }
 
 #ls_intro>.container {
@@ -730,4 +728,8 @@ section#Pay {
 .pagination-container {
   text-align: center;
   margin-top: 5rem;
+}
+
+#filterIcon {
+  margin-left: 15px;
 }
