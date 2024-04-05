@@ -75,19 +75,21 @@ class ScoreCalculator:
             ratio = float(ratio)
             ratio = self.avgOffset(ratio)
 
-            if ratio == self.avgOffset(50):
-                return 10
+            # if ratio == self.avgOffset(50):
+            #     return 10
 
-            elif ratio < 5:
+            if ratio < 5:
+                return 10
+            elif ratio < 15:
                 return 8
 
-            elif ratio < 15:
+            elif ratio < 20:
                 return 6
 
-            elif ratio < 20:
+            elif ratio < 25:
                 return 4
 
-            elif ratio < 25:
+            elif ratio < 30:
                 return 2
 
             else:
@@ -103,20 +105,21 @@ class ScoreCalculator:
 
             ratio = float(ratio)
             ratio = self.avgOffset(ratio)
+            # if ratio == self.avgOffset(50):
+            #     return 10
 
-            if ratio == self.avgOffset(50):
+            if ratio < 5:
                 return 10
-
-            elif ratio < 5:
+            elif ratio < 15:
                 return 8
 
-            elif ratio < 15:
+            elif ratio < 20:
                 return 6
 
-            elif ratio < 20:
+            elif ratio < 25:
                 return 4
 
-            elif ratio < 25:
+            elif ratio < 30:
                 return 2
 
             else:
@@ -132,19 +135,21 @@ class ScoreCalculator:
             ratio = float(ratio)
             ratio = self.avgOffset(ratio)
 
-            if ratio == self.avgOffset(50):
-                return 10
+            # if ratio == self.avgOffset(50):
+            #     return 10
 
-            elif ratio < 5:
+            if ratio < 5:
+                return 10
+            elif ratio < 15:
                 return 8
 
-            elif ratio < 15:
+            elif ratio < 20:
                 return 6
 
-            elif ratio < 20:
+            elif ratio < 25:
                 return 4
 
-            elif ratio < 25:
+            elif ratio < 30:
                 return 2
 
             else:

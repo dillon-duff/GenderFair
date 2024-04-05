@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Path to your CSV file
-file_path = '990-Top-1-18.csv'
+file_path = '990-Top-1-25.csv'
 
 # Load the CSV file
 try:
@@ -23,7 +23,7 @@ columns_to_analyze = [
 ]
 
 # Percentiles to calculate
-percentiles = [20, 40, 60, 80, 90]
+percentiles = [50]
 
 # Create a DataFrame to store the percentile values
 percentile_values = pd.DataFrame(index=columns_to_analyze, columns=percentiles)
