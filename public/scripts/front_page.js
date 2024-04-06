@@ -1,20 +1,20 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js'
-import { getFirestore, doc, getDoc } from "https://cdnjs.cloudflare.com/ajax/libs/firebase/10.9.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://cdnjs.cloudflare.com/ajax/libs/firebase/10.9.0/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAgMFt2ritERn0jQATbdhuqIp1ZDUNQ-oI",
-  authDomain: "gender-fair-82d21.firebaseapp.com",
-  databaseURL: "https://gender-fair-82d21-default-rtdb.firebaseio.com",
-  projectId: "gender-fair-82d21",
-  storageBucket: "gender-fair-82d21.appspot.com",
-  messagingSenderId: "607866022549",
-  appId: "1:607866022549:web:0bd2d5eb81d1447c72c99c",
-  measurementId: "G-KHE8JG192F"
+    apiKey: "AIzaSyAgMFt2ritERn0jQATbdhuqIp1ZDUNQ-oI",
+    authDomain: "gender-fair-82d21.firebaseapp.com",
+    databaseURL: "https://gender-fair-82d21-default-rtdb.firebaseio.com",
+    projectId: "gender-fair-82d21",
+    storageBucket: "gender-fair-82d21.appspot.com",
+    messagingSenderId: "607866022549",
+    appId: "1:607866022549:web:0bd2d5eb81d1447c72c99c",
+    measurementId: "G-KHE8JG192F"
 };
 
 // Initialize Firebase
@@ -23,18 +23,39 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firestore
 const db = getFirestore(app);
 
-async function fetchDocumentByID(docID) {
-    const docRef = doc(db, "non-for-profits", docID);
-    const docSnap = await getDoc(docRef);
+async function fetchDocumentByEIN(ein) {
+    const nonprofitsRef = collection(db, "non-for-profits");
+    const queryRef = query(nonprofitsRef,
+        where("ein", "==", ein),
+    );
+    const querySnapshot = await getDocs(queryRef);
+    querySnapshot = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }))
 
-    if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
+    if (querySnapshot.length > 0) {
+        return querySnapshot[0];
     } else {
-        console.log("No such document!");
+        return null;
     }
 }
 
-fetchDocumentByID("001Dj1Z9GqSMOnHSYsyE").catch(console.error);
+
+
+async function fetchDocumentsByRankRange(startRank, endRank) {
+    const nonprofitsRef = collection(db, "non-for-profits");
+    const queryRef = query(nonprofitsRef,
+        where("rank", ">=", startRank),
+        where("rank", "<", endRank)
+    );
+    const querySnapshot = await getDocs(queryRef);
+
+    return querySnapshot;
+}
+
+// fetchDocumentByID("001Dj1Z9GqSMOnHSYsyE").catch(console.error);
+fetchDocumentsByRankRange(0, 49).catch(console.error);
 
 
 let data_candid;
@@ -57,7 +78,7 @@ function scrollSmoothTo(elementId) {
 }
 window.scrollSmoothTo = scrollSmoothTo;
 
-function changePage(increment) {
+async function changePage(increment) {
     const numPages = Math.ceil(data_candid.length / recordsPerPage);
     lastPage = currentPage;
     currentPage += increment;
@@ -72,7 +93,12 @@ function changePage(increment) {
     const startIdx = (currentPage - 1) * recordsPerPage;
     const endIdx = startIdx + recordsPerPage;
     console.log(startIdx, endIdx)
-    currentData = allData.slice(startIdx, endIdx);
+    // currentData = allData.slice(startIdx, endIdx);
+    currentData = await fetchDocumentsByRankRange(startIdx, endIdx);
+    currentData = currentData.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }))
 
     // filteredData = [];
 
@@ -93,15 +119,16 @@ function renderData() {
         toRender = currentData;
     }
 
+    console.log(toRender)
 
     toRender.forEach(function (org) {
         curr_rank++;
-        let score = org.total_score;
+        let score = org.final_score;
 
         const orgHtml = `
             <div class="org-row" data-ein="${org.ein}">
                 <div class="input-rank">#${curr_rank}</div>
-                <div class="input-org">${org.org_name}</div>
+                <div class="input-org">${org.name}</div>
                 <div class="score-container">
                     <div class="rectangle" style="width: ${score}%"></div>
                 </div>

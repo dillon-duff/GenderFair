@@ -6,110 +6,143 @@ let ethnicityDataSenior;
 let this_org_data;
 let currentGenderData;
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js'
+import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://cdnjs.cloudflare.com/ajax/libs/firebase/10.9.0/firebase-firestore.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-d3.csv('data/Candid-Trimmed.csv').then(function (data) {
-    data.forEach(function (d) {
-        delete d['']; // Removes unneeded columns that may or may not exist
-        delete d['Unnamed: 0'];
-        delete d['Unnamed: 0.1'];
-    });
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyAgMFt2ritERn0jQATbdhuqIp1ZDUNQ-oI",
+    authDomain: "gender-fair-82d21.firebaseapp.com",
+    databaseURL: "https://gender-fair-82d21-default-rtdb.firebaseio.com",
+    projectId: "gender-fair-82d21",
+    storageBucket: "gender-fair-82d21.appspot.com",
+    messagingSenderId: "607866022549",
+    appId: "1:607866022549:web:0bd2d5eb81d1447c72c99c",
+    measurementId: "G-KHE8JG192F"
+};
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
-    const params = new URLSearchParams(window.location.search)
-    const ein = params.get('ein');
+// Initialize Firestore
+const db = getFirestore(app);
 
-    // Find the current org's data
-    // TODO: Replace with API call
-    this_org_data = data.find(org => org.ein === ein)
-    console.log(this_org_data)
+async function fetchDocumentByEIN(ein) {
+    const nonprofitsRef = collection(db, "non-for-profits");
+    const queryRef = query(nonprofitsRef,
+        where("ein", "==", ein),
+    );
+    const querySnapshot = await getDocs(queryRef);
+    console.log(querySnapshot)
+    let docs = []
+    docs = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }))
 
-    // Add text 'Women are paid X% more/less
-    const more_or_less = this_org_data.average_female_salary > this_org_data.average_male_salary ? "more" : "less"
-    const payGapText = `Women are paid <span class='percentHighlight'>${Math.round(Math.abs(this_org_data.pay_gap))}% ${more_or_less}</span> than men at ${this_org_data.org_name}`
-
-    var link = document.createElement("a");
-    // Set the href attribute
-    link.href = "https://" + this_org_data.web_address;
-    link.textContent = this_org_data.web_address;
-
-    document.querySelector("#companyName").insertAdjacentHTML('beforeend', this_org_data.org_name);
-    document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
-
-    function fixCapitalization(str) {
-        str = str.charAt(0).toUpperCase() + str.slice(1);
-        for (let i = 1; i < str.length-1; i++) {
-            if (str.charAt(i) === ' ') {
-                str = str.substring(0,i+1) + str.charAt(i+1).toUpperCase() + str.slice(i+2);
-                i++;
-            }
-        }
-        return str;
+    if (docs.length > 0) {
+        return docs[0];
+    } else {
+        return null;
     }
-
-    var loc = document.createElement("text");
-    loc.innerText = fixCapitalization(this_org_data.city.toLowerCase()) + ", " + this_org_data.state_code;
-    document.querySelector("#companyLocation").appendChild(loc)
+}
 
 
-    var numEmp = document.createElement("text");
-    numEmp.innerText = this_org_data.num_employees + " Total Employees";
-    document.querySelector("#companyEmploy").appendChild(numEmp)
+const params = new URLSearchParams(window.location.search)
+const ein = params.get('ein');
 
-    // TODO: Add website link (we have this)
+// Find the current org's data
+// TODO: Replace with API call
+// this_org_data = data.find(org => org.ein === ein)
+this_org_data = await fetchDocumentByEIN(ein);
+console.log(this_org_data)
 
-    document.querySelector("#payGapText").innerHTML = payGapText;
+// Add text 'Women are paid X% more/less
+const more_or_less = this_org_data.metrics.average_female_salary > this_org_data.metrics.average_male_salary ? "more" : "less"
+const payGapText = `Women are paid <span class='percentHighlight'>${Math.round(Math.abs(this_org_data.metrics.pay_gap))}% ${more_or_less}</span> than men at ${this_org_data.name}`
 
-    // Create score gauge
-    createGauge(this_org_data.total_score)
+var link = document.createElement("a");
+// Set the href attribute
+link.href = "https://" + this_org_data.web;
+link.textContent = this_org_data.web;
 
-    // Add bars for score categories
-    const leadership_score = parseInt(this_org_data['Trustees']) + parseInt(this_org_data['Highest Compensated']) + parseInt(this_org_data['Officers'])
-    let leadership_bar = `
+document.querySelector("#companyName").insertAdjacentHTML('beforeend', this_org_data.name);
+document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
+
+function fixCapitalization(str) {
+    str = str.charAt(0).toUpperCase() + str.slice(1);
+    for (let i = 1; i < str.length - 1; i++) {
+        if (str.charAt(i) === ' ') {
+            str = str.substring(0, i + 1) + str.charAt(i + 1).toUpperCase() + str.slice(i + 2);
+            i++;
+        }
+    }
+    return str;
+}
+
+var loc = document.createElement("text");
+loc.innerText = fixCapitalization(this_org_data.city.toLowerCase()) + ", " + this_org_data.state;
+document.querySelector("#companyLocation").appendChild(loc)
+
+
+var numEmp = document.createElement("text");
+numEmp.innerText = this_org_data.metrics.num_employees + " Total Employees";
+document.querySelector("#companyEmploy").appendChild(numEmp)
+
+// TODO: Add website link (we have this)
+
+document.querySelector("#payGapText").innerHTML = payGapText;
+
+// Create score gauge
+createGauge(this_org_data.final_score)
+
+// Add bars for score categories
+const leadership_score = parseInt(this_org_data.trustees_Sscore) + parseInt(this_org_data.highest_compensated_score) + parseInt(this_org_data.officers_score)
+let leadership_bar = `
     <div class="cat-score-container">
       <div class="rectangle" style="width: ${leadership_score / 30 * 100}%"></div>
     </div>
     `
-    document.querySelector("#leadership").insertAdjacentHTML('beforeend', leadership_bar);
+document.querySelector("#leadership").insertAdjacentHTML('beforeend', leadership_bar);
 
-    const pay_score = parseInt(this_org_data['Pay Gap']) + parseInt(this_org_data['Average Salary']) + parseInt(this_org_data['CEO Pay Ratio'])
-    let pay_bar = `
+const pay_score = parseInt(this_org_data.metrics.pay_gap_score) + parseInt(this_org_data.average_salary_score) + parseInt(this_org_data.CEO_pay_ratio_score)
+let pay_bar = `
     <div class="cat-score-container">
       <div class="rectangle" style="width: ${pay_score / 20 * 100}%"></div>
     </div>
     `
-    document.querySelector("#pay").insertAdjacentHTML('beforeend', pay_bar);
+document.querySelector("#pay").insertAdjacentHTML('beforeend', pay_bar);
 
 
-    const diversity_score = parseInt(this_org_data['Candid Reporting']) + parseInt(this_org_data['Diversity Reporting'])
+const diversity_score = parseInt(this_org_data.Candid_Reporting_score) + parseInt(this_org_data.diversity_reporting_score)
 
-    let diversity_bar = `
+let diversity_bar = `
     <div class="cat-score-container">
       <div class="rectangle" style="width: ${diversity_score / 10 * 100}%"></div>
     </div>
     `
-    document.querySelector("#diversity").insertAdjacentHTML('beforeend', diversity_bar);
+document.querySelector("#diversity").insertAdjacentHTML('beforeend', diversity_bar);
 
-    // Create and add all visualzations
-    genderDataStaff = getGenderDataStaff(this_org_data);
-    genderDataSenior = getGenderDataSenior(this_org_data);
-    genderDataBoard = getGenderDataBoard(this_org_data);
-    createBoardGenderCompositionViz("board")
-    createPayGraph(this_org_data)
-    createCircleComparison(this_org_data)
-    ethnicityDataStaff = getEthnicityDataStaff(this_org_data);
-    ethnicityDataSenior = getEthnicityDataSenior(this_org_data);
-    ethnicityDataBoard = getEthnicityDataBoard(this_org_data);
-    createDiversityGraph(this_org_data, "board");
-
-
-
-}).catch(function (error) {
-    console.error('Error loading data: ', error);
-});
+// Create and add all visualzations
+let genderDataStaff = getGenderDataStaff(this_org_data);
+let genderDataSenior = getGenderDataSenior(this_org_data);
+let genderDataBoard = getGenderDataBoard(this_org_data);
+createBoardGenderCompositionViz("board")
+createPayGraph(this_org_data)
+createCircleComparison(this_org_data)
+ethnicityDataStaff = getEthnicityDataStaff(this_org_data);
+ethnicityDataSenior = getEthnicityDataSenior(this_org_data);
+ethnicityDataBoard = getEthnicityDataBoard(this_org_data);
+createDiversityGraph(this_org_data, "board");
 
 function getCurrentGenderData(genderDataString) {
     return currentGenderData;
 }
+
 
 
 function createBoardGenderCompositionViz(genderDataString) {
@@ -297,8 +330,8 @@ function createCircleComparison(orgData) {
 
     d3.select('#payGraph svg').remove();
 
-    highest_salary = Math.round(+orgData.highest_salary);
-    avg_employee_comp = Math.round(+orgData.avg_employee_comp);
+    let highest_salary = Math.round(+orgData.metrics.highest_salary);
+    let avg_employee_comp = Math.round(+orgData.metrics.avg_employee_comp);
 
     const width = 550, height = 550;
     const svg = d3.select("#payGraph").append("svg").attr("width", width).attr("height", height);
@@ -619,8 +652,8 @@ function createPayGraph(orgData) {
 
 
     const data = [
-        { gender: 'Male', compensation: orgData.average_male_salary, color: maleColor },
-        { gender: 'Female', compensation: orgData.average_female_salary, color: femaleColor }
+        { gender: 'Male', compensation: orgData.metrics.average_male_salary, color: maleColor },
+        { gender: 'Female', compensation: orgData.metrics.average_female_salary, color: femaleColor }
     ];
 
     const tooltip = d3.select("#tooltip");
@@ -756,79 +789,79 @@ function formatNumberAbbreviated(num) {
 
 function getEthnicityDataBoard(orgData) {
     return [
-        { ethnicity: "Asian", count: +orgData.asian_board },
-        { ethnicity: "Black", count: +orgData.black_board },
-        { ethnicity: "Hispanic", count: +orgData.hispanic_board },
-        { ethnicity: "Middle Eastern", count: +orgData.middle_eastern_board },
-        { ethnicity: "Native American", count: +orgData.native_american_board },
-        { ethnicity: "Pacific Islander", count: +orgData.pacific_islander_board },
-        { ethnicity: "White", count: +orgData.white_board },
-        { ethnicity: "Multi-Racial", count: +orgData.multi_racial_board },
-        { ethnicity: "Other", count: +orgData.other_ethnicity_board },
-        { ethnicity: "Decline to state", count: +orgData.race_decline_to_state_board },
-        { ethnicity: "Unknown", count: +orgData.race_unknown_board },
+        { ethnicity: "Asian", count: +orgData.board_race.asian },
+        { ethnicity: "Black", count: +orgData.board_race.black },
+        { ethnicity: "Hispanic", count: +orgData.board_race.hispanic },
+        { ethnicity: "Middle Eastern", count: +orgData.board_race.middle_eastern },
+        { ethnicity: "Native American", count: +orgData.board_race.native_american },
+        { ethnicity: "Pacific Islander", count: +orgData.board_race.pacific_islander },
+        { ethnicity: "White", count: +orgData.board_race.white },
+        { ethnicity: "Multi-Racial", count: +orgData.board_race.multi_racial },
+        { ethnicity: "Other", count: +orgData.board_race.other },
+        { ethnicity: "Decline to state", count: +orgData.board_race.declined },
+        { ethnicity: "Unknown", count: +orgData.board_race.unknown },
     ];
 }
 
 function getEthnicityDataSenior(orgData) {
     return [
-        { ethnicity: "Asian", count: +orgData.asian_senior_staff },
-        { ethnicity: "Black", count: +orgData.black_senior_staff },
-        { ethnicity: "Hispanic", count: +orgData.hispanic_senior_staff },
-        { ethnicity: "Middle Eastern", count: +orgData.middle_eastern_staff },
-        { ethnicity: "Native American", count: +orgData.native_american_senior_staff },
-        { ethnicity: "Pacific Islander", count: +orgData.pacific_islander_senior_staff },
-        { ethnicity: "White", count: +orgData.white_senior_staff },
-        { ethnicity: "Multi-Racial", count: +orgData.multi_racial_senior_staff },
-        { ethnicity: "Other", count: +orgData.other_ethnicity_senior_staff },
-        { ethnicity: "Decline to state", count: +orgData.race_decline_to_state_senior_staff },
-        { ethnicity: "Unknown", count: +orgData.race_unknown_senior_staff },
+        { ethnicity: "Asian", count: +orgData.senior_staff_race.asian },
+        { ethnicity: "Black", count: +orgData.senior_staff_race.black },
+        { ethnicity: "Hispanic", count: +orgData.senior_staff_race.hispanic },
+        { ethnicity: "Middle Eastern", count: +orgData.senior_staff_race.middle_eastern },
+        { ethnicity: "Native American", count: +orgData.senior_staff_race.native_american },
+        { ethnicity: "Pacific Islander", count: +orgData.senior_staff_race.pacific_islander },
+        { ethnicity: "White", count: +orgData.senior_staff_race.white },
+        { ethnicity: "Multi-Racial", count: +orgData.senior_staff_race.multi_racial },
+        { ethnicity: "Other", count: +orgData.senior_staff_race.other },
+        { ethnicity: "Decline to state", count: +orgData.senior_staff_race.declined },
+        { ethnicity: "Unknown", count: +orgData.senior_staff_race.unknown },
     ];
 }
 
 function getEthnicityDataStaff(orgData) {
     return [
-        { ethnicity: "Asian", count: +orgData.asian_staff },
-        { ethnicity: "Black", count: +orgData.black_staff },
-        { ethnicity: "Hispanic", count: +orgData.hispanic_staff },
-        { ethnicity: "Middle Eastern", count: +orgData.middle_eastern_staff },
-        { ethnicity: "Native American", count: +orgData.native_american_staff },
-        { ethnicity: "Pacific Islander", count: +orgData.pacific_islander_staff },
-        { ethnicity: "White", count: +orgData.white_staff },
-        { ethnicity: "Multi-Racial", count: +orgData.multi_racial_staff },
-        { ethnicity: "Other", count: +orgData.other_ethnicity_staff },
-        { ethnicity: "Decline to state", count: +orgData.race_decline_to_state_staff },
-        { ethnicity: "Unknown", count: +orgData.race_unknown_staff },
+        { ethnicity: "Asian", count: +orgData.staff_race.asian },
+        { ethnicity: "Black", count: +orgData.staff_race.black },
+        { ethnicity: "Hispanic", count: +orgData.staff_race.hispanic },
+        { ethnicity: "Middle Eastern", count: +orgData.staff_race.middle_eastern },
+        { ethnicity: "Native American", count: +orgData.staff_race.native_american },
+        { ethnicity: "Pacific Islander", count: +orgData.staff_race.pacific_islander },
+        { ethnicity: "White", count: +orgData.staff_race.white },
+        { ethnicity: "Multi-Racial", count: +orgData.staff_race.multi_racial },
+        { ethnicity: "Other", count: +orgData.staff_race.other },
+        { ethnicity: "Decline to state", count: +orgData.staff_race.declined },
+        { ethnicity: "Unknown", count: +orgData.staff_race.unknown },
     ];
 }
 
 function getGenderDataBoard(orgData) {
     return {
-        "Female": orgData.female_board,
-        "Male": orgData.male_board,
-        "Non-Binary": orgData.non_binary_board,
-        "Decline to State": orgData.gender_decline_to_state_board,
-        "Unknown": orgData.gender_unknown_board
+        "Female": orgData.board_gender.female,
+        "Male": orgData.board_gender.male,
+        "Non-Binary": orgData.board_gender.non_binary,
+        "Decline to State": orgData.board_gender.declined,
+        "Unknown": orgData.board_gender.unknown,
     }
 }
 
 function getGenderDataSenior(orgData) {
     return {
-        "Female": orgData.female_senior_staff,
-        "Male": orgData.male_senior_staff,
-        "Non-Binary": orgData.non_binary_senior_staff,
-        "Decline to State": orgData.gender_decline_to_state_senior_staff,
-        "Unknown": orgData.gender_unknown_senior_staff
+        "Female": orgData.senior_staff_gender.female,
+        "Male": orgData.senior_staff_gender.male,
+        "Non-Binary": orgData.senior_staff_gender.non_binary,
+        "Decline to State": orgData.senior_staff_gender.declined,
+        "Unknown": orgData.senior_staff_gender.unknown,
     }
 }
 
 function getGenderDataStaff(orgData) {
     return {
-        "Female": orgData.female_staff,
-        "Male": orgData.male_staff,
-        "Non-Binary": orgData.non_binary_staff,
-        "Decline to State": orgData.gender_decline_to_state_staff,
-        "Unknown": orgData.gender_unknown_staff
+        "Female": orgData.staff_gender.female,
+        "Male": orgData.staff_gender.male,
+        "Non-Binary": orgData.staff_gender.non_binary,
+        "Decline to State": orgData.staff_gender.declined,
+        "Unknown": orgData.staff_gender.unknown
     }
 }
 
