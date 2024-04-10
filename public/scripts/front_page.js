@@ -130,7 +130,7 @@ function renderData() {
                 <div class="input-rank">#${curr_rank}</div>
                 <div class="input-org">${org.name}</div>
                 <div class="score-container">
-                    <div class="rectangle" style="width: ${score}%"></div>
+                    <div class="rectangle" style="width: ${score*(100/60)}%"></div>
                 </div>
                 <div class="score">${score}</div>
             </div>

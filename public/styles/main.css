@@ -593,6 +593,7 @@ input {
   background-color: rgb(255, 94, 0);
   margin: auto;
   margin-top: 10px;
+  margin-bottom: 25px;
 }
 
 #explanation {
@@ -786,13 +787,6 @@ section#Pay {
   background-color: lightgrey;
 } */
 
-
-
-
-
-
-
-
 .btn-group {
   display: flex;
   flex-direction: column;
@@ -872,4 +866,22 @@ section#Pay {
 
 #filterIcon {
   margin-left: 15px;
+}
+
+#missionStatement {
+  font-size: 20px;
+  font-family: Raleway;
+}
+
+#donationLink {
+  margin-top: 60px;
+  font-size: 20px;
+  font-family: Raleway;
+  flex: 0 0 4%;
+}
+
+.leftSideInfo {
+  margin-left: 50px;
+  display:flex;
+  flex-direction: column;
 }

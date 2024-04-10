@@ -68,10 +68,12 @@ const payGapText = `Women are paid <span class='percentHighlight'>${Math.round(M
 var link = document.createElement("a");
 // Set the href attribute
 link.href = "https://" + this_org_data.web;
-link.textContent = this_org_data.web;
+link.textContent = this_org_data.web.toLowerCase();
 
 document.querySelector("#companyName").insertAdjacentHTML('beforeend', this_org_data.name);
 document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
+document.querySelector("#donationLink").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
+
 
 function fixCapitalization(str) {
     str = str.charAt(0).toUpperCase() + str.slice(1);
@@ -576,7 +578,7 @@ function createGauge(score) {
     const sectionAngle = Math.PI / n;
 
     const width = 500;
-    const height = 475;
+    const height = 350;
     const margin = { top: 20, right: 20, bottom: 20, left: 0 };
 
     const needleLength = 200;
@@ -619,7 +621,7 @@ function createGauge(score) {
         .style("fill", "black")
         .style("stroke", "none");
 
-    const needleAngle = scoreToAngle(score) * (180 / Math.PI);
+    const needleAngle = scoreToAngle(score*(100/60)) * (180 / Math.PI);
 
     svg
         .append("line")
@@ -639,7 +641,7 @@ function createGauge(score) {
         .append("text")
         .attr("x", needlePivotX)
         .attr("y", needlePivotY - 70)
-        .text(`${score}/100`)
+        .text(`${score}/60`)
         .attr("text-anchor", "middle")
         .style("font-size", "1.5rem")
         .style("font-family", "Poppins")
@@ -721,7 +723,7 @@ function createPayGraph(orgData) {
         .attr("text-anchor", "right")
         .attr("font-size", "1.2rem")
         .attr("font-family", "Raleway")
-        .text("Highest Paid Employee Avg Compensation");
+        .text("Highest Paid Employee Average Compensation");
 
 
     const legendSpacing = 5;
