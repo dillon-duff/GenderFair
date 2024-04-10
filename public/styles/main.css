@@ -27,6 +27,83 @@
   font: 100;
   font-family: Raleway;
 }
+.met-button-cont{
+  display:flex;
+  flex-direction: row;
+  align-content: start;
+}
+.mettext{
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mettext > p{
+  color: #9F9F9F;
+  margin-top: 0px;
+}
+.mettext > h2{
+ 
+}
+
+.met_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metleft {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 36%;
+  left: 17%;
+  box-shadow: -1px 6px 18px 0px rgba(0,0,0,0.15);
+  align-items: center;
+  justify-content: center;
+  padding: 2% 1%;
+  z-index: 19;
+  background: white;
+  font-family: Poppins;
+}
+
+.metright {
+  display: flex;
+  flex-basis: 60%;
+  z-index: 8;
+  height: 84vh;
+  align-content: center;
+  align-items: center;
+}
+
+.metright img {
+  width: 100%;
+  height: auto;
+  max-height: 75%;
+  border-radius: 3%;
+  object-fit: cover;
+}
+
+.met-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 0.8em;
+  font-weight: normal;
+  text-align: center;
+  font-family: Poppins;
+  text-decoration: none;
+  border-radius: 20px;
+  background-color: #EE6033;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.met-button:hover {
+  background-color: #e94c51;
+}
+
+
 .wsf_seperatorBar {
   height: 5px;
   max-width:100%;
@@ -47,7 +124,7 @@
   height: auto;
 }
 .wsf_container{
-  margin: 3% 0;
+  margin-top: 3%;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
