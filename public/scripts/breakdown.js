@@ -63,7 +63,7 @@ console.log(this_org_data)
 
 // Add text 'Women are paid X% more/less
 const more_or_less = this_org_data.metrics.average_female_salary > this_org_data.metrics.average_male_salary ? "more" : "less"
-const payGapText = `Women are paid <span class='percentHighlight'>${Math.round(Math.abs(this_org_data.metrics.pay_gap))}% ${more_or_less}</span> than men at ${this_org_data.name}`
+const payGapText = `Women in leadership are paid <span class='percentHighlight'>${Math.round(Math.abs(this_org_data.metrics.pay_gap))}% ${more_or_less}</span> than men at ${this_org_data.name}`
 
 var link = document.createElement("a");
 // Set the href attribute
@@ -87,18 +87,21 @@ function fixCapitalization(str) {
     return str;
 }
 
+// TODO: fix this code, right now its giving undefined, not sure what the description is saved as...
 var loc = document.createElement("text");
 if (this_org_data.city && this_org_data.state){
 loc.innerText = fixCapitalization(this_org_data.city.toLowerCase()) + ", " + this_org_data.state;
 }
-document.querySelector("#companyLocation").appendChild(loc)
+document.querySelector("#companyLocation").appendChild(loc);
 
 
 var numEmp = document.createElement("text");
 numEmp.innerText = this_org_data.metrics.num_employees + " Total Employees";
-document.querySelector("#companyEmploy").appendChild(numEmp)
+document.querySelector("#companyEmploy").appendChild(numEmp);
 
-// TODO: Add website link (we have this)
+var mission = document.createElement("text");
+mission.innerText = this_org_data.description;
+document.querySelector("#missionStatement").appendChild(mission);
 
 document.querySelector("#payGapText").innerHTML = payGapText;
 
@@ -111,7 +114,7 @@ let leadership_bar = `
     <div class="cat-score-container">
       <div class="rectangle" style="width: ${leadership_score / 51 * 100}%"></div>
     </div>
-    <div class="score">${leadership_score}</div>
+    <div class="score">${leadership_score}/51</div>
     `
 document.querySelector("#leadership").insertAdjacentHTML('beforeend', leadership_bar);
 
@@ -121,7 +124,7 @@ let pay_bar = `
     <div class="cat-score-container">
       <div class="rectangle" style="width: ${pay_score / 33 * 100}%"></div>
     </div>
-    <div class="score">${pay_score}</div>
+    <div class="score">${pay_score}/33</div>
     `
 document.querySelector("#pay").insertAdjacentHTML('beforeend', pay_bar);
 
@@ -132,7 +135,7 @@ let diversity_bar = `
     <div class="cat-score-container">
       <div class="rectangle" style="width: ${diversity_score / 16 * 100}%"></div>
     </div>
-    <div class="score">${diversity_score}</div>
+    <div class="score">${diversity_score}/16</div>
     `
 document.querySelector("#diversity").insertAdjacentHTML('beforeend', diversity_bar);
 
