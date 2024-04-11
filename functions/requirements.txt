@@ -1,3 +1,5 @@
 firebase_functions~=0.1.0
 pandas
 bs4
+numpy
+firebase_admin

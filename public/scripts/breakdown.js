@@ -103,7 +103,7 @@ document.querySelector("#payGapText").innerHTML = payGapText;
 createGauge(this_org_data.final_score)
 
 // Add bars for score categories
-const leadership_score = parseInt(this_org_data.trustees_Sscore) + parseInt(this_org_data.highest_compensated_score) + parseInt(this_org_data.officers_score)
+const leadership_score = parseInt(this_org_data.trustees_score) + parseInt(this_org_data.highest_compensated_score) + parseInt(this_org_data.officers_score)
 let leadership_bar = `
     <div class="cat-score-container">
       <div class="rectangle" style="width: ${leadership_score / 30 * 100}%"></div>
