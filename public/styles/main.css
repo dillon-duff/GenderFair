@@ -833,24 +833,20 @@ section#Pay {
   justify-content: center;
 }
 
-#companyWebsite {
+/* #companyWebsite {
   flex: 0 0 30%;
-  /* text-align: center; */
-  /* justify-content: center; */
   text-transform: lowercase;
-}
+} */
 
 #companyLocation {
   display: flex;
   flex: 0 0 30%;
   text-align: center;
-  /* justify-content: center; */
 }
 
 #companyEmploy {
   display: flex;
   text-align: center;
-  /* justify-content: center; */
 }
 
 #orgInfo {
