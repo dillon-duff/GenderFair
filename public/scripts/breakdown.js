@@ -106,7 +106,7 @@ createGauge(this_org_data.final_score)
 const leadership_score = parseInt(this_org_data.trustees_score) + parseInt(this_org_data.highest_compensated_score) + parseInt(this_org_data.officers_score)
 let leadership_bar = `
     <div class="cat-score-container">
-      <div class="rectangle" style="width: ${leadership_score / 30 * 100}%"></div>
+      <div class="rectangle" style="width: ${leadership_score / 51 * 100}%"></div>
     </div>
     `
 document.querySelector("#leadership").insertAdjacentHTML('beforeend', leadership_bar);
@@ -114,7 +114,7 @@ document.querySelector("#leadership").insertAdjacentHTML('beforeend', leadership
 const pay_score = parseInt(this_org_data.metrics.pay_gap_score) + parseInt(this_org_data.average_salary_score) + parseInt(this_org_data.CEO_pay_ratio_score)
 let pay_bar = `
     <div class="cat-score-container">
-      <div class="rectangle" style="width: ${pay_score / 20 * 100}%"></div>
+      <div class="rectangle" style="width: ${pay_score / 33 * 100}%"></div>
     </div>
     `
 document.querySelector("#pay").insertAdjacentHTML('beforeend', pay_bar);
@@ -124,7 +124,7 @@ const diversity_score = parseInt(this_org_data.Candid_Reporting_score) + parseIn
 
 let diversity_bar = `
     <div class="cat-score-container">
-      <div class="rectangle" style="width: ${diversity_score / 10 * 100}%"></div>
+      <div class="rectangle" style="width: ${diversity_score / 16 * 100}%"></div>
     </div>
     `
 document.querySelector("#diversity").insertAdjacentHTML('beforeend', diversity_bar);
@@ -621,7 +621,7 @@ function createGauge(score) {
         .style("fill", "black")
         .style("stroke", "none");
 
-    const needleAngle = scoreToAngle(score*(100/60)) * (180 / Math.PI);
+    const needleAngle = scoreToAngle(score) * (180 / Math.PI);
 
     svg
         .append("line")
@@ -641,7 +641,7 @@ function createGauge(score) {
         .append("text")
         .attr("x", needlePivotX)
         .attr("y", needlePivotY - 70)
-        .text(`${score}/60`)
+        .text(`${score}/100`)
         .attr("text-anchor", "middle")
         .style("font-size", "1.5rem")
         .style("font-family", "Poppins")
