@@ -547,6 +547,12 @@ input {
   font-weight: bold;
 }
 
+#methodology-intro,
+#methodology-factors,
+#methodology-data {
+    margin-bottom: 40px; /* Adjust spacing as needed */
+}
+
 .input-org {
   font-size: 1.5rem;
 }

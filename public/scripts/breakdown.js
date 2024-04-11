@@ -68,7 +68,8 @@ const payGapText = `Women are paid <span class='percentHighlight'>${Math.round(M
 var link = document.createElement("a");
 // Set the href attribute
 link.href = "https://" + this_org_data.web;
-link.textContent = this_org_data.web.toLowerCase();
+if (this_org_data.web){
+    link.textContent = this_org_data.web.toLowerCase();}
 
 document.querySelector("#companyName").insertAdjacentHTML('beforeend', this_org_data.name);
 document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
@@ -87,7 +88,9 @@ function fixCapitalization(str) {
 }
 
 var loc = document.createElement("text");
+if (this_org_data.city && this_org_data.state){
 loc.innerText = fixCapitalization(this_org_data.city.toLowerCase()) + ", " + this_org_data.state;
+}
 document.querySelector("#companyLocation").appendChild(loc)
 
 

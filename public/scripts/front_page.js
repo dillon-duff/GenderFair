@@ -79,7 +79,7 @@ function scrollSmoothTo(elementId) {
 window.scrollSmoothTo = scrollSmoothTo;
 
 async function changePage(increment) {
-    const numPages = Math.ceil(data_candid.length / recordsPerPage);
+    const numPages = 417; //NEED TO FIX, currently cant find size of db without loading the entire db each time
     lastPage = currentPage;
     currentPage += increment;
 
