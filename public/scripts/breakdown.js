@@ -108,14 +108,17 @@ let leadership_bar = `
     <div class="cat-score-container">
       <div class="rectangle" style="width: ${leadership_score / 51 * 100}%"></div>
     </div>
+    <div class="score">${leadership_score}</div>
     `
 document.querySelector("#leadership").insertAdjacentHTML('beforeend', leadership_bar);
 
-const pay_score = parseInt(this_org_data.metrics.pay_gap_score) + parseInt(this_org_data.average_salary_score) + parseInt(this_org_data.CEO_pay_ratio_score)
+
+const pay_score = parseInt(this_org_data.pay_gap_score) + parseInt(this_org_data.average_salary_score) + parseInt(this_org_data.CEO_pay_ratio_score)
 let pay_bar = `
     <div class="cat-score-container">
       <div class="rectangle" style="width: ${pay_score / 33 * 100}%"></div>
     </div>
+    <div class="score">${pay_score}</div>
     `
 document.querySelector("#pay").insertAdjacentHTML('beforeend', pay_bar);
 
@@ -126,6 +129,7 @@ let diversity_bar = `
     <div class="cat-score-container">
       <div class="rectangle" style="width: ${diversity_score / 16 * 100}%"></div>
     </div>
+    <div class="score">${diversity_score}</div>
     `
 document.querySelector("#diversity").insertAdjacentHTML('beforeend', diversity_bar);
 
