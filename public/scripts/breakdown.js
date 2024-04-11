@@ -175,6 +175,11 @@ function createBoardGenderCompositionViz(genderDataString) {
         default:
             return;
     }
+   const allZeros = Object.values(genderData).every(value => value === 0)
+
+
+
+
 
     /* Keeping this global because the tooltip won't work otherwise, oddly */
     currentGenderData = genderData;
@@ -196,6 +201,28 @@ function createBoardGenderCompositionViz(genderDataString) {
         svg = d3.select("#leadershipGraph svg g");
     }
 
+   svg.selectAll("*").remove(); // Clear previous contents.
+
+       if (allZeros) {
+           // Apply a black tint to the graph area
+           svg.append("rect")
+               .attr("width", width)
+               .attr("height", height)
+               .attr("fill", "black")
+               .attr("opacity", 0.75)
+               .attr("transform", `translate(${-width / 2}, ${-height / 2})`);
+
+           // Display "DID NOT REPORT" text
+           svg.append("text")
+               .attr("x", 0)
+               .attr("y", 0)
+               .attr("text-anchor", "middle")
+               .attr("fill", "white")
+               .style("font-size", "30px")
+               .text("DID NOT REPORT");
+
+           return; // Skip drawing the rest of the graph if all counts are 0
+       }
 
     const color = d3.scaleOrdinal()
         .domain(["Female", "Male", "Non-Binary", "Decline to State", "Unknown"])
@@ -472,6 +499,9 @@ function createDiversityGraph(orgData, ethnicityDataString) {
             return;
     }
 
+    const allZeros = ethnicityData.every(d => d.count === 0);
+
+
     // If the SVG doesn't exist, create it. Otherwise, select the existing SVG.
     const svgExists = d3.select("#diversityGraph svg").empty() === false;
     let svg;
@@ -489,6 +519,28 @@ function createDiversityGraph(orgData, ethnicityDataString) {
     } else {
         svg = d3.select("#diversityGraph svg g");
     }
+    svg.selectAll("*").remove();
+     if (allZeros) {
+
+            svg.append("rect")
+                .attr("class", "overlay")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("fill", "black")
+                .attr("opacity", 0.5);
+
+
+            svg.append("text")
+                .attr("class", "overlay-text")
+                .attr("x", width / 2)
+                .attr("y", height / 2)
+                .attr("text-anchor", "middle")
+                .attr("fill", "white")
+                .style("font-size", "30px")
+                .text("DID NOT REPORT");
+
+            return;
+        }
 
     // Update the scales
     const x = d3.scaleBand()
@@ -797,81 +849,164 @@ function formatNumberAbbreviated(num) {
 }
 
 function getEthnicityDataBoard(orgData) {
-    return [
-        { ethnicity: "Asian", count: +orgData.board_race.asian },
-        { ethnicity: "Black", count: +orgData.board_race.black },
-        { ethnicity: "Hispanic", count: +orgData.board_race.hispanic },
-        { ethnicity: "Middle Eastern", count: +orgData.board_race.middle_eastern },
-        { ethnicity: "Native American", count: +orgData.board_race.native_american },
-        { ethnicity: "Pacific Islander", count: +orgData.board_race.pacific_islander },
-        { ethnicity: "White", count: +orgData.board_race.white },
-        { ethnicity: "Multi-Racial", count: +orgData.board_race.multi_racial },
-        { ethnicity: "Other", count: +orgData.board_race.other },
-        { ethnicity: "Decline to state", count: +orgData.board_race.declined },
-        { ethnicity: "Unknown", count: +orgData.board_race.unknown },
-    ];
+    if (orgData.board_race) {
+        return [
+            { ethnicity: "Asian", count: +orgData.board_race.asian ?? 0 },
+            { ethnicity: "Black", count: +orgData.board_race.black ?? 0 },
+            { ethnicity: "Hispanic", count: +orgData.board_race.hispanic ?? 0 },
+            { ethnicity: "Middle Eastern", count: +orgData.board_race.middle_eastern ?? 0 },
+            { ethnicity: "Native American", count: +orgData.board_race.native_american ?? 0 },
+            { ethnicity: "Pacific Islander", count: +orgData.board_race.pacific_islander ?? 0 },
+            { ethnicity: "White", count: +orgData.board_race.white ?? 0 },
+            { ethnicity: "Multi-Racial", count: +orgData.board_race.multi_racial ?? 0 },
+            { ethnicity: "Other", count: +orgData.board_race.other ?? 0 },
+            { ethnicity: "Decline to state", count: +orgData.board_race.declined ?? 0 },
+            { ethnicity: "Unknown", count: +orgData.board_race.unknown ?? 0 },
+        ];
+    } else {
+        return [
+            { ethnicity: "Asian", count: 0 },
+            { ethnicity: "Black", count: 0 },
+            { ethnicity: "Hispanic", count: 0 },
+            { ethnicity: "Middle Eastern", count: 0 },
+            { ethnicity: "Native American", count: 0 },
+            { ethnicity: "Pacific Islander", count: 0 },
+            { ethnicity: "White", count: 0 },
+            { ethnicity: "Multi-Racial", count: 0 },
+            { ethnicity: "Other", count: 0 },
+            { ethnicity: "Decline to state", count: 0 },
+            { ethnicity: "Unknown", count: 0 },
+        ];
+    }
 }
+
 
 function getEthnicityDataSenior(orgData) {
-    return [
-        { ethnicity: "Asian", count: +orgData.senior_staff_race.asian },
-        { ethnicity: "Black", count: +orgData.senior_staff_race.black },
-        { ethnicity: "Hispanic", count: +orgData.senior_staff_race.hispanic },
-        { ethnicity: "Middle Eastern", count: +orgData.senior_staff_race.middle_eastern },
-        { ethnicity: "Native American", count: +orgData.senior_staff_race.native_american },
-        { ethnicity: "Pacific Islander", count: +orgData.senior_staff_race.pacific_islander },
-        { ethnicity: "White", count: +orgData.senior_staff_race.white },
-        { ethnicity: "Multi-Racial", count: +orgData.senior_staff_race.multi_racial },
-        { ethnicity: "Other", count: +orgData.senior_staff_race.other },
-        { ethnicity: "Decline to state", count: +orgData.senior_staff_race.declined },
-        { ethnicity: "Unknown", count: +orgData.senior_staff_race.unknown },
-    ];
+    if (orgData.senior_staff_race) {
+        return [
+            { ethnicity: "Asian", count: +orgData.senior_staff_race.asian ?? 0 },
+            { ethnicity: "Black", count: +orgData.senior_staff_race.black ?? 0 },
+            { ethnicity: "Hispanic", count: +orgData.senior_staff_race.hispanic ?? 0 },
+            { ethnicity: "Middle Eastern", count: +orgData.senior_staff_race.middle_eastern ?? 0 },
+            { ethnicity: "Native American", count: +orgData.senior_staff_race.native_american ?? 0 },
+            { ethnicity: "Pacific Islander", count: +orgData.senior_staff_race.pacific_islander ?? 0 },
+            { ethnicity: "White", count: +orgData.senior_staff_race.white ?? 0 },
+            { ethnicity: "Multi-Racial", count: +orgData.senior_staff_race.multi_racial ?? 0 },
+            { ethnicity: "Other", count: +orgData.senior_staff_race.other ?? 0 },
+            { ethnicity: "Decline to state", count: +orgData.senior_staff_race.declined ?? 0 },
+            { ethnicity: "Unknown", count: +orgData.senior_staff_race.unknown ?? 0 },
+        ];
+    } else {
+        return [
+            { ethnicity: "Asian", count: 0 },
+            { ethnicity: "Black", count: 0 },
+            { ethnicity: "Hispanic", count: 0 },
+            { ethnicity: "Middle Eastern", count: 0 },
+            { ethnicity: "Native American", count: 0 },
+            { ethnicity: "Pacific Islander", count: 0 },
+            { ethnicity: "White", count: 0 },
+            { ethnicity: "Multi-Racial", count: 0 },
+            { ethnicity: "Other", count: 0 },
+            { ethnicity: "Decline to state", count: 0 },
+            { ethnicity: "Unknown", count: 0 },
+        ];
+    }
 }
+
 
 function getEthnicityDataStaff(orgData) {
-    return [
-        { ethnicity: "Asian", count: +orgData.staff_race.asian },
-        { ethnicity: "Black", count: +orgData.staff_race.black },
-        { ethnicity: "Hispanic", count: +orgData.staff_race.hispanic },
-        { ethnicity: "Middle Eastern", count: +orgData.staff_race.middle_eastern },
-        { ethnicity: "Native American", count: +orgData.staff_race.native_american },
-        { ethnicity: "Pacific Islander", count: +orgData.staff_race.pacific_islander },
-        { ethnicity: "White", count: +orgData.staff_race.white },
-        { ethnicity: "Multi-Racial", count: +orgData.staff_race.multi_racial },
-        { ethnicity: "Other", count: +orgData.staff_race.other },
-        { ethnicity: "Decline to state", count: +orgData.staff_race.declined },
-        { ethnicity: "Unknown", count: +orgData.staff_race.unknown },
-    ];
+    if (orgData.staff_race) {
+        return [
+            { ethnicity: "Asian", count: +orgData.staff_race.asian ?? 0 },
+            { ethnicity: "Black", count: +orgData.staff_race.black ?? 0 },
+            { ethnicity: "Hispanic", count: +orgData.staff_race.hispanic ?? 0 },
+            { ethnicity: "Middle Eastern", count: +orgData.staff_race.middle_eastern ?? 0 },
+            { ethnicity: "Native American", count: +orgData.staff_race.native_american ?? 0 },
+            { ethnicity: "Pacific Islander", count: +orgData.staff_race.pacific_islander ?? 0 },
+            { ethnicity: "White", count: +orgData.staff_race.white ?? 0 },
+            { ethnicity: "Multi-Racial", count: +orgData.staff_race.multi_racial ?? 0 },
+            { ethnicity: "Other", count: +orgData.staff_race.other ?? 0 },
+            { ethnicity: "Decline to state", count: +orgData.staff_race.declined ?? 0 },
+            { ethnicity: "Unknown", count: +orgData.staff_race.unknown ?? 0 },
+        ];
+    } else {
+        return [
+            { ethnicity: "Asian", count: 0 },
+            { ethnicity: "Black", count: 0 },
+            { ethnicity: "Hispanic", count: 0 },
+            { ethnicity: "Middle Eastern", count: 0 },
+            { ethnicity: "Native American", count: 0 },
+            { ethnicity: "Pacific Islander", count: 0 },
+            { ethnicity: "White", count: 0 },
+            { ethnicity: "Multi-Racial", count: 0 },
+            { ethnicity: "Other", count: 0 },
+            { ethnicity: "Decline to state", count: 0 },
+            { ethnicity: "Unknown", count: 0 },
+        ];
+    }
 }
 
+
 function getGenderDataBoard(orgData) {
-    return {
-        "Female": orgData.board_gender.female,
-        "Male": orgData.board_gender.male,
-        "Non-Binary": orgData.board_gender.non_binary,
-        "Decline to State": orgData.board_gender.declined,
-        "Unknown": orgData.board_gender.unknown,
+    if (orgData.board_gender){
+        return {
+            "Female": orgData.board_gender.female || 0,
+            "Male": orgData.board_gender.male || 0,
+            "Non-Binary": orgData.board_gender.non_binary || 0,
+            "Decline to State": orgData.board_gender.declined || 0,
+            "Unknown": orgData.board_gender.unknown || 0,
+        }
+    } else {
+        return {
+                "Female": 0,
+                "Male": 0,
+                "Non-Binary": 0,
+                "Decline to State": 0,
+                "Unknown": 0,
+            }
     }
 }
 
 function getGenderDataSenior(orgData) {
-    return {
-        "Female": orgData.senior_staff_gender.female,
-        "Male": orgData.senior_staff_gender.male,
-        "Non-Binary": orgData.senior_staff_gender.non_binary,
-        "Decline to State": orgData.senior_staff_gender.declined,
-        "Unknown": orgData.senior_staff_gender.unknown,
+    if(orgData.senior_staff_gender){
+        return {
+            "Female": orgData.senior_staff_gender.female || 0,
+            "Male": orgData.senior_staff_gender.male || 0,
+            "Non-Binary": orgData.senior_staff_gender.non_binary || 0,
+            "Decline to State": orgData.senior_staff_gender.declined || 0,
+            "Unknown": orgData.senior_staff_gender.unknown || 0,
+        }
     }
+    else {
+            return {
+                    "Female": 0,
+                    "Male": 0,
+                    "Non-Binary": 0,
+                    "Decline to State": 0,
+                    "Unknown": 0,
+                }
+        }
 }
 
 function getGenderDataStaff(orgData) {
-    return {
-        "Female": orgData.staff_gender.female,
-        "Male": orgData.staff_gender.male,
-        "Non-Binary": orgData.staff_gender.non_binary,
-        "Decline to State": orgData.staff_gender.declined,
-        "Unknown": orgData.staff_gender.unknown
-    }
+    if(orgData.staff_gender){
+        return {
+                "Female": orgData.staff_gender.female || 0,
+                "Male": orgData.staff_gender.male || 0,
+                "Non-Binary": orgData.staff_gender.non_binary || 0,
+                "Decline to State": orgData.staff_gender.declined || 0,
+                "Unknown": orgData.staff_gender.unknown || 0
+            }
+    } else {
+              return {
+                      "Female": 0,
+                      "Male": 0,
+                      "Non-Binary": 0,
+                      "Decline to State": 0,
+                      "Unknown": 0,
+                  }
+          }
+
 }
 
 function scoreToAngle(score) {
