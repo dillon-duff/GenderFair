@@ -23,25 +23,61 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firestore
 const db = getFirestore(app);
 
-async function fetchDocumentByEIN(ein) {
-    const nonprofitsRef = collection(db, "non-for-profits");
-    const queryRef = query(nonprofitsRef,
-        where("ein", "==", ein),
-    );
-    const querySnapshot = await getDocs(queryRef);
-    querySnapshot = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }))
+
+function chunkArray(array, chunkSize) {
+    const chunks = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+        const chunk = array.slice(i, i + chunkSize);
+        chunks.push(chunk);
+    }
+    return chunks;
+}
+
+async function fetchDocumentsForEINs(db, allEINs) {
+    const limit = 50;
+    const chunkedEINs = chunkArray(allEINs, 25); // Firestore allows up to 30 items in an 'in' query, so I'm putting 25 just to be safe
+    const documents = [];
+
+    for (const chunk of chunkedEINs) {
+        const collectionRef = collection(db, "non-for-profits");
+        const queryRef = query(collectionRef, where("ein", "in", chunk));
+        const querySnapshot = await getDocs(queryRef);
+        querySnapshot.forEach(doc => {
+            documents.push(doc.data());
+        });
+        if (documents.length >= limit) {
+            break;
+        }
+    }
+
+    return documents;
+}
+
+async function fetchDocumentByNameAndCategories(name, categories) {
+    // Currently only gets the top 50 results and there is no way to see the rest.
+    // This will become an issue when we try to involve paging when using category filters
+    name = name.toLowerCase();
+    const response = await fetch('../nameToEINMap.json');
+    const nameToEINMap = await response.json();
+
+    let fittingEINs = [];
+    for (const orgName in nameToEINMap) {
+        if (orgName.toLowerCase().includes(name)) {
+            fittingEINs.push(nameToEINMap[orgName]);
+        }
+    }
+    if (fittingEINs.length <= 0) return null;
+
+    let docs = await fetchDocumentsForEINs(db, fittingEINs);
+
+    let querySnapshot = docs.filter(doc => categories.includes(doc.category)).sort((a, b) => a.rank - b.rank);
 
     if (querySnapshot.length > 0) {
-        return querySnapshot[0];
+        return querySnapshot;
     } else {
         return null;
     }
 }
-
-
 
 async function fetchDocumentsByRankRange(startRank, endRank) {
     const nonprofitsRef = collection(db, "non-for-profits");
@@ -54,9 +90,8 @@ async function fetchDocumentsByRankRange(startRank, endRank) {
     return querySnapshot;
 }
 
-// fetchDocumentByID("001Dj1Z9GqSMOnHSYsyE").catch(console.error);
-fetchDocumentsByRankRange(0, 49).catch(console.error);
 
+const allCategories = ["community needs", "children", "healthcare", "other", "education", "college", "arts", "hospital", "environmental", "stem", "hunger"];
 
 let data_candid;
 let data_990;
@@ -122,12 +157,11 @@ function renderData() {
     console.log(toRender)
 
     toRender.forEach(function (org) {
-        curr_rank++;
         let score = org.final_score;
 
         const orgHtml = `
             <div class="org-row" data-ein="${org.ein}">
-                <div class="input-rank">#${curr_rank}</div>
+                <div class="input-rank">#${org.rank}</div>
                 <div class="input-org">${org.name}</div>
                 <div class="score-container">
                     <div class="rectangle" style="width: ${score}%"></div>
@@ -179,15 +213,20 @@ Promise.all([
     console.error('Error loading data: ', error);
 });
 
-document.getElementById('searchBox').addEventListener('input', function () {
-    const query = this.value.toLowerCase();
+document.getElementById('searchbar').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    const query = document.getElementById('searchBox').value.toLowerCase();
     if (!query) {
         filteredData = [];
         currentPage = 1;
         changePage(0);
         return;
     }
-    filteredData = allData.filter(d => d.org_name.toLowerCase().includes(query));
+
+    let categories = allCategories;
+
+    filteredData = await fetchDocumentByNameAndCategories(query, categories);
+    // filteredData = allData.filter(d => d.org_name.toLowerCase().includes(query));
     if (filteredData.length <= 0) {
         this.classList.add('no-results');
         this.disabled = true;

@@ -56,8 +56,6 @@ const params = new URLSearchParams(window.location.search)
 const ein = params.get('ein');
 
 // Find the current org's data
-// TODO: Replace with API call
-// this_org_data = data.find(org => org.ein === ein)
 this_org_data = await fetchDocumentByEIN(ein);
 console.log(this_org_data)
 
@@ -204,28 +202,28 @@ function createBoardGenderCompositionViz(genderDataString) {
         svg = d3.select("#leadershipGraph svg g");
     }
 
-   svg.selectAll("*").remove(); // Clear previous contents.
+//    svg.selectAll("*").remove(); // Clear previous contents.
 
-       if (allZeros) {
-           // Apply a black tint to the graph area
-           svg.append("rect")
-               .attr("width", width)
-               .attr("height", height)
-               .attr("fill", "black")
-               .attr("opacity", 0.75)
-               .attr("transform", `translate(${-width / 2}, ${-height / 2})`);
+    //    if (allZeros) {
+    //        // Apply a black tint to the graph area
+    //        svg.append("rect")
+    //            .attr("width", width)
+    //            .attr("height", height)
+    //            .attr("fill", "black")
+    //            .attr("opacity", 0.75)
+    //            .attr("transform", `translate(${-width / 2}, ${-height / 2})`);
 
-           // Display "DID NOT REPORT" text
-           svg.append("text")
-               .attr("x", 0)
-               .attr("y", 0)
-               .attr("text-anchor", "middle")
-               .attr("fill", "white")
-               .style("font-size", "30px")
-               .text("DID NOT REPORT");
+    //        // Display "DID NOT REPORT" text
+    //        svg.append("text")
+    //            .attr("x", 0)
+    //            .attr("y", 0)
+    //            .attr("text-anchor", "middle")
+    //            .attr("fill", "white")
+    //            .style("font-size", "30px")
+    //            .text("DID NOT REPORT");
 
-           return; // Skip drawing the rest of the graph if all counts are 0
-       }
+    //        return; // Skip drawing the rest of the graph if all counts are 0
+    //    }
 
     const color = d3.scaleOrdinal()
         .domain(["Female", "Male", "Non-Binary", "Decline to State", "Unknown"])
@@ -522,28 +520,28 @@ function createDiversityGraph(orgData, ethnicityDataString) {
     } else {
         svg = d3.select("#diversityGraph svg g");
     }
-    svg.selectAll("*").remove();
-     if (allZeros) {
+    // svg.selectAll("*").remove();
+    //  if (allZeros) {
 
-            svg.append("rect")
-                .attr("class", "overlay")
-                .attr("width", width)
-                .attr("height", height)
-                .attr("fill", "black")
-                .attr("opacity", 0.5);
+    //         svg.append("rect")
+    //             .attr("class", "overlay")
+    //             .attr("width", width)
+    //             .attr("height", height)
+    //             .attr("fill", "black")
+    //             .attr("opacity", 0.5);
 
 
-            svg.append("text")
-                .attr("class", "overlay-text")
-                .attr("x", width / 2)
-                .attr("y", height / 2)
-                .attr("text-anchor", "middle")
-                .attr("fill", "white")
-                .style("font-size", "30px")
-                .text("DID NOT REPORT");
+    //         svg.append("text")
+    //             .attr("class", "overlay-text")
+    //             .attr("x", width / 2)
+    //             .attr("y", height / 2)
+    //             .attr("text-anchor", "middle")
+    //             .attr("fill", "white")
+    //             .style("font-size", "30px")
+    //             .text("DID NOT REPORT");
 
-            return;
-        }
+    //         return;
+    //     }
 
     // Update the scales
     const x = d3.scaleBand()
