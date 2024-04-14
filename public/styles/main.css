@@ -8,10 +8,19 @@
   src: url('../Fonts/Raleway-VariableFont_wght.ttf');
 }
 
-
+.highlight{
+  color: #EE6033;
+  font-weight: bold;
+}
 #mainBody {
   background: white;
   margin: 0 0
+}
+
+#listPage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #heading {
@@ -601,12 +610,16 @@ input {
   margin-top: 10px;
   margin-bottom: 25px;
 }
-
+#explanation > p{
+  line-height: 1.6em;
+  
+}
 #explanation {
-  font-size: 15px;
-  margin-left: 100px;
-  margin-right: 100px;
-  margin-top: 20px;
+  font-size: 1em;
+  font-family: Raleway;
+  width: 75%;
+  color: #363636;
+   
 }
 
 .breakdown_section_container {
