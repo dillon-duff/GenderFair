@@ -372,8 +372,9 @@
 .table-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   padding-bottom: 20px;
+  width: 100%;
+  align-items: center;
 }
 
 #searchbar {
@@ -453,7 +454,7 @@ input {
   flex-direction: column;
   font-family: Raleway;
   width: 60%;
-  margin-left: 20%;
+  
 }
 
 .org-row {
