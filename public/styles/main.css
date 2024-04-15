@@ -468,8 +468,8 @@
     border-radius: 40px;
 }
 .org-row:hover{
-  transform: scale(1.2);
-  
+  transform: scale(1.04);
+
 }
 
 [class^="header-"] {
