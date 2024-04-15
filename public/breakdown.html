@@ -17,7 +17,11 @@
       <div class="leftSideInfo">
         <div id="donationLink"></div>
         <div class="circleGraphSpot"></div>
-        <div id="missionStatement"></div>
+        <div>
+          <p id="missionStatement">
+
+          </p>
+      </div>
       </div>
       <div class="rightSideInfo">
         <div id="companyName"></div>
@@ -47,66 +51,76 @@
 
     <section class="breakdown_section" id="leadership">
       <div class="breakdown_section_container">
-        <div class="information_portion">
-          <div class="title_container">
-            <h3 class="breakdown_title">Leadership</h3>
-            <div class="title_separator"></div>
-          </div>
-
-          <p> Here we evaluate the gender composition of two levels of leaders--and employees;  Trustees or board members; 
-            highest paid executives and overall composition of employees. We can access this data as the IRS requires 
-            organizations to report it, however other levels of workers is not provided to public.  Note that some 
-            organizations disclose their non-binary employees. 
-
-            Although women make up 73 percent of the U.S. nonprofit workforce, they remain in lower level jobs.  
-            According to an AAUW study, in organizations with budgets of less than $1M, 56 percent of CEOs are women, 
-            yet in the 22,000 organizations with budgets over $50 million,  22 percent of chief executives are women. 
-            However, board/trustee representation is typically more balanced with the average being 48% women.
-            </p>
-        </div>
-        <div class="graph_portion">
-          <div class="graph_box_placeholder" id="leadershipGraph">
-            <div id="tooltip"
-              style="position: absolute; display: none; background: white; padding: 5px; border: 1px solid black; border-radius: 5px;">
+        <div class="top_half_leadership">
+          <div class="information_portion">
+            <div class="title_container">
+              <h3 class="breakdown_title">Leadership</h3>
+              <div class="title_separator"></div>
             </div>
-          </div>          
-          <div class="btn-group" id="genderBtnGroup">
-            <button id="board" class="active" title="Board">Board</button>
-            <button id="senior" title="Senior Staff">Senior Staff</button>
-            <button id="staff" title="Total Staff">Total Staff</button>
+  
+            <p> Here we evaluate the gender composition of two levels of leaders--and employees;  Trustees or board members; 
+              highest paid executives and overall composition of employees. We can access this data as the IRS requires 
+              organizations to report it, however other levels of workers is not provided to public.  Note that some 
+              organizations disclose their non-binary employees. 
+  
+              Although women make up 73 percent of the U.S. nonprofit workforce, they remain in lower level jobs.  
+              According to an AAUW study, in organizations with budgets of less than $1M, 56 percent of CEOs are women, 
+              yet in the 22,000 organizations with budgets over $50 million,  22 percent of chief executives are women. 
+              However, board/trustee representation is typically more balanced with the average being 48% women.
+              </p>
           </div>
+          <div class="graph_portion">
+            <div class="graph_box_placeholder" id="leadershipGraph">
+              <div id="tooltip"
+                style="position: absolute; display: none; background: white; padding: 5px; border: 1px solid black; border-radius: 5px;">
+              </div>
+            </div>          
+            <div class="btn-group" id="genderBtnGroup">
+              <button id="board" class="active" title="Board">Board</button>
+              <button id="senior" title="Senior Staff">Senior Staff</button>
+              <button id="staff" title="Total Staff">Total Staff</button>
+            </div>
+          </div>
+        </div>
+        <div class="bottom_half_leadership">
+          <div id="payGapText"></div>
         </div>
       </div>
     </section>
 
-    <div id="payGapText"></div>
+   
 
-    <div id="highestPaidGraph"></div>
-    <div id="averagePaidGraph"></div>
+  
 
     <section class="breakdown_section" id="Pay">
       <div class="breakdown_section_container">
-        <div class="graph_portion">
-          <div class="graph_box_placeholder" id="payGraph"></div>
-        </div>
-        <div class="information_portion information_portion_left">
-          <div class="title_container">
-            <h3 class="breakdown_title">Pay</h3>
-            <div class="title_separator_short"></div>
+        <div class="top_half_pay">
+          <div class="graph_portion">
+            <div class="graph_box_placeholder" id="payGraph"></div>
           </div>
-
-          <p> Equal Pay is a  workplace issue that women care most about--according to research that ABX performed for 
-            Gender Fair on 2,500 Americans.  The overall pay gap in the US remains 83 cents for white women, 64 cents 
-            for black women and or 49 for Bangladeshi women. Overall, the pay gap increases in the do-gooding sector: 
-            The National Council of Nonprofits reports, “Females on average earn around 24.8% less than males”.  The 
-            gap extends to top jobs:  women CEOs at organizations with annual budgets of less than $1 million experience 
-            median pay gaps of between 6 percent and 13 percent relative to male CEOs. At larger nonprofits, the gap is 
-            larger: female CEOs face a median 18 percent pay gap at the nonprofits with the largest budgets. (AAUW) As 
-            well as revealing gender pay gaps, our ratings also show the ratio between average pay and top salary, 
-            especially germane since 20 percent of employees struggle from paycheck to paycheck. 
-          </p>
+          <div class="information_portion information_portion_left">
+            <div class="title_container">
+              <h3 class="breakdown_title">Pay</h3>
+              <div class="title_separator_short"></div>
+            </div>
+  
+            <p> Equal Pay is a  workplace issue that women care most about--according to research that ABX performed for 
+              Gender Fair on 2,500 Americans.  The overall pay gap in the US remains 83 cents for white women, 64 cents 
+              for black women and or 49 for Bangladeshi women. Overall, the pay gap increases in the do-gooding sector: 
+              The National Council of Nonprofits reports, “Females on average earn around 24.8% less than males”.  The 
+              gap extends to top jobs:  women CEOs at organizations with annual budgets of less than $1 million experience 
+              median pay gaps of between 6 percent and 13 percent relative to male CEOs. At larger nonprofits, the gap is 
+              larger: female CEOs face a median 18 percent pay gap at the nonprofits with the largest budgets. (AAUW) As 
+              well as revealing gender pay gaps, our ratings also show the ratio between average pay and top salary, 
+              especially germane since 20 percent of employees struggle from paycheck to paycheck. 
+            </p>
+          </div>
         </div>
-
+        
+        <div class="bottom_half_pay">
+          <div id="highestPaidGraph"></div>
+          <div id="averagePaidGraph"></div>
+        </div>
       </div>
     </section>
 
