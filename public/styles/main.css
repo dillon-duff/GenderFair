@@ -478,6 +478,7 @@
   width: 85%;
   justify-content: space-between;
   background-color: #fbfbfb;
+  color: #363636;
 }
 .org-row:hover{
   transform: scale(1.04);
@@ -603,7 +604,7 @@
 }
 
 .input-org {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
 }
 
 .input-rank {

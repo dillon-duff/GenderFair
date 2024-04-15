@@ -165,12 +165,12 @@ function renderData() {
 
         const orgHtml = `
             <div class="org-row" data-ein="${org.ein}">
-                <div class="input-rank">#${org.rank}</div>
-                <div class="input-org">${capitalizeWords(org.name)}</div>
+                <div class="input-rank"><h3>#${org.rank}</h3></div>
+                <div class="input-org"><h3>${capitalizeWords(org.name)}</h3></div>
                 <div class="score-container">
                     <div class="rectangle" style="width: ${score}%"></div>
                 </div>
-                <div class="score">${score}</div>
+                <div class="score"><h3>${score}</h3></div>
             </div>
         `;
 

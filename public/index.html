@@ -151,35 +151,35 @@
     <div class="table-container">
       <div class="scoreboard">
         <div class="header-row">
-          <div class="header-rank">Rank</div>
-          <div class="header-org">Organization</div>
-          <div class="header-name">Fairness Score</div>
-          <form id="searchbar" class="header-search">
-            <input id="searchBox" type="search" placeholder="Search for a non-profit...." />
-          </form>
-
-          <i id="searchIcon" class="fa fa-arrow-right"></i>
-          <i id="filterIcon" class="fa fa-filter"></i>
-          <div class="dropdown-container">
-            <div id="dropdown" class="dropdown">
-              <text id="filterTitle">Filter by category:</text>
-              <label><input type="checkbox" value="Community Needs">Community Needs</label>
-              <label><input type="checkbox" value="Children">Children</label>
-              <label><input type="checkbox" value="Healthcare">Healthcare</label>
-              <label><input type="checkbox" value="Other">Other</label>
-              <label><input type="checkbox" value="Education">Education</label>
-              <label><input type="checkbox" value="College">College</label>
-              <label><input type="checkbox" value="Arts">Arts</label>
-              <label><input type="checkbox" value="Hospital">Hospital</label>
-              <label><input type="checkbox" value="Environmental">Environmental</label>
-              <label><input type="checkbox" value="STEM">STEM</label>
-              <label><input type="checkbox" value="Hunger">Hunger</label>
-            </div>
+          <div class="header-rank"><h3>Rank</h3></div>
+          <div class="header-org"><h3>Organization</h3></div>
+          <div class="header-name"><h3>Fairness Score</h3></div>
+          <div class="search_div">
+            <form id="searchbar" class="header-search">
+              <input id="searchBox" type="search" placeholder="Search for a non-profit...." />
+            </form>
+  
+            <i id="searchIcon" class="fa fa-arrow-right"></i>
+            <i id="filterIcon" class="fa fa-filter"></i>
+            <div class="dropdown-container">
+              <div id="dropdown" class="dropdown">
+                <text id="filterTitle">Filter by category:</text>
+                <label><input type="checkbox" value="Community Needs">Community Needs</label>
+                <label><input type="checkbox" value="Children">Children</label>
+                <label><input type="checkbox" value="Healthcare">Healthcare</label>
+                <label><input type="checkbox" value="Other">Other</label>
+                <label><input type="checkbox" value="Education">Education</label>
+                <label><input type="checkbox" value="College">College</label>
+                <label><input type="checkbox" value="Arts">Arts</label>
+                <label><input type="checkbox" value="Hospital">Hospital</label>
+                <label><input type="checkbox" value="Environmental">Environmental</label>
+                <label><input type="checkbox" value="STEM">STEM</label>
+                <label><input type="checkbox" value="Hunger">Hunger</label>
+              </div>
+          </div>
+         
           </div>
 
-
-
-          
           <p hidden="true" id="selectedCategoriesText">Selected Categories: <span id="selected-items"></span></p>
         </div>
         <div class="data-rows"></div>
