@@ -537,13 +537,17 @@
 .header-rank{
   width: 10%;
   margin-right: 4%;
+  text-align: left;
+  font-weight: 500;
+  font-size: 0.85em;
+  color: #363636;
 }
+
 .input-rank{
   color: rgb(255, 94, 0);
   font-weight: bold;
   font-size: 1.3rem;
 }
-.header-rank,
 .input-rank {
   /* flex: 0 0 10%; */
   font-weight: 500;
