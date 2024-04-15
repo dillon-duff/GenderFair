@@ -9,12 +9,13 @@
 }
 .search_div{
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
-  width: 50%;
+  width: 35%;
   align-content: center;
-  justify-content: space-evenly;
+  margin-left: 6%;
+  /* justify-content: space-around; */
 }
 
 .data-rows{
@@ -137,9 +138,11 @@
   background-color: #EE6033;
   margin: 0 0;
 }
+
 .wsfc1{
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
 }
 .wsfc2{
   display: flex;
@@ -162,22 +165,23 @@
 }
 .wfs_title > h2{
   font-family: Poppins;
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 2.0em;
   color: #414141;
   margin: 0 0;
-
 }
 .wsf_content > div > div> h3{
   font-family: Inter;
   font-size: 1em;
   color: #EE6033;
-  font-weight: 500;
+  font-weight: 600;
 }
 .wsf_content > div > div> p{
   font-family: Raleway;
   font-size: 1em;
   color: #5E5B5B;
   font-weight: 300;
+  width: 95%;
 }
 .wsf_text{
   display: flex;
@@ -195,6 +199,7 @@
   flex-wrap: wrap;
 
 }
+
 /* index.js css */
 .trans_logo {
   width: 50px;
@@ -397,6 +402,7 @@
 
 #searchbar {
   text-align: center;
+  width: 80%;
 }
 
 #searchBox {
@@ -428,8 +434,8 @@
 }
 
 #searchBox {
-  margin-left: 25%;
-  width: 70%;
+  /* margin-left: 25%; */
+  width: 92%;
 }
 
 #d3viz,
@@ -508,17 +514,19 @@
   padding: 10px 0;
   /* margin: 0% 10%; */
   width: 75%;
-  justify-content: space-around;
+  /* justify-content: space-evenly; */
   font-size: 1.0em;
   color: #363636;
   height: 25px;
+  flex-wrap: wrap;
+  align-content: center;
 }
 
 .header-org {
-  flex: 0.7;
+  /* flex: 0.7; */
   font-weight: bold;
   text-align: left;
-  padding-left: 20px;
+  /* padding-left: 20px; */
 }
 .input-rank > h3{
   color: rgb(255, 94, 0);
@@ -528,6 +536,7 @@
 }
 .header-rank{
   width: 10%;
+  margin-right: 4%;
 }
 .input-rank{
   color: rgb(255, 94, 0);
@@ -545,10 +554,10 @@
 
 
 .header-search {
-  flex: 0.7;
+  /* flex: 0.7; */
   font-weight: bold;
   text-align: left;
-  padding-left: 20px;
+  /* padding-left: 20px; */
 }
 
 .input-org >h3{
@@ -567,20 +576,20 @@
 }
 
 .header-name {
+    margin-left: 20%;
     /* flex: 0 0 25%; */
     font-weight: 500;
     text-align: left;
     color: #363636;
     font-size: .85em;
     text-align: center;
-    width: 47%;
-
+    width: 12%;
 }
 
 
 .header-org {
   margin-left: 6%;
-  width: 32%;
+  width: 5%;
   font-weight: 500;
   font-size: .85em;
   color: #363636;
@@ -589,7 +598,7 @@
 .header-search {
   /* flex: 0 0 35%; */
   display: flex;
-  justify-content: right;
+  justify-content: center;
 }
 
 .score-container {
@@ -962,12 +971,13 @@ section#Pay {
 }
 
 #filterIcon {
-  margin-left: 15px;
+  /* margin-left: 15px; */
 }
 
 #searchIcon {
-  margin-left: 5px;
-  margin-right: 15px;
+  /* margin-left: 5px; */
+  /* margin-right: 15px; */
+  margin: 0% 6%;
 }
 
 #missionStatement {
