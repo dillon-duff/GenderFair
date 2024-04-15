@@ -10,7 +10,11 @@
 
 .data-rows{
   overflow-y: scroll;
-  height:800px;
+  height: 800px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .highlight{
@@ -458,19 +462,22 @@
   display: flex;
   flex-direction: column;
   font-family: Raleway;
-  width: 85%;
-  
+  width: 100%;
+  align-items: center;
 }
 
 .org-row {
-    display: flex;
-    align-items: center;
-    /* border-bottom: 1px solid #ccc; */
-    padding: 10px 0;
-    cursor: pointer;
-    box-shadow: -1px 1px 2px 1px rgba(0,0,0,0.25);
-    margin: 1.2% 1%;
-    border-radius: 40px;
+  display: flex;
+  align-items: center;
+  /* border-bottom: 1px solid #ccc; */
+  padding: 10px 0;
+  cursor: pointer;
+  box-shadow: -1px 1px 2px 1px rgba(0,0,0,0.25);
+  margin: .6% 1%;
+  border-radius: 40px;
+  width: 85%;
+  justify-content: space-between;
+  background-color: #fbfbfb;
 }
 .org-row:hover{
   transform: scale(1.04);
@@ -486,6 +493,8 @@
   align-items: center;
   border-bottom: 1px solid #ccc;
   padding: 10px 0;
+  /* margin: 0% 10%; */
+  width: 75%;
 }
 
 .header-org {
@@ -496,14 +505,16 @@
 }
 .input-rank{
   color: rgb(255, 94, 0);
-  font-weight: 500;
-  font-size: 1.8rem;
+  font-weight: bold;
+  font-size: 1.3rem;
 }
 .header-rank,
 .input-rank {
   flex: 0 0 10%;
-  font-weight: bold;
+  font-weight: 500;
   text-align: center;
+  font-size: 0.85em;
+  color: #363636;
 }
 
 
@@ -530,13 +541,18 @@
 
 .header-name {
   flex: 0 0 25%;
-  font-weight: bold;
+  font-weight: 500;
   text-align: left;
+  color: #363636;
+  font-size: .85em;
+  text-align: center;
 }
 
 
 .header-org {
-  font-weight: bold;
+  font-weight: 500;
+  font-size: .85em;
+  color: #363636;
 }
 
 .header-search {
@@ -546,12 +562,14 @@
 }
 
 .score-container {
-  flex: 0 0 55%;
-  font-weight: bold;
-  text-align: left;
-  background-color: #ccc;
-  width: 100%;
-  border-radius: 0px 44px 44px 0px;
+    /* flex: 0 0 55%; */
+    font-weight: bold;
+    text-align: left;
+    background-color: #ccc;
+    width: 100%;
+    border-radius: 0px 44px 44px 0px;
+    width: 47%;
+    margin-left: 1%;
   
 }
 
@@ -571,7 +589,7 @@
 .score {
   flex: 0 0 8%;
   color: green;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   /* margin-left: 1.75%; */
   font-weight: 500;
   font-family: Inter;
