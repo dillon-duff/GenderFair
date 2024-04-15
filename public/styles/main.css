@@ -1004,8 +1004,8 @@ section#Pay {
 }
 
 .dropdown-container {
-  position: absolute;
-  right: 250px; 
+  position: relative;
+  right: 30%;
 }
 
 .dropdown {
