@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js'
-import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://cdnjs.cloudflare.com/ajax/libs/firebase/10.9.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, collection, query, where, getDocs, orderBy, limit, getCountFromServer } from "https://cdnjs.cloudflare.com/ajax/libs/firebase/10.9.0/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -33,24 +33,32 @@ function chunkArray(array, chunkSize) {
     return chunks;
 }
 
-async function fetchDocumentsForEINs(db, allEINs) {
-    const limit = 50;
-    const chunkedEINs = chunkArray(allEINs, 25); // Firestore allows up to 30 items in an 'in' query, so I'm putting 25 just to be safe
+async function fetchDocumentsForEINs(db, name, allEINs, categories) {
+    const docsLimit = recordsPerPage;
+    const chunkSize = Math.floor(30 / categories.length) // categories.length * chunkSize has to be <= 30 because
+    const chunkedEINs = chunkArray(allEINs, chunkSize); // Firestore allows up to 30 items in an 'in' query. Also, this number being too big can make the query too complicated and it will fail
     const documents = [];
 
     for (const chunk of chunkedEINs) {
         const collectionRef = collection(db, "non-for-profits");
-        const queryRef = query(collectionRef, where("ein", "in", chunk));
+        let queryRef = null;
+        if (name.length == 0) {
+            queryRef = query(collectionRef, where("category", "in", categories), orderBy('rank'), limit(docsLimit));
+        } else if (categories == allCategories) {
+            queryRef = query(collectionRef, where("ein", "in", chunk), orderBy('rank'), limit(docsLimit));
+        } else {
+            queryRef = query(collectionRef, where("ein", "in", chunk), where("category", "in", categories), orderBy('rank'), limit(docsLimit));
+        }
         const querySnapshot = await getDocs(queryRef);
         querySnapshot.forEach(doc => {
             documents.push(doc.data());
         });
-        if (documents.length >= limit) {
+        if (documents.length >= docsLimit) {
             break;
         }
     }
 
-    return documents;
+    return documents.sort((a, b) => a.rank - b.rank);
 }
 
 async function fetchDocumentByNameAndCategories(name, categories) {
@@ -61,16 +69,17 @@ async function fetchDocumentByNameAndCategories(name, categories) {
     const nameToEINMap = await response.json();
 
     let fittingEINs = [];
-    for (const orgName in nameToEINMap) {
-        if (orgName.toLowerCase().includes(name)) {
-            fittingEINs.push(nameToEINMap[orgName]);
+    if (name.length > 0) {
+        for (const orgName in nameToEINMap) {
+            if (orgName.toLowerCase().includes(name)) {
+                fittingEINs.push(nameToEINMap[orgName]);
+            }
         }
+    } else {
+        fittingEINs = Object.keys(nameToEINMap);
     }
-    if (fittingEINs.length <= 0) return null;
 
-    let docs = await fetchDocumentsForEINs(db, fittingEINs);
-
-    let querySnapshot = docs.filter(doc => categories.includes(doc.category)).sort((a, b) => a.rank - b.rank);
+    let querySnapshot = await fetchDocumentsForEINs(db, name, fittingEINs, categories);
 
     if (querySnapshot.length > 0) {
         return querySnapshot;
@@ -93,16 +102,10 @@ async function fetchDocumentsByRankRange(startRank, endRank) {
 
 const allCategories = ["community needs", "children", "healthcare", "other", "education", "college", "arts", "hospital", "environmental", "stem", "hunger"];
 
-let data_candid;
-let data_990;
-
-let curr_rank = 0;
 let currentPage = 1;
 const recordsPerPage = 50;
 let filteredData = [];
 let currentData = [];
-let allData = [];
-let lastPage = currentPage;
 
 function scrollSmoothTo(elementId) {
     var element = document.getElementById(elementId);
@@ -113,29 +116,30 @@ function scrollSmoothTo(elementId) {
 }
 window.scrollSmoothTo = scrollSmoothTo;
 
+async function getDocumentCount() {
+    const coll = collection(db, "non-for-profits");
+    const snapshot = await getCountFromServer(coll);
+    return snapshot.data().count
+}
+
+
 async function changePage(increment) {
-    const numPages = 417; //NEED TO FIX, currently cant find size of db without loading the entire db each time
-    lastPage = currentPage;
+    const numDocs = await getDocumentCount();
+    const numPages = Math.ceil(numDocs / recordsPerPage);
     currentPage += increment;
 
     if (currentPage < 1) currentPage = 1;
     if (currentPage > numPages) currentPage = numPages;
 
-    curr_rank = currentPage * 50 - 50;
-
     document.getElementById('currentPage').textContent = currentPage;
 
     const startIdx = (currentPage - 1) * recordsPerPage;
     const endIdx = startIdx + recordsPerPage;
-    console.log(startIdx, endIdx)
-    // currentData = allData.slice(startIdx, endIdx);
     currentData = await fetchDocumentsByRankRange(startIdx, endIdx);
     currentData = currentData.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
     }))
-
-    // filteredData = [];
 
     renderData();
 }
@@ -162,7 +166,7 @@ function renderData() {
         const orgHtml = `
             <div class="org-row" data-ein="${org.ein}">
                 <div class="input-rank">#${org.rank}</div>
-                <div class="input-org">${org.name}</div>
+                <div class="input-org">${capitalizeWords(org.name)}</div>
                 <div class="score-container">
                     <div class="rectangle" style="width: ${score}%"></div>
                 </div>
@@ -183,62 +187,99 @@ function renderData() {
     });
 }
 
-Promise.all([
-    d3.csv('data/Candid-Trimmed.csv'),
-    d3.csv('data/990-Top.csv')
-]).then(function (files) {
-    files[0].forEach(function (d) {
-        delete d['']; // Removes unneeded columns that may or may not exist
-        delete d['Unnamed: 0'];
-        delete d['Unnamed: 0.1'];
-    });
-    console.log("Candid Data:");
-    console.log(files[0]);
-    data_candid = files[0];
-
-    files[1].forEach(function (d) {
-        delete d['']; // Removes unneeded columns that may or may not exist
-        delete d['Unnamed: 0'];
-        delete d['Unnamed: 0.1'];
-    });
-    console.log("990 Data:");
-    console.log(files[1]);
-    data_990 = files[1];
-
-    allData = data_candid;
-
-    changePage(0);
-
-}).catch(function (error) {
-    console.error('Error loading data: ', error);
-});
-
-document.getElementById('searchbar').addEventListener('submit', async function (event) {
-    event.preventDefault();
+async function updateTable() {
+    document.body.classList.add('cursor-wait');
     const query = document.getElementById('searchBox').value.toLowerCase();
-    if (!query) {
+    let categories = getSelectedCategories();
+
+    if (!query && categories == allCategories) {
+        console.log("Default search, returning front page");
         filteredData = [];
         currentPage = 1;
         changePage(0);
+        document.body.classList.remove('cursor-wait');
         return;
     }
 
-    let categories = allCategories;
 
     filteredData = await fetchDocumentByNameAndCategories(query, categories);
-    // filteredData = allData.filter(d => d.org_name.toLowerCase().includes(query));
-    if (filteredData.length <= 0) {
-        this.classList.add('no-results');
-        this.disabled = true;
 
-        setTimeout(() => {
-            this.disabled = false;
-            this.focus();
-        }, 500);
-    } else {
-        this.classList.remove('no-results');
-        this.disabled = false;
-    }
+
+    // Styling for search box when there are no results
+    // Needs modified to work
+    //
+    // filteredData = allData.filter(d => d.org_name.toLowerCase().includes(query));
+    // if (filteredData.length <= 0) {
+    //     this.classList.add('no-results');
+    //     this.disabled = true;
+
+    //     setTimeout(() => {
+    //         this.disabled = false;
+    //         this.focus();
+    //     }, 500);
+    // } else {
+    //     this.classList.remove('no-results');
+    //     this.disabled = false;
+    // }
+
     currentPage = 1;
     changePage(0);
+    document.body.classList.remove('cursor-wait');
+}
+
+function getSelectedCategories() {
+    var checkboxes = document.querySelectorAll('#dropdown input[type=checkbox]');
+
+    var selectedItems = Array.from(checkboxes)
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.value);
+    if (selectedItems.length == 0) {
+        return allCategories;
+    }
+    return selectedItems.map(item => item.toLowerCase());
+}
+
+function capitalizeWords(sentence) {
+    const words = sentence.split(' ');
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+    }
+    return words.join(' ');
+}
+
+document.getElementById('searchbar').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    updateTable();
 });
+
+document.getElementById('filterIcon').addEventListener('click', function () {
+    var dropdown = document.getElementById('dropdown');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+});
+
+var checkboxes = document.querySelectorAll('#dropdown input[type=checkbox]');
+checkboxes.forEach(function (checkbox) {
+    checkbox.addEventListener('change', function () {
+        var selectedItems = Array.from(checkboxes)
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value);
+
+
+        var list = document.getElementById('selected-items');
+        list.innerHTML = '';
+        selectedItems.forEach(function (item) {
+            var li = document.createElement('li');
+            li.textContent = item;
+            list.appendChild(li);
+        });
+        // document.getElementById('selected-items').textContent = '- ' + selectedItems.join('\n- ');
+    });
+});
+
+document.getElementById('searchIcon').addEventListener('click', function (event) {
+    event.preventDefault();
+    updateTable();
+});
+
+
+changePage(0);
