@@ -70,9 +70,15 @@ if (this_org_data.web){
     link.textContent = this_org_data.web.toLowerCase();}
 
 document.querySelector("#companyName").insertAdjacentHTML('beforeend', this_org_data.name);
-document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
-document.querySelector("#donationLink").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
+// document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
 
+var donat = document.createElement("text");
+donat.innerText = "Donate Now: ";
+
+if (link != undefined) {
+    document.querySelector("#donationLink").appendChild(donat);
+    document.querySelector("#donationLink").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
+}
 
 function fixCapitalization(str) {
     str = str.charAt(0).toUpperCase() + str.slice(1);
@@ -85,7 +91,6 @@ function fixCapitalization(str) {
     return str;
 }
 
-// TODO: fix this code, right now its giving undefined, not sure what the description is saved as...
 var loc = document.createElement("text");
 if (this_org_data.city && this_org_data.state){
 loc.innerText = fixCapitalization(this_org_data.city.toLowerCase()) + ", " + this_org_data.state;
@@ -97,9 +102,17 @@ var numEmp = document.createElement("text");
 numEmp.innerText = this_org_data.metrics.num_employees + " Total Employees";
 document.querySelector("#companyEmploy").appendChild(numEmp);
 
+// adds first sentence of mission from SEO
 var mission = document.createElement("text");
-mission.innerText = this_org_data.description;
-document.querySelector("#missionStatement").appendChild(mission);
+console.log(mission.innerText)
+if (this_org_data.descriptions.length > 0 ) {
+    if (this_org_data.descriptions[0].includes(".")) {
+        mission.innerText = "Company Mission: " + this_org_data.descriptions[0].substring(0, this_org_data.descriptions[0].indexOf(".")+1);   
+    } else {
+        mission.innerText = "Company Mission: " + this_org_data.descriptions[0];
+    }
+    document.querySelector("#missionStatement").appendChild(mission);
+}
 
 document.querySelector("#payGapText").innerHTML = payGapText;
 

@@ -414,7 +414,7 @@
 
 #searchBox {
   margin-left: 25%;
-  width: 50%;
+  width: 70%;
 }
 
 #d3viz,
@@ -972,4 +972,27 @@ label {
 
 .cursor-wait {
   cursor: wait;
+}
+
+#filterTitle {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.pagination-btn {
+  border-color: #EE6033;
+  border-width: 4px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+.pagination-btn:hover {
+  background-color: #EE6033;
+}
+
+#currentPage {
+  font-size: 22px;
+  margin-left: 8px;
+  margin-right: 8px;
 }

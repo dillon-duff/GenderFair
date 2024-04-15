@@ -106,7 +106,7 @@
     <div id="heading">Non-Profit Organization Rankings</div>
     <div id="seperatorBar"></div>
     <div id="explanation">
-      <p>Gender Fair’s mission is <span class="highlight">Fairness</span>; we promote fairness in workplaces and institutions.  
+      <p>Gender Fair’s mission is <span class="highlight">fairness</span>; we promote fairness in workplaces and institutions.  
       We rate public companies and colleges, and now provide that service for nonprofits.
       The nonprofit  sector provides important services in health care, education, communities, 
       the arts and the environment, etc.  With nearly 1.5 million nonprofits  (501 C3s) in the 
@@ -125,7 +125,7 @@
       we/computer scientists pulled/scraped the data without any human or journalistic data 
       collection. Our sources were IRS 990 filings and Candid. The parameters and size of the 
       two databases and unavailability of human labor necessitated a reduction in the categories 
-      which we rate.  Nonprofits are rated along three categories, <span class="highlight">Leadership, Pay Equality, and Diversity</span>.
+      which we rate.  Nonprofits are rated within three categories, <span class="highlight">leadership, pay equality, and diversity</span>.
       </p>
       <p>
       These metrics differ from our ratings of colleges and companies, which use metrics based on 
@@ -143,9 +143,9 @@
 
     <div class="pagination-container">
       <div id="paginationControls">
-        <button onclick="changePage(-1)" class="pagination-btn">Prev</button>
+        <button onclick="changePage(-1)" class="pagination-btn">&laquo; Prev</button>
         <span id="currentPage">1</span>
-        <button onclick="changePage(1)" class="pagination-btn">Next</button>
+        <button onclick="changePage(1)" class="pagination-btn">Next &raquo;</button>
       </div>
     </div>
     <div class="table-container">
@@ -162,6 +162,7 @@
           <i id="filterIcon" class="fa fa-filter"></i>
           <div class="dropdown-container">
             <div id="dropdown" class="dropdown">
+              <text id="filterTitle">Filter by category:</text>
               <label><input type="checkbox" value="Community Needs">Community Needs</label>
               <label><input type="checkbox" value="Children">Children</label>
               <label><input type="checkbox" value="Healthcare">Healthcare</label>
