@@ -453,16 +453,19 @@
   display: flex;
   flex-direction: column;
   font-family: Raleway;
-  width: 60%;
+  width: 85%;
   
 }
 
 .org-row {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #ccc;
-  padding: 10px 0;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    /* border-bottom: 1px solid #ccc; */
+    padding: 10px 0;
+    cursor: pointer;
+    box-shadow: -1px 1px 2px 1px rgba(0,0,0,0.25);
+    margin: 1.2% 1%;
+    border-radius: 40px;
 }
 
 [class^="header-"] {
@@ -482,7 +485,11 @@
   text-align: left;
   padding-left: 20px;
 }
-
+.input-rank{
+  color: rgb(255, 94, 0);
+  font-weight: 500;
+  font-size: 1.8rem;
+}
 .header-rank,
 .input-rank {
   flex: 0 0 10%;
@@ -499,9 +506,10 @@
 }
 
 .input-org {
-  flex: 0.7;
+  font-size: 1.2em;
+  /* flex: 0.7;
   text-align: left;
-  padding-left: 20px;
+  padding-left: 20px; */
 }
 
 
@@ -534,6 +542,8 @@
   text-align: left;
   background-color: #ccc;
   width: 100%;
+  border-radius: 0px 44px 44px 0px;
+  
 }
 
 .cat-score-container {
@@ -550,11 +560,13 @@
 }
 
 .score {
-  flex: 0 0 10%;
+  flex: 0 0 8%;
   color: green;
-  font-size: 1.75rem;
-  margin-left: 40px;
-  font-weight: bold;
+  font-size: 1.5rem;
+  /* margin-left: 1.75%; */
+  font-weight: 500;
+  font-family: Inter;
+  text-align: center;
 }
 
 #methodology-intro,
@@ -574,7 +586,8 @@
 }
 
 .rectangle {
-  height: 3rem;
+  height: 1rem;
+  border-radius: 0px 44px 44px 0px;
   width: 95%;
   background-color: green;
 }
