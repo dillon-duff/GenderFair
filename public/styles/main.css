@@ -467,6 +467,10 @@
     margin: 1.2% 1%;
     border-radius: 40px;
 }
+.org-row:hover{
+  transform: scale(1.2);
+  
+}
 
 [class^="header-"] {
   font-size: 1.5rem;
