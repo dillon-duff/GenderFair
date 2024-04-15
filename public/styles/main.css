@@ -476,10 +476,10 @@
   margin: .6% 1%;
   border-radius: 40px;
   width: 85%;
-  justify-content: space-between;
   background-color: #fbfbfb;
   color: #363636;
   height:40px;
+  justify-content: center;
 }
 .org-row:hover{
   transform: scale(1.04);
@@ -497,6 +497,7 @@
   padding: 10px 0;
   /* margin: 0% 10%; */
   width: 75%;
+  justify-content: space-around;
 }
 
 .header-org {
@@ -509,6 +510,7 @@
   color: rgb(255, 94, 0);
   font-weight: bold;
   font-size: 1.3rem;
+  /* margin: 0% 0%; */
 }
 .input-rank{
   color: rgb(255, 94, 0);
@@ -517,7 +519,7 @@
 }
 .header-rank,
 .input-rank {
-  flex: 0 0 10%;
+  /* flex: 0 0 10%; */
   font-weight: 500;
   text-align: center;
   font-size: 0.85em;
@@ -537,6 +539,7 @@
   /* flex: 0.7;
   text-align: left;
   padding-left: 20px; */
+  font-weight: 500;
 }
 
 
@@ -576,8 +579,7 @@
     width: 100%;
     border-radius: 0px 44px 44px 0px;
     width: 47%;
-    margin-left: 1%;
-  
+    /* margin-left: 1%; */
 }
 
 .cat-score-container {
@@ -600,11 +602,12 @@
 }
 
 .score {
-  flex: 0 0 8%;
+  /* flex: 0 0 8%; */
   color: green;
   font-size: 1.4rem;
-  /* margin-left: 1.75%; */
+  margin-left: 1.75%;
   font-weight: 500;
+  width: 10%;
   font-family: Inter;
   text-align: center;
 }
@@ -616,13 +619,16 @@
 }
 
 .input-org {
-  font-size: 1.1rem;
+  /* font-size: 1.1rem; */
+  margin-right: 4%;
+  width: 36%;
 }
 
 .input-rank {
   color: rgb(255, 94, 0);
   font-weight: bold;
-  font-size: 2rem;
+  /* font-size: 2rem; */
+  width: 9%;
 }
 
 .rectangle {
