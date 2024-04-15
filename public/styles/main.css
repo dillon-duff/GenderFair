@@ -929,12 +929,9 @@ section#Pay {
   flex-direction: column;
 }
 
-
-
-
-
 .dropdown-container {
-  position: relative; 
+  position: absolute;
+  right: 250px; 
 }
 
 .dropdown {
