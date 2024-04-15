@@ -8,6 +8,11 @@
   src: url('../Fonts/Raleway-VariableFont_wght.ttf');
 }
 
+.data-rows{
+  overflow-y: scroll;
+  height:800px;
+}
+
 .highlight{
   color: #EE6033;
   font-weight: bold;
