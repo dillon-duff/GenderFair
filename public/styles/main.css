@@ -15,10 +15,20 @@
 }
 .top_half_pay{
   display: flex;
-
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
 }
 .bottom_half_leadership{
   height: 100%;
+}
+.bottom_half_pay{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 4% 0%;
+  background-color: #8bbee7;
 }
 .search_div{
   display: flex;
@@ -755,7 +765,8 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  margin-left: 4%;
+  /* margin-left: 4%; */
+  align-items: center;
 }
 
 .title_separator {
@@ -782,8 +793,8 @@
 .breakdown_section {
   width: 100%;
   /* min-height: 50vh; */
-  height: 100vh;
-  margin-bottom:14%;
+  /* height: 100vh; */
+  margin-bottom: 0%;
 }
 
 .information_portion>p {
@@ -816,13 +827,14 @@
 #highestPaidGraph {
   display: flex;
   flex-direction: row;
-
-
+  background-color: white;
+  width: 80%;
+  padding: 2% 7%;
 }
 
 section#Pay {
   min-height: 60vh;
-  padding-top: 6rem;
+  /* padding-top: 6rem; */
 }
 
 #leadershipGraph {
@@ -840,6 +852,7 @@ section#Pay {
   color: #404040;
   /* padding-bottom: 5%; */
   text-align: center;
+  background-color: #d9d9d9;
 }
 
 .graph_box_placeholder {
