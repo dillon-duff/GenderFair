@@ -103,16 +103,16 @@ numEmp.innerText = this_org_data.metrics.num_employees + " Total Employees";
 document.querySelector("#companyEmploy").appendChild(numEmp);
 
 // adds first sentence of mission from SEO
-var mission = document.createElement("text");
-console.log(mission.innerText)
-if (this_org_data.descriptions.length > 0 ) {
-    if (this_org_data.descriptions[0].includes(".")) {
-        mission.innerText = "Company Mission: " + this_org_data.descriptions[0].substring(0, this_org_data.descriptions[0].indexOf(".")+1);   
-    } else {
-        mission.innerText = "Company Mission: " + this_org_data.descriptions[0];
-    }
-    document.querySelector("#missionStatement").appendChild(mission);
-}
+// var mission = document.createElement("text");
+// console.log(mission.innerText)
+// if (this_org_data.descriptions.length > 0 ) {
+//     if (this_org_data.descriptions[0].includes(".")) {
+//         mission.innerText = "Company Mission: " + this_org_data.descriptions[0].substring(0, this_org_data.descriptions[0].indexOf(".")+1);   
+//     } else {
+//         mission.innerText = "Company Mission: " + this_org_data.descriptions[0];
+//     }
+//     document.querySelector("#missionStatement").appendChild(mission);
+// }
 
 document.querySelector("#payGapText").innerHTML = payGapText;
 
@@ -651,7 +651,7 @@ function createGauge(score) {
     const sectionAngle = Math.PI / n;
 
     const width = 500;
-    const height = 350;
+    const height = 250;
     const margin = { top: 20, right: 20, bottom: 20, left: 0 };
 
     const needleLength = 200;

@@ -748,13 +748,13 @@ body {
 
 
 .mainCard {
-  height: 84%;
+  height: 55%;
   width: 90%;
   background-color: rgba(255, 255, 255, 0.9);
   display: flex;
   /* border-bottom: 1px solid #ccc; */
   /* padding: 10px 0; */
-  margin: 1% 1%;
+  margin: 8%;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-evenly;
@@ -1093,16 +1093,16 @@ section#Pay {
 }
 
 #donationLink {
-  margin-top: 60px;
+  margin-top: 20px;
+  margin-left: 0px;
   font-size: 20px;
+  text-align: center;
   font-family: Raleway;
   flex: 0 0 4%;
 }
 
 .leftSideInfo {
-  /* margin-left: 50px; */
-  display: flex;
-  flex-direction: column;
+  margin-top: 100px;
   justify-content: center;
   align-items: center;
 }
