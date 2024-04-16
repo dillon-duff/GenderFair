@@ -374,15 +374,22 @@ body {
 
 .catHolder {
   display: flex;
-  margin-top: 11px;
-  margin-left: 125px;
-  flex-direction: column;
+  /* margin-top: 11px; */
+  /* margin-left: 125px; */
+  flex-direction: row;
+  align-content: space-around;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 4%;
 }
 
 .catScoreText {
-  font-size: 20px;
-  flex: 0.2;
+  font-size: 1.2em;
+  /* flex: 0.2; */
   font-family: Raleway;
+  width: 17%;
 }
 
 .catScoreBar {
@@ -674,11 +681,13 @@ body {
 }
 
 .cat-score-container {
-  flex: 0 0 55%;
+  /* flex: 0 0 55%; */
   font-weight: bold;
   text-align: left;
+  border-radius: 44px;
   background-color: grey;
-  width: 95%;
+  width: 65%;
+  height: 1rem;
 }
 
 .gauge {
@@ -698,7 +707,7 @@ body {
   color: green;
   font-size: 1.4rem;
   margin-left: 1.75%;
-  font-weight: 500;
+  font-weight: 400;
   width: 10%;
   font-family: Inter;
   text-align: center;
@@ -726,7 +735,7 @@ body {
 
 .rectangle {
   height: 1rem;
-  border-radius: 0px 44px 44px 0px;
+  border-radius: 44px;
   width: 95%;
   background-color: green;
 }
@@ -1127,9 +1136,7 @@ section#Pay {
   text-align: center;
   margin-top: 2%;
 }
-.scorez{
-
-}
+.scorez{display: flex;flex-direction: column;align-items: center;flex-wrap: wrap;align-content: center;margin: 5% 5%;justify-content: space-between;}
 .compinfo{
   margin-top:4%;
 }
