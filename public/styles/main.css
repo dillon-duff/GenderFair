@@ -8,12 +8,12 @@
   src: url('../Fonts/Raleway-VariableFont_wght.ttf');
 }
 
-body{
-  margin: 0;
-}
+
 .top_half_leadership{
   display: flex;
   flex-direction: row;
+  flex-wrap: nowrap;
+  margin: 4% 0%;
 }
 .top_half_pay{
   display: flex;
@@ -750,6 +750,7 @@ body{
   align-items: center;
   flex-wrap: nowrap;
   justify-content: center;
+  align-content: center;
 }
 
 .breakdown_section_container_down {
@@ -818,8 +819,9 @@ body{
 }
 
 .graph_portion {
-  max-width: 40%;
+  /* max-width: 40%; */
   display: flex;
+  flex-direction: column;
 }
 
 .graph_portion_down {
@@ -840,7 +842,7 @@ section#Pay {
 }
 
 #leadershipGraph {
-  margin-top: 15%;
+  /* margin-top: 15%; */
 }
 
 .percentHighlight {
@@ -932,8 +934,17 @@ section#Pay {
 
 .btn-group {
   display: flex;
-  flex-direction: column;
-  width: 10rem;
+  flex-direction: row;
+  /* width: 10rem; */
+  justify-content: center;
+  align-content: flex-end;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  position: relative;
+  top: -10%;
+  right: 26%;
+  text-align: center;
+  /* border-radius: 23px; */
 }
 
 /* TODO: Change these colors, the first should be the 'lighter' color */
@@ -942,13 +953,13 @@ section#Pay {
   background-color: #EE6033;
   border: none;
   color: white;
-  padding: 10px 0px 10px 15px;
+  padding: 2%;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 1.0s;
   /* border-bottom: 1px solid white; */
   /* This adds the border, but I kind of like it without */
-  text-align: left;
+  text-align: center;
 }
 
 .btn-group button:last-child {
