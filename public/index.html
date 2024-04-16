@@ -5,9 +5,11 @@
   <meta charset="utf-8" />
   <script src="https://d3js.org/d3.v6.min.js"></script>
   <title>Gender Fair</title>
-  <link rel="stylesheet" href="styles/main.css" />  
+  <link rel="stylesheet" href="styles/main.css" />
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body id="mainBody">
@@ -106,39 +108,43 @@
     <div id="heading">Non-Profit Organization Rankings</div>
     <div id="seperatorBar"></div>
     <div id="explanation">
-      <p>Gender Fair’s mission is <span class="highlight">fairness</span>; we promote fairness in workplaces and institutions.  
-      We rate public companies and colleges, and now provide that service for nonprofits.
-      The nonprofit  sector provides important services in health care, education, communities, 
-      the arts and the environment, etc.  With nearly 1.5 million nonprofits  (501 C3s) in the 
-      United States, the sector makes up a significant piece of the economy:  representing <span class="highlight">$2.6 
-        trillion</span> dollars and employing 7-10% of the US workforce. 
-      It’s well known that the sector has not reached gender balance when it comes to leadership 
-      or pay. Nor does the sector’s workforce represent the diversity of the American population.  
+      <p>Gender Fair’s mission is <span class="highlight">fairness</span>; we promote fairness in workplaces and
+        institutions.
+        We rate public companies and colleges, and now provide that service for nonprofits.
+        The nonprofit sector provides important services in health care, education, communities,
+        the arts and the environment, etc. With nearly 1.5 million nonprofits (501 C3s) in the
+        United States, the sector makes up a significant piece of the economy: representing <span class="highlight">$2.6
+          trillion</span> dollars and employing 7-10% of the US workforce.
+        It’s well known that the sector has not reached gender balance when it comes to leadership
+        or pay. Nor does the sector’s workforce represent the diversity of the American population.
       </p>
       <p>
-      That’s why Gender Fair  provides these ratings to show how individual nonprofits perform on 
-      gender and diversity. Donors and funding bodies can tell organizations they support that 
-      they expect more. Employees can use these ratings to advocate for <span class="highlight">better workplaces</span>. 
+        That’s why Gender Fair provides these ratings to show how individual nonprofits perform on
+        gender and diversity. Donors and funding bodies can tell organizations they support that
+        they expect more. Employees can use these ratings to advocate for <span class="highlight">better
+          workplaces</span>.
       </p>
       <p>
-      Our nonprofit ratings of 20,000 organizations are built from two databases from which 
-      we/computer scientists pulled/scraped the data without any human or journalistic data 
-      collection. Our sources were IRS 990 filings and Candid. The parameters and size of the 
-      two databases and unavailability of human labor necessitated a reduction in the categories 
-      which we rate.  Nonprofits are rated within three categories, <span class="highlight">leadership, pay equality, and diversity</span>.
+        Our nonprofit ratings of 20,000 organizations are built from two databases from which
+        we/computer scientists pulled/scraped the data without any human or journalistic data
+        collection. Our sources were IRS 990 filings and Candid. The parameters and size of the
+        two databases and unavailability of human labor necessitated a reduction in the categories
+        which we rate. Nonprofits are rated within three categories, <span class="highlight">leadership, pay equality,
+          and diversity</span>.
       </p>
       <p>
-      These metrics differ from our ratings of colleges and companies, which use metrics based on 
-      the UN Women Empowerment Principles in five different categories: Leadership, Employee Policies, 
-      Advertising, Diversity Reporting and Social Impact (LEADS).  There is no public database on employee 
-      policies, advertising doesn’t pertain to all nonprofits, and social impact is embedded in the sector 
-      which narrowed our areas of study. 
+        These metrics differ from our ratings of colleges and companies, which use metrics based on
+        the UN Women Empowerment Principles in five different categories: Leadership, Employee Policies,
+        Advertising, Diversity Reporting and Social Impact (LEADS). There is no public database on employee
+        policies, advertising doesn’t pertain to all nonprofits, and social impact is embedded in the sector
+        which narrowed our areas of study.
       </p>
       <p>
-      Certainly, the organizations that seek to improve society can be urged to promote more fairness, 
-      more gender balance, and diversity in their workforces.  It can start with more public reporting 
-      of demographics as well as adding and disclosing workplace policies such as parental leave, hybrid 
-      work, mental health benefits, or pay studies etc  that create a healthy work atmosphere. <span class="highlight">Everyone deserves that</span>.</p>
+        Certainly, the organizations that seek to improve society can be urged to promote more fairness,
+        more gender balance, and diversity in their workforces. It can start with more public reporting
+        of demographics as well as adding and disclosing workplace policies such as parental leave, hybrid
+        work, mental health benefits, or pay studies etc that create a healthy work atmosphere. <span
+          class="highlight">Everyone deserves that</span>.</p>
     </div>
 
     <div class="pagination-container">
@@ -151,14 +157,20 @@
     <div class="table-container">
       <div class="scoreboard">
         <div class="header-row">
-          <div class="header-rank"><h3>Rank</h3></div>
-          <div class="header-org"><h3>Organization</h3></div>
-          <div class="header-name"><h3>Fairness Score</h3></div>
+          <div class="header-rank">
+            <h3>Rank</h3>
+          </div>
+          <div class="header-org">
+            <h3>Organization</h3>
+          </div>
+          <div class="header-name">
+            <h3>Fairness Score</h3>
+          </div>
           <div class="search_div">
             <form id="searchbar" class="header-search">
               <input id="searchBox" type="search" placeholder="Search for a non-profit...." />
             </form>
-  
+
             <i id="searchIcon" class="fa fa-arrow-right"></i>
             <i id="filterIcon" class="fa fa-filter"></i>
             <div class="dropdown-container">
@@ -176,8 +188,8 @@
                 <label><input type="checkbox" value="STEM">STEM</label>
                 <label><input type="checkbox" value="Hunger">Hunger</label>
               </div>
-          </div>
-         
+            </div>
+
           </div>
 
           <p hidden="true" id="selectedCategoriesText">Selected Categories: <span id="selected-items"></span></p>
