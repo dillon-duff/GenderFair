@@ -386,10 +386,10 @@ body {
 }
 
 .catScoreText {
-  font-size: 1.2em;
+  font-size: 1.4em;
   /* flex: 0.2; */
   font-family: Raleway;
-  width: 17%;
+  width: 20%;
 }
 
 .catScoreBar {
@@ -1095,7 +1095,7 @@ section#Pay {
 #donationLink {
   margin-top: 20px;
   margin-left: 0px;
-  font-size: 20px;
+  font-size: 22px;
   text-align: center;
   font-family: Raleway;
   flex: 0 0 4%;

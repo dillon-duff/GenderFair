@@ -69,13 +69,14 @@ link.href = "https://" + this_org_data.web;
 if (this_org_data.web){
     link.textContent = this_org_data.web.toLowerCase();}
 
-document.querySelector("#companyName").insertAdjacentHTML('beforeend', this_org_data.name);
+document.querySelector("#companyName").insertAdjacentHTML('beforeend', fixCapitalization(this_org_data.name.toLowerCase()));
+console.log(fixCapitalization("HIIIII"));
 // document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
 
 var donat = document.createElement("text");
 donat.innerText = "Donate Now: ";
 
-if (link != undefined) {
+if (link != "https://undefined/") {
     document.querySelector("#donationLink").appendChild(donat);
     document.querySelector("#donationLink").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
 }
@@ -93,7 +94,9 @@ function fixCapitalization(str) {
 
 var loc = document.createElement("text");
 if (this_org_data.city && this_org_data.state){
-loc.innerText = fixCapitalization(this_org_data.city.toLowerCase()) + ", " + this_org_data.state;
+    loc.innerText = fixCapitalization(this_org_data.city.toLowerCase()) + ", " + this_org_data.state;
+} else {
+    loc.innerText = "Location Unknown"
 }
 document.querySelector("#companyLocation").appendChild(loc);
 
@@ -650,7 +653,7 @@ function createGauge(score) {
     const colors = ["#FF0000", "#FFA500", "#FFFF00", "#008000", "#0000FF"];
     const sectionAngle = Math.PI / n;
 
-    const width = 500;
+    const width = 400;
     const height = 250;
     const margin = { top: 20, right: 20, bottom: 20, left: 0 };
 
