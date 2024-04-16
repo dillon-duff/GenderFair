@@ -323,7 +323,7 @@ body{
 
 
 .rightSideInfo {
-  margin-left: 50px;
+  /* margin-left: 50px; */
 }
 
 #genInfo {
@@ -419,7 +419,7 @@ body{
 }
 
 .page-container {
-  margin-top: 150px;
+  /* margin-top: 150px; */
 }
 
 .table-container {
@@ -711,14 +711,15 @@ body{
 
 
 .mainCard {
-  height: 520px;
-  width: 1250px;
+  /* height: 520px; */
+  width: 90%;
   background-color: rgba(255,255,255,0.9);
   display: flex;
-  /* align-items: center; */
-  border-bottom: 1px solid #ccc;
+  /* border-bottom: 1px solid #ccc; */
   /* padding: 10px 0; */
-  margin: auto
+  margin: 1% 1%;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 
 .circleGraphSpot {
@@ -911,7 +912,14 @@ section#Pay {
 }
 .breakdown_intro_container{
   background-image: url(https://source.unsplash.com/qvzjG2pF4bE);
-  height: 100vh;  
+  height: 100vh;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  /* align-content: center; */
+  /* justify-content: center; */
+  align-items: center;
 }
 
 @media (max-width: 600px) {
@@ -1049,7 +1057,7 @@ section#Pay {
 }
 
 .leftSideInfo {
-  margin-left: 50px;
+  /* margin-left: 50px; */
   display:flex;
   flex-direction: column;
 }
