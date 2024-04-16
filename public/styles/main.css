@@ -8,7 +8,9 @@
   src: url('../Fonts/Raleway-VariableFont_wght.ttf');
 }
 
-
+body{
+  margin: 0%
+}
 .top_half_leadership{
   display: flex;
   flex-direction: row;
@@ -21,9 +23,12 @@
   flex-direction: row;
   flex-wrap: nowrap;
   align-content: center;
+  justify-content: center;
 }
+
 .bottom_half_leadership{
   height: 100%;
+  width: 100%;
 }
 .bottom_half_pay{
   width: 100%;
@@ -768,10 +773,12 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  /* margin-left: 4%; */
+  margin-left: 3%;
   align-items: center;
 }
-
+.tc_left{
+  margin-right:5%;
+}
 .title_separator {
   height: 3px;
   width: 250px;
@@ -797,7 +804,7 @@
   width: 100%;
   /* min-height: 50vh; */
   /* height: 100vh; */
-  margin-bottom: 0%;
+  margin-bottom: 5%;
 }
 
 .information_portion>p {
