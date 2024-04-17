@@ -1740,6 +1740,17 @@ label {
     border: 1.5px solid black;
     border-radius: 20px;
   }
+
+  #dropdownBar {
+    height: 100%;
+    width: 100%;
+  }
+  
+  #filterDropdown {
+    border: 1.5px solid black;
+    border-radius: 20px;
+    font: 16px system-ui;
+  }
   
   ::placeholder {
     color: black;
@@ -2944,6 +2955,17 @@ label {
     padding: 6px 10px;
     border: 1.5px solid black;
     border-radius: 20px;
+  }
+  
+  #dropdownBar {
+    height: 100%;
+    width: 100%;
+  }
+  
+  #filterDropdown {
+    border: 1.5px solid black;
+    border-radius: 20px;
+    font: 16px system-ui;
   }
   
   ::placeholder {
