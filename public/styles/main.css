@@ -283,6 +283,7 @@ body {
   justify-content: space-between;
   position: relative;
   top: 36px;
+  z-index: -1;
 }
 
 #ls_intro>.container {
