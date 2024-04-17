@@ -49,6 +49,7 @@ body {
   width: 35%;
   align-content: center;
   margin-left: 6%;
+  margin-bottom: 1%;
   /* justify-content: space-around; */
 }
 
@@ -503,6 +504,17 @@ body {
   border-radius: 20px;
 }
 
+#dropdownBar {
+  height: 100%;
+  width: 100%;
+}
+
+#filterDropdown {
+  border: 1.5px solid black;
+  border-radius: 20px;
+  font: 16px system-ui;
+}
+
 ::placeholder {
   color: black;
   opacity: 0.8;
@@ -675,7 +687,7 @@ body {
   color: #363636;
   font-size: .85em;
   text-align: center;
-  width: 12%;
+  width: 20%;
 }
 
 
@@ -1904,7 +1916,7 @@ label {
     color: #363636;
     font-size: .85em;
     text-align: center;
-    width: 12%;
+    width: 20%;
   }
   
   
@@ -3109,7 +3121,7 @@ label {
     color: #363636;
     font-size: .85em;
     text-align: center;
-    width: 12%;
+    width: 20%;
   }
   
   
