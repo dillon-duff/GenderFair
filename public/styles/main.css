@@ -1037,7 +1037,7 @@ section#Pay {
 /* TODO: Change these colors, the first should be the 'lighter' color */
 
 .btn-group button {
-  background-color: #EE6033;
+  background-color: #D9D9D9;
   border: none;
   color: white;
   padding: 2%;
@@ -1118,16 +1118,15 @@ section#Pay {
 }
 
 #donationLink {
-  margin-top: 20px;
-  margin-left: 0px;
-  font-size: 22px;
+  
+  font-size: 1.4em;
   text-align: center;
   font-family: Raleway;
-  flex: 0 0 4%;
+  
 }
 
 .leftSideInfo {
-  margin-top: 100px;
+  margin-top: 6%;
   justify-content: center;
   align-items: center;
 }
@@ -1161,9 +1160,15 @@ section#Pay {
   text-align: center;
   margin-top: 2%;
 }
-.scorez{display: flex;flex-direction: column;align-items: center;flex-wrap: wrap;align-content: center;margin: 5% 5%;justify-content: space-between;}
+.scorez{display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  align-content: center;
+  margin: 3% 6%;
+  justify-content: space-between;}
 .compinfo{
-  margin-top:4%;
+  /* margin-top:4%; */
 }
 
 
@@ -2253,7 +2258,7 @@ label {
   /* TODO: Change these colors, the first should be the 'lighter' color */
   
   .btn-group button {
-    background-color: #EE6033;
+    background-color: #D9D9D9;
     border: none;
     color: white;
     padding: 2%;
@@ -2343,7 +2348,7 @@ label {
   }
   
   .leftSideInfo {
-    margin-top: 100px;
+    margin-top: 6%;
     justify-content: center;
     align-items: center;
   }
@@ -3548,7 +3553,7 @@ label {
   }
   
   .leftSideInfo {
-    margin-top: 100px;
+    margin-top: 6%;
     justify-content: center;
     align-items: center;
   }

@@ -73,12 +73,14 @@ document.querySelector("#companyName").insertAdjacentHTML('beforeend', fixCapita
 console.log(fixCapitalization("HIIIII"));
 // document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
 
-var donat = document.createElement("text");
-donat.innerText = "Donate Now: ";
+// var donat = document.createElement("text");
+// donat.innerText = "Donate Now: ";
+var donate_button = document.getElementById('donationLink'); //or grab it by tagname etc
 
 if (link != "https://undefined/") {
-    document.querySelector("#donationLink").appendChild(donat);
-    document.querySelector("#donationLink").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
+    // document.querySelector("#donationLink").appendChild(donat);
+    // document.querySelector("#donationLink").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
+    donate_button.href = link;
 }
 
 function fixCapitalization(str) {
