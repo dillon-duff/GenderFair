@@ -187,6 +187,10 @@ body {
   flex-direction: row;
 }
 
+.explainer {
+  flex: 0 0 50%;
+}
+
 #wsf_img {
   border-radius: 3%;
   max-width: 100%;
