@@ -254,6 +254,12 @@ body {
   margin: 0 1%;
 }
 
+.trans_logo_orange {
+  width: 50px;
+  height: 50px;
+  margin: 0 1%;
+}
+
 .index_section {
   width: 100vw;
 }
@@ -263,10 +269,22 @@ body {
   min-height: 100vh;
   max-width: 100%;
 }
+.orimgcon {
+  display: flex;
+  flex-direction: row;
+  justify-items: left;
+  width: 100%;
+  flex-wrap: nowrap;
+  margin-left: 11%;
+  justify-content: space-between;
+  position: relative;
+  top: 36px;
+}
 
 #ls_intro>.container {
   background-image: url(https://source.unsplash.com/Cns0h4ypRyA);
   background-size: cover;
+  background-color: #06060687;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -275,6 +293,7 @@ body {
   margin-top: 0;
   align-items: center;
   color: white;
+  background-blend-mode: color-burn;
 
 }
 
@@ -675,7 +694,7 @@ body {
   text-align: left;
   background-color: #ccc;
   width: 100%;
-  border-radius: 0px 44px 44px 0px;
+  border-radius: 44px ;
   width: 47%;
   /* margin-left: 1%; */
 }
@@ -748,16 +767,17 @@ body {
 
 
 .mainCard {
-  height: 55%;
+  height: 80%;
   width: 90%;
   background-color: rgba(255, 255, 255, 0.9);
   display: flex;
   /* border-bottom: 1px solid #ccc; */
   /* padding: 10px 0; */
-  margin: 8%;
-  flex-direction: row;
+  margin: 2%;
+  flex-direction: column;
   flex-wrap: nowrap;
   justify-content: space-evenly;
+  align-items: center;
 }
 
 .circleGraphSpot {
@@ -1189,6 +1209,21 @@ label {
   margin-left: 8px;
   margin-right: 8px;
 }
+.thmc{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+}
+.bhmc{
+  display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
 @media (min-width: 1920px){
   @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
@@ -1949,16 +1984,17 @@ label {
   
   
   .mainCard {
-    height: 55%;
+    height: 80%;
     width: 90%;
     background-color: rgba(255, 255, 255, 0.9);
     display: flex;
     /* border-bottom: 1px solid #ccc; */
     /* padding: 10px 0; */
-    margin: 8%;
-    flex-direction: row;
+    margin: 2%;
+    flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-evenly;
+    align-items: center;
   }
   
   .circleGraphSpot {
@@ -3153,16 +3189,17 @@ label {
   
   
   .mainCard {
-    height: 55%;
+    height: 80%;
     width: 90%;
     background-color: rgba(255, 255, 255, 0.9);
     display: flex;
     /* border-bottom: 1px solid #ccc; */
     /* padding: 10px 0; */
-    margin: 8%;
-    flex-direction: row;
+    margin: 2%;
+    flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-evenly;
+    align-items: center;
   }
   
   .circleGraphSpot {
