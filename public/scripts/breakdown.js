@@ -75,7 +75,6 @@ if (this_org_data.web){
     link.textContent = this_org_data.web.toLowerCase();}
 
 document.querySelector("#companyName").insertAdjacentHTML('beforeend', fixCapitalization(this_org_data.name.toLowerCase()));
-console.log(fixCapitalization("HIIIII"));
 // document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
 
 // var donat = document.createElement("text");
@@ -354,7 +353,7 @@ function createBoardGenderCompositionViz(genderDataString) {
         .attr("y", legendY - legendRectSize)
         .attr("width", 130)
         .attr("height", legendRectSize * 7 + legendSpacing)
-        .attr("fill", "grey")
+        .attr("fill", "white")
         .style("opacity", 0.3)
         .attr("rx", 10)
         .attr("ry", 10);
@@ -661,7 +660,7 @@ function createGauge(score) {
     const sectionAngle = Math.PI / n;
 
     const width = 400;
-    const height = 250;
+    const height = 300;
     const margin = { top: 20, right: 20, bottom: 20, left: 0 };
 
     const needleLength = 200;
@@ -713,7 +712,7 @@ function createGauge(score) {
         .attr("x2", needlePivotX)
         .attr("y2", needlePivotY - needleLength)
         .style("stroke", "black")
-        .style("stroke-width", 2)
+        .style("stroke-width", 4)
         .attr(
             "transform",
             `rotate(${needleAngle}, ${needlePivotX}, ${needlePivotY})`
@@ -723,11 +722,12 @@ function createGauge(score) {
     svg
         .append("text")
         .attr("x", needlePivotX)
-        .attr("y", needlePivotY - 70)
+        .attr("y", needlePivotY + 40)
         .text(`${score}/100`)
         .attr("text-anchor", "middle")
-        .style("font-size", "1.5rem")
+        .style("font-size", "1.7rem")
         .style("font-family", "Poppins")
+        .style("font-weight", "bold")
         .style("fill", "#5e5b5b");
 }
 
@@ -819,7 +819,7 @@ function createPayGraph(orgData) {
         .attr("y", legendY - legendRectSize)
         .attr("width", 120)
         .attr("height", legendRectSize * 3 + legendSpacing)
-        .attr("fill", "grey")
+        .attr("fill", "white")
         .style("opacity", 0.3)
         .attr("rx", 10)
         .attr("ry", 10);

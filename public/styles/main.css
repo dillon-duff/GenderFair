@@ -38,7 +38,7 @@ body {
   display: flex;
   justify-content: center;
   padding: 4% 0%;
-  background-color: #8bbee7;
+  background-color: #d9d9d9;
 }
 
 .search_div {
@@ -931,7 +931,7 @@ section#Pay {
   color: #404040;
   /* padding-bottom: 5%; */
   text-align: center;
-  background-color: #d9d9d9;
+  /* background-color: #d9d9d9; */
 }
 
 .graph_box_placeholder {
@@ -1126,7 +1126,7 @@ section#Pay {
 
 #donationLink {
   
-  font-size: 1.4em;
+  font-size: 1.7em;
   text-align: center;
   font-family: Raleway;
   
@@ -1282,7 +1282,7 @@ label {
     display: flex;
     justify-content: center;
     padding: 4% 0%;
-    background-color: #8bbee7;
+    background-color: #d9d9d9;
   }
   
   .search_div {
@@ -2159,7 +2159,7 @@ label {
     color: #404040;
     /* padding-bottom: 5%; */
     text-align: center;
-    background-color: #d9d9d9;
+    /* background-color: #d9d9d9; */
   }
   
   .graph_box_placeholder {
@@ -2487,7 +2487,7 @@ label {
     display: flex;
     justify-content: center;
     padding: 4% 0%;
-    background-color: #8bbee7;
+    background-color: #d9d9d9;
   }
   
   .search_div {
@@ -3364,7 +3364,7 @@ label {
     color: #404040;
     /* padding-bottom: 5%; */
     text-align: center;
-    background-color: #d9d9d9;
+    /* background-color: #d9d9d9; */
   }
   
   .graph_box_placeholder {
@@ -3647,7 +3647,4 @@ label {
     margin-left: 8px;
     margin-right: 8px;
   }
-
-
-
 }
