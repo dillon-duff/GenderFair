@@ -988,6 +988,13 @@ section#Pay {
   /* align-content: center; */
   /* justify-content: center; */
   align-items: center;
+  background-color: #06060687;
+  background-blend-mode: color-burn;
+}
+#ethnicityBtnGroup{
+    width: 33%;
+    right: 6%;
+    top: -6em;
 }
 
 @media (max-width: 600px) {
