@@ -60,8 +60,13 @@ this_org_data = await fetchDocumentByEIN(ein);
 console.log(this_org_data)
 
 // Add text 'Women are paid X% more/less
-const more_or_less = this_org_data.metrics.average_female_salary > this_org_data.metrics.average_male_salary ? "more" : "less"
-const payGapText = `Women in leadership are paid <span class='percentHighlight'>${Math.round(Math.abs(this_org_data.metrics.pay_gap))}% ${more_or_less}</span> than men at ${this_org_data.name}`
+let more_or_less = this_org_data.metrics.average_female_salary > this_org_data.metrics.average_male_salary ? "more" : "less"
+let pay_gap = Math.round(Math.abs(this_org_data.metrics.pay_gap));
+if (this_org_data.metrics.average_female_salary > 0 && this_org_data.metrics.average_male_salary <= 0 ||
+    this_org_data.metrics.average_male_salary > 0 && this_org_data.metrics.average_female_salary <= 0 ) {
+    pay_gap = "100"
+}
+const payGapText = `Women in leadership are paid <span class='percentHighlight'>${pay_gap}% ${more_or_less}</span> than men at ${this_org_data.name}`
 
 var link = document.createElement("a");
 // Set the href attribute
