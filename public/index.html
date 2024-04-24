@@ -127,22 +127,22 @@
       <i id="searchIcon" class="fa fa-arrow-right"></i>
       <i id="filterIcon" class="fa fa-filter"></i>
 
-      <form>
-        <select id="filterDropdown">
-          <option value="" disabled selected>Filter by Category</option>
-          <option value="Arts">Arts</option>
-          <option value="Children">Children</option>
-          <option value="College">College</option>
-          <option value="Community Needs">Community Needs</option>
-          <option value="Education">Education</option>
-          <option value="Environmental">Environmental</option>
-          <option value="Healthcare">Healthcare</option>
-          <option value="Hospital">Hospital</option>
-          <option value="Hunger">Hunger</option>
-          <option value="STEM">STEM</option>
-          <option value="Other">Other</option>
-        </select>
-      </form>
+      <div id="list1" class="dropdown-check-list" tabindex="100">
+        <span class="anchor">Filter by Category:</span>
+        <ul class="items">
+          <li><input type="checkbox" value="Arts"/>Arts </li>
+          <li><input type="checkbox" value="Children"/>Children</li>
+          <li><input type="checkbox" value="College"/>College </li>
+          <li><input type="checkbox" value="Community Needs"/>Community Needs </li>
+          <li><input type="checkbox" value="Education"/>Education </li>
+          <li><input type="checkbox" value="Environmental"/>Environmental </li>
+          <li><input type="checkbox" value="Healthcare"/>Healthcare</li>
+          <li><input type="checkbox" value="Hospital"/>Hospital</li>
+          <li><input type="checkbox" value="Hunger"/>Hunger</li>
+          <li><input type="checkbox" value="STEM"/>STEM</li>
+          <li><input type="checkbox" value="Other"/>Other</li>
+        </ul>
+      </div>
 
       <div class="dropdown-container">
         <div id="dropdown" class="dropdown">
