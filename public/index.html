@@ -118,32 +118,33 @@
     <div class="orimgcon">
       <img class="trans_logo_orange" src="orange_trans_logo.png">
     </div>
-    
-    <div class="search_div">
-      <form id="searchbar" class="header-search">
-        <input id="searchBox" type="search" placeholder="Search for a non-profit...." />
-      </form>
+    <div id="searchFilterContainer">
+      <div class="search_div">
+        <form id="searchbar" class="header-search">
+          <input id="searchBox" type="search" placeholder="Search for a non-profit...." />
+        </form>
 
-      <i id="searchIcon" class="fa fa-arrow-right"></i>
-      <i id="filterIcon" class="fa fa-filter"></i>
+        <i id="searchIcon" class="fa fa-arrow-right"></i>
+        <i id="filterIcon" class="fa fa-filter"></i>
 
-      <div id="list1" class="dropdown-check-list" tabindex="100">
-        <span class="anchor">Filter by Category:</span>
-        <ul class="items">
-          <li><input type="checkbox" value="Arts"/>Arts </li>
-          <li><input type="checkbox" value="Children"/>Children</li>
-          <li><input type="checkbox" value="College"/>College </li>
-          <li><input type="checkbox" value="Community Needs"/>Community Needs </li>
-          <li><input type="checkbox" value="Education"/>Education </li>
-          <li><input type="checkbox" value="Environmental"/>Environmental </li>
-          <li><input type="checkbox" value="Healthcare"/>Healthcare</li>
-          <li><input type="checkbox" value="Hospital"/>Hospital</li>
-          <li><input type="checkbox" value="Hunger"/>Hunger</li>
-          <li><input type="checkbox" value="STEM"/>STEM</li>
-          <li><input type="checkbox" value="Other"/>Other</li>
-        </ul>
+        <div id="list1" class="dropdown-check-list">
+          <span class="anchor">Filter by Category:</span>
+          <ul class="items">
+            <li><input type="checkbox" value="Arts"/>Arts </li>
+            <li><input type="checkbox" value="Children"/>Children</li>
+            <li><input type="checkbox" value="College"/>College </li>
+            <li><input type="checkbox" value="Community Needs"/>Community Needs </li>
+            <li><input type="checkbox" value="Education"/>Education </li>
+            <li><input type="checkbox" value="Environmental"/>Environmental </li>
+            <li><input type="checkbox" value="Healthcare"/>Healthcare</li>
+            <li><input type="checkbox" value="Hospital"/>Hospital</li>
+            <li><input type="checkbox" value="Hunger"/>Hunger</li>
+            <li><input type="checkbox" value="STEM"/>STEM</li>
+            <li><input type="checkbox" value="Other"/>Other</li>
+          </ul>
+        </div>
       </div>
-
+    </div>
       <div class="dropdown-container">
         <div id="dropdown" class="dropdown">
           <text id="filterTitle">Filter by category:</text>
@@ -160,7 +161,7 @@
           <label><input type="checkbox" value="Hunger">Hunger</label>
         </div>
       </div>
-    </div>
+  
 
     <div class="table-container">
       <div class="scoreboard">
