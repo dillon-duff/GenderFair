@@ -201,11 +201,6 @@ function createBoardGenderCompositionViz(genderDataString) {
     }
     let allZeros = Object.values(genderData).every(value => value === 0)
 
-
-
-
-
-
     /* Keeping this global because the tooltip won't work otherwise, oddly */
     currentGenderData = genderData;
 
@@ -228,7 +223,6 @@ function createBoardGenderCompositionViz(genderDataString) {
     if (allZeros)
         genderData['Unknown'] = 1;
 
-    console.log(genderData)
 
     const color = d3.scaleOrdinal()
         .domain(["Female", "Male", "Non-Binary", "Decline to State", "Unknown"])
@@ -245,8 +239,6 @@ function createBoardGenderCompositionViz(genderDataString) {
 
     if (allZeros) total = -1;
 
-
-
     const arc = d3.arc()
         .innerRadius(0)
         .outerRadius(radius);
@@ -255,8 +247,6 @@ function createBoardGenderCompositionViz(genderDataString) {
 
     const paths = svg.selectAll('path')
         .data(data_ready, d => d.data[0]);
-
-
 
     paths.enter()
         .append('path')
@@ -377,11 +367,15 @@ function createBoardGenderCompositionViz(genderDataString) {
                 .attr("y", 0)
                 .text("Did Not Report")
                 .attr("fill", "#b01313");
+            genderData['Unknown'] = 0;
 
         }
     } else {
         if (!allZeros) {
             d3.select("#leadershipGraph svg #didnt-report-text").remove()
+        } else {
+            genderData['Unknown'] = 0;
+
         }
     }
 
@@ -525,7 +519,7 @@ function createDiversityGraph(orgData, ethnicityDataString) {
             return;
     }
 
-    const allZeros = ethnicityData.every(d => d.count === 0);
+    let allZeros = ethnicityData.every(d => d.count === 0);
 
 
     // If the SVG doesn't exist, create it. Otherwise, select the existing SVG.
@@ -641,7 +635,8 @@ function createDiversityGraph(orgData, ethnicityDataString) {
                 .attr("x", width / 2)
                 .attr("y", height / 4)
                 .text("Did Not Report")
-                .attr("fill", "red");
+                .attr("fill", "#b01313");
+
         }
     } else {
         if (!allZeros) {
