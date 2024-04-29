@@ -63,7 +63,7 @@ console.log(this_org_data)
 let more_or_less = this_org_data.metrics.average_female_salary > this_org_data.metrics.average_male_salary ? "more" : "less"
 let pay_gap = Math.round(Math.abs(this_org_data.metrics.pay_gap));
 if (this_org_data.metrics.average_female_salary > 0 && this_org_data.metrics.average_male_salary <= 0 ||
-    this_org_data.metrics.average_male_salary > 0 && this_org_data.metrics.average_female_salary <= 0 ) {
+    this_org_data.metrics.average_male_salary > 0 && this_org_data.metrics.average_female_salary <= 0) {
     pay_gap = "100"
 }
 const payGapText = `Women in leadership are paid <span class='percentHighlight'>${pay_gap}% ${more_or_less}</span> than men at ${this_org_data.name}`
@@ -71,8 +71,9 @@ const payGapText = `Women in leadership are paid <span class='percentHighlight'>
 var link = document.createElement("a");
 // Set the href attribute
 link.href = "https://" + this_org_data.web;
-if (this_org_data.web){
-    link.textContent = this_org_data.web.toLowerCase();}
+if (this_org_data.web) {
+    link.textContent = this_org_data.web.toLowerCase();
+}
 
 document.querySelector("#companyName").insertAdjacentHTML('beforeend', fixCapitalization(this_org_data.name.toLowerCase()));
 // document.querySelector("#companyWebsite").appendChild(link); /*.insertAdjacentHTML('beforeend', this_org_data.web_address);*/
@@ -99,7 +100,7 @@ function fixCapitalization(str) {
 }
 
 var loc = document.createElement("text");
-if (this_org_data.city && this_org_data.state){
+if (this_org_data.city && this_org_data.state) {
     loc.innerText = fixCapitalization(this_org_data.city.toLowerCase()) + ", " + this_org_data.state;
 } else {
     loc.innerText = "Location Unknown"
@@ -198,7 +199,8 @@ function createBoardGenderCompositionViz(genderDataString) {
         default:
             return;
     }
-   const allZeros = Object.values(genderData).every(value => value === 0)
+    let allZeros = Object.values(genderData).every(value => value === 0)
+
 
 
 
@@ -223,29 +225,10 @@ function createBoardGenderCompositionViz(genderDataString) {
     } else {
         svg = d3.select("#leadershipGraph svg g");
     }
+    if (allZeros)
+        genderData['Unknown'] = 1;
 
-//    svg.selectAll("*").remove(); // Clear previous contents.
-
-    //    if (allZeros) {
-    //        // Apply a black tint to the graph area
-    //        svg.append("rect")
-    //            .attr("width", width)
-    //            .attr("height", height)
-    //            .attr("fill", "black")
-    //            .attr("opacity", 0.75)
-    //            .attr("transform", `translate(${-width / 2}, ${-height / 2})`);
-
-    //        // Display "DID NOT REPORT" text
-    //        svg.append("text")
-    //            .attr("x", 0)
-    //            .attr("y", 0)
-    //            .attr("text-anchor", "middle")
-    //            .attr("fill", "white")
-    //            .style("font-size", "30px")
-    //            .text("DID NOT REPORT");
-
-    //        return; // Skip drawing the rest of the graph if all counts are 0
-    //    }
+    console.log(genderData)
 
     const color = d3.scaleOrdinal()
         .domain(["Female", "Male", "Non-Binary", "Decline to State", "Unknown"])
@@ -258,8 +241,9 @@ function createBoardGenderCompositionViz(genderDataString) {
     let data_ready = pie(Object.entries(genderData));
 
 
-
     let total = Object.entries(genderData).reduce((acc, curr) => acc + (+curr[1]), 0);
+
+    if (allZeros) total = -1;
 
 
 
@@ -383,6 +367,25 @@ function createBoardGenderCompositionViz(genderDataString) {
         .attr("font-size", ".75rem")
         .text(d => d.gender)
         .style("font-family", "sans-serif");
+
+    if (d3.select("#leadershipGraph svg #didnt-report-text").empty()) {
+        if (allZeros) {
+            svg.append("text")
+                .attr("text-anchor", "middle")
+                .attr("id", "didnt-report-text")
+                .attr("x", 0)
+                .attr("y", 0)
+                .text("Did Not Report")
+                .attr("fill", "#b01313");
+
+        }
+    } else {
+        if (!allZeros) {
+            d3.select("#leadershipGraph svg #didnt-report-text").remove()
+        }
+    }
+
+
 }
 
 function createCircleComparison(orgData) {
@@ -542,28 +545,6 @@ function createDiversityGraph(orgData, ethnicityDataString) {
     } else {
         svg = d3.select("#diversityGraph svg g");
     }
-    // svg.selectAll("*").remove();
-    //  if (allZeros) {
-
-    //         svg.append("rect")
-    //             .attr("class", "overlay")
-    //             .attr("width", width)
-    //             .attr("height", height)
-    //             .attr("fill", "black")
-    //             .attr("opacity", 0.5);
-
-
-    //         svg.append("text")
-    //             .attr("class", "overlay-text")
-    //             .attr("x", width / 2)
-    //             .attr("y", height / 2)
-    //             .attr("text-anchor", "middle")
-    //             .attr("fill", "white")
-    //             .style("font-size", "30px")
-    //             .text("DID NOT REPORT");
-
-    //         return;
-    //     }
 
     // Update the scales
     const x = d3.scaleBand()
@@ -651,6 +632,22 @@ function createDiversityGraph(orgData, ethnicityDataString) {
         .style("font-size", "24px")
         .style("font-family", "Raleway")
         .style("fill", "black");
+
+    if (d3.select("#diversityGraph svg #didnt-report-text").empty()) {
+        if (allZeros) {
+            svg.append("text")
+                .attr("text-anchor", "middle")
+                .attr("id", "didnt-report-text")
+                .attr("x", width / 2)
+                .attr("y", height / 4)
+                .text("Did Not Report")
+                .attr("fill", "red");
+        }
+    } else {
+        if (!allZeros) {
+            d3.select("#diversityGraph svg #didnt-report-text").remove()
+        }
+    }
 
 }
 
@@ -972,7 +969,7 @@ function getEthnicityDataStaff(orgData) {
 
 
 function getGenderDataBoard(orgData) {
-    if (orgData.board_gender){
+    if (orgData.board_gender) {
         return {
             "Female": orgData.board_gender.female || 0,
             "Male": orgData.board_gender.male || 0,
@@ -982,17 +979,17 @@ function getGenderDataBoard(orgData) {
         }
     } else {
         return {
-                "Female": 0,
-                "Male": 0,
-                "Non-Binary": 0,
-                "Decline to State": 0,
-                "Unknown": 0,
-            }
+            "Female": 0,
+            "Male": 0,
+            "Non-Binary": 0,
+            "Decline to State": 0,
+            "Unknown": 0,
+        }
     }
 }
 
 function getGenderDataSenior(orgData) {
-    if(orgData.senior_staff_gender){
+    if (orgData.senior_staff_gender) {
         return {
             "Female": orgData.senior_staff_gender.female || 0,
             "Male": orgData.senior_staff_gender.male || 0,
@@ -1002,34 +999,34 @@ function getGenderDataSenior(orgData) {
         }
     }
     else {
-            return {
-                    "Female": 0,
-                    "Male": 0,
-                    "Non-Binary": 0,
-                    "Decline to State": 0,
-                    "Unknown": 0,
-                }
+        return {
+            "Female": 0,
+            "Male": 0,
+            "Non-Binary": 0,
+            "Decline to State": 0,
+            "Unknown": 0,
         }
+    }
 }
 
 function getGenderDataStaff(orgData) {
-    if(orgData.staff_gender){
+    if (orgData.staff_gender) {
         return {
-                "Female": orgData.staff_gender.female || 0,
-                "Male": orgData.staff_gender.male || 0,
-                "Non-Binary": orgData.staff_gender.non_binary || 0,
-                "Decline to State": orgData.staff_gender.declined || 0,
-                "Unknown": orgData.staff_gender.unknown || 0
-            }
+            "Female": orgData.staff_gender.female || 0,
+            "Male": orgData.staff_gender.male || 0,
+            "Non-Binary": orgData.staff_gender.non_binary || 0,
+            "Decline to State": orgData.staff_gender.declined || 0,
+            "Unknown": orgData.staff_gender.unknown || 0
+        }
     } else {
-              return {
-                      "Female": 0,
-                      "Male": 0,
-                      "Non-Binary": 0,
-                      "Decline to State": 0,
-                      "Unknown": 0,
-                  }
-          }
+        return {
+            "Female": 0,
+            "Male": 0,
+            "Non-Binary": 0,
+            "Decline to State": 0,
+            "Unknown": 0,
+        }
+    }
 
 }
 

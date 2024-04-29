@@ -3894,3 +3894,7 @@ label {
     margin-right: 8px;
   }
 }
+
+#searchIcon:hover {
+  cursor: pointer;
+}

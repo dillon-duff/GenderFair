@@ -53,6 +53,7 @@ async function fetchDocumentsForEINs(db, name, allEINs, categories) {
         querySnapshot.forEach(doc => {
             documents.push(doc.data());
         });
+        // This if statement could go in the forEach statement above to actually limit the search results
         if (documents.length >= docsLimit) {
             break;
         }
@@ -90,9 +91,10 @@ async function fetchDocumentByNameAndCategories(name, categories) {
 
 async function fetchDocumentsByRankRange(startRank, endRank) {
     const nonprofitsRef = collection(db, "non-for-profits");
+    if (startRank == 1) startRank = 0;
     const queryRef = query(nonprofitsRef,
-        where("rank", ">=", startRank),
-        where("rank", "<", endRank)
+        where("rank", ">", startRank),
+        where("rank", "<=", endRank)
     );
     const querySnapshot = await getDocs(queryRef);
 
@@ -228,7 +230,7 @@ async function updateTable() {
 }
 
 function getSelectedCategories() {
-    var checkboxes = document.querySelectorAll('#dropdown input[type=checkbox]');
+    var checkboxes = document.querySelectorAll('#list1 input[type=checkbox]');
 
     var selectedItems = Array.from(checkboxes)
         .filter(checkbox => checkbox.checked)
@@ -252,29 +254,10 @@ document.getElementById('searchbar').addEventListener('submit', async function (
     updateTable();
 });
 
-document.getElementById('filterIcon').addEventListener('click', function () {
-    var dropdown = document.getElementById('dropdown');
-    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-});
-
-var checkboxes = document.querySelectorAll('#dropdown input[type=checkbox]');
-checkboxes.forEach(function (checkbox) {
-    checkbox.addEventListener('change', function () {
-        var selectedItems = Array.from(checkboxes)
-            .filter(checkbox => checkbox.checked)
-            .map(checkbox => checkbox.value);
-
-
-        var list = document.getElementById('selected-items');
-        list.innerHTML = '';
-        selectedItems.forEach(function (item) {
-            var li = document.createElement('li');
-            li.textContent = item;
-            list.appendChild(li);
-        });
-        // document.getElementById('selected-items').textContent = '- ' + selectedItems.join('\n- ');
-    });
-});
+// document.getElementById('filterIcon').addEventListener('click', function () {
+//     var dropdown = document.getElementById('dropdown');
+//     dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+// });
 
 document.getElementById('searchIcon').addEventListener('click', function (event) {
     event.preventDefault();
