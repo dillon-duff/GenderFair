@@ -65,6 +65,7 @@ body {
   border: 1.5px solid black;
   border-radius: 20px;
   font: 16px system-ui;
+  width: 60%;
 }
 
 .dropdown-check-list .anchor {
@@ -1409,6 +1410,7 @@ label {
     border: 1.5px solid black;
     border-radius: 20px;
     font: 16px system-ui;
+    width: 60%;
   }
 
   .dropdown-check-list .anchor {
@@ -2698,6 +2700,7 @@ label {
     border: 1.5px solid black;
     border-radius: 20px;
     font: 16px system-ui;
+    width: 60%;
   }
 
   .dropdown-check-list .anchor {
