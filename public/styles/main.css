@@ -55,62 +55,66 @@ body {
 
 #searchFilterContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   margin-bottom: 1%;
   width: 100%;
+  justify-content: center;
 }
 
 .dropdown-check-list {
   border: 1.5px solid black;
+  display: flex;
   border-radius: 20px;
+  /* padding: 4%; */
   font: 16px system-ui;
-}
+  flex-direction: row;
+  height: 2.5em;
 
-.dropdown-check-list .anchor {
+  align-items: center;
+  justify-content: space-evenly;
+  
+}
+.dropdownz{
+  display:inline-block;
   position: relative;
-  cursor: pointer;
-  top: 20%;
-  display: inline-block;
-  padding: 5px 50px 5px 10px;
+  width: 8%;
 }
 
-.dropdown-check-list .anchor:after {
-  position: absolute;
-  content: "";
-  border-left: 2px solid black;
-  border-top: 2px solid black;
-  padding: 5px;
-  right: 10px;
-  top: 20%;
-  -moz-transform: rotate(-135deg);
-  -ms-transform: rotate(-135deg);
-  -o-transform: rotate(-135deg);
-  -webkit-transform: rotate(-135deg);
-  transform: rotate(-135deg);
-}
 
-.dropdown-check-list .anchor:active:after {
-  right: 8px;
-  top: 21%;
-}
-
-.dropdown-check-list ul.items {
-  padding: 2px;
+.items{
   display: none;
-  margin: 0;
-  border: 1px solid #ccc;
-  border-top: none;
+  position: absolute;
+  background-color: #cfcfcf;
+
+  padding: 0%;
+  margin: 0%;
+  width: 200px;
 }
+.items li{
+  list-style: none;
+  margin-bottom: 2%;
+  font-family: Raleway;
+
+}
+/* .dropdownz:hover .items{
+  display:block;
+} */
+.item-visible{
+  display:block;
+}
+
+/* .dropdownz:hover .items li:hover {
+  padding-bottom: 30px; 
+  position: absolute; 
+} */
+
+
 
 .dropdown-check-list ul.items li {
   list-style: none;
 }
 
-.dropdown-check-list.visible .items {
-  display: block;
-  background-color: #ccc;
-}
 
 .data-rows {
   overflow-y: scroll;
@@ -1324,21 +1328,7 @@ label {
 
 }
 
-@media(min-width: 2100px) {
-  @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-  @font-face {
-    font-family: Raleway;
-    src: url('../Fonts/Raleway-VariableFont_wght.ttf');
-  }
-
-  body {
-    margin: 2%
-  }
-}
 
 @media (min-width: 1920px) {
   @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -1391,7 +1381,8 @@ label {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
-    align-items: center;
+    align-items: baseline;
+
     width: 40%;
     margin-bottom: 1%;
     justify-content: center;
@@ -1399,62 +1390,14 @@ label {
 
   #searchFilterContainer {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
     margin-bottom: 1%;
     width: 100%;
   }
 
-  .dropdown-check-list {
-    border: 1.5px solid black;
-    border-radius: 20px;
-    font: 16px system-ui;
-  }
-
-  .dropdown-check-list .anchor {
-    position: relative;
-    cursor: pointer;
-    top: 20%;
-    display: inline-block;
-    padding: 5px 50px 5px 10px;
-  }
-
-  .dropdown-check-list .anchor:after {
-    position: absolute;
-    content: "";
-    border-left: 2px solid black;
-    border-top: 2px solid black;
-    padding: 5px;
-    right: 10px;
-    top: 20%;
-    -moz-transform: rotate(-135deg);
-    -ms-transform: rotate(-135deg);
-    -o-transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-    transform: rotate(-135deg);
-  }
-
-  .dropdown-check-list .anchor:active:after {
-    right: 8px;
-    top: 21%;
-  }
-
-  .dropdown-check-list ul.items {
-    padding: 2px;
-    display: none;
-    margin: 0;
-    border: 1px solid #ccc;
-    border-top: none;
-  }
-
-  .dropdown-check-list ul.items li {
-    list-style: none;
-  }
-
-  .dropdown-check-list.visible .items {
-    display: block;
-    background-color: #ccc;
-  }
+  
 
   .data-rows {
     overflow-y: scroll;
@@ -2630,6 +2573,100 @@ label {
 
 }
 
+@media(min-width: 2100px) {
+  @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+  @font-face {
+    font-family: Raleway;
+    src: url('../Fonts/Raleway-VariableFont_wght.ttf');
+  }
+
+  body {
+    margin: 0%;
+    overflow-x: hidden;
+    width: 100vw;
+  }
+  .data-rows{
+    height: 860px;
+  }
+  .header-row{
+    font-size: 1.2em;
+    align-content: center;
+  }
+  .header-name{
+    margin-left: 34%;
+
+  }
+  #companyName{
+    font-size: 3.6em
+  }
+  #orgInfo{
+    font-size: 1.5em;
+    font-family: Raleway;
+  }
+  #separatorBar{
+    width:1200px;
+  }
+  .cat-score-container{
+    width: 88%;
+    height: 1.2em;
+  }
+  .bhmc{
+    width: 61%;
+  }
+  #donationLink{
+    font-size: 2.1em;
+    /* width: 6%; */
+    white-space: nowrap;
+  }
+  .top_half_leadership{
+    justify-content: space-around;
+  }
+  .information_portion >p{
+    font-size: 1.5em;
+    word-spacing: 7px;
+    font-weight: 200;
+    line-height: 30px;
+  }
+  .information_portion_down >p{
+    font-size: 1.5em;
+    word-spacing: 8px;
+    font-weight: 200;
+    line-height: 30px;
+  }
+  .title_separator_short{
+    width:220px;
+  }
+  .title_separator{
+    width:350px;
+  }
+  .breakdown_title{
+    width:3.6em;
+    width: 100%;
+    text-align: center;
+  }
+  .bottom_half_leadership{
+    margin: 2% 1%;
+    width: 90%;
+  }
+  .information_portion_left{
+    max-width: 51%;
+  }
+  .top_half_pay{
+    justify-content: space-around;
+  }
+  .information_portion_down{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+ 
+}
+
+
 @media (min-width: 3000px) {
   @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
@@ -2694,56 +2731,7 @@ label {
     width: 100%;
   }
 
-  .dropdown-check-list {
-    border: 1.5px solid black;
-    border-radius: 20px;
-    font: 16px system-ui;
-  }
-
-  .dropdown-check-list .anchor {
-    position: relative;
-    cursor: pointer;
-    top: 20%;
-    display: inline-block;
-    padding: 5px 50px 5px 10px;
-  }
-
-  .dropdown-check-list .anchor:after {
-    position: absolute;
-    content: "";
-    border-left: 2px solid black;
-    border-top: 2px solid black;
-    padding: 5px;
-    right: 10px;
-    top: 20%;
-    -moz-transform: rotate(-135deg);
-    -ms-transform: rotate(-135deg);
-    -o-transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-    transform: rotate(-135deg);
-  }
-
-  .dropdown-check-list .anchor:active:after {
-    right: 8px;
-    top: 21%;
-  }
-
-  .dropdown-check-list ul.items {
-    padding: 2px;
-    display: none;
-    margin: 0;
-    border: 1px solid #ccc;
-    border-top: none;
-  }
-
-  .dropdown-check-list ul.items li {
-    list-style: none;
-  }
-
-  .dropdown-check-list.visible .items {
-    display: block;
-    background-color: #ccc;
-  }
+  
 
   .data-rows {
     overflow-y: scroll;

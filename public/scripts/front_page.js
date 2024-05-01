@@ -230,7 +230,7 @@ async function updateTable() {
 }
 
 function getSelectedCategories() {
-    var checkboxes = document.querySelectorAll('#list1 input[type=checkbox]');
+    var checkboxes = document.querySelectorAll('#d_items input[type=checkbox]');
 
     var selectedItems = Array.from(checkboxes)
         .filter(checkbox => checkbox.checked)
@@ -265,11 +265,12 @@ document.getElementById('searchIcon').addEventListener('click', function (event)
 });
 
 var checkList = document.getElementById('list1');
-checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
-  if (checkList.classList.contains('visible'))
-    checkList.classList.remove('visible');
+var dropdown_items =document.getElementById('d_items');
+checkList.getElementsByClassName('dropdown-check-list')[0].onclick = function(evt) {
+  if (dropdown_items.classList.contains('item-visible'))
+  dropdown_items.classList.remove('item-visible');
   else
-    checkList.classList.add('visible');
+  dropdown_items.classList.add('item-visible');
 }
 
 changePage(0);
