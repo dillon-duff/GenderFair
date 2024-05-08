@@ -1,51 +1,271 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <script src="https://d3js.org/d3.v6.min.js"></script>
-  <title>Gender Fair - Methodology</title>
+  <title>Gender Fair</title>
+
   <link rel="stylesheet" href="styles/main.css" />
+  <style>
+    #ls_intro > .container {
+      background-blend-mode: unset; /* or background-blend-mode: initial; */
+    }
+  </style>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body id="mainBody">
-<div class="container page-container">
-  <div class="navbar">
-    <img class="trans_logo" src="trans_logo1.png">
-    <h2>Gender Fair</h2>
-  </div>
 
-  <section class="index_section" id="methodology-intro">
-    <h1>Our Methodology</h1>
-    <div class="wsf_seperatorBar"></div>
-    <p>Here at Gender Fair, we are committed to transparency and providing you with a clear understanding of how we calculate our fairness ratings for non-profit organizations. Below, you'll find a detailed breakdown of our methodology:</p>
-  </section>
 
-  <section class="index_section" id="methodology-factors">
-    <h2>Factors We Consider</h2>
-    <div class="wsf_seperatorBar"></div>
-    <div class="wsf_content">
-      <div>
-        <h3>Leadership Diversity</h3>
-        <p>We examine the gender and racial composition of the organization's board of directors and senior leadership team. A strong commitment to diversity at the top level signals an inclusive culture.</p>
+
+<!-- <img src="logo.png" alt="Logo" width="200" height="100" style="transform: translate(0px, 60px);"/> -->
+<section class="index_section" id="ls_intro">
+
+  <div class="container page-container">
+    <div class="navbar">
+      <img class="trans_logo" src="trans_logo1.png">
+      <h2>Gender Fair</h2>
+    </div>
+    <div class="bottom_container">
+      <div class="text_container">
+        <h1> Choose Fairness </h1>
+        <p>If you care about gender equality, you can choose to donate to organizations that are making progress on
+          that
+          issue within their own organizations
+
+        </p>
       </div>
-      <div>
-        <h3>Pay Equity</h3>
-        <p>We analyze salary data to assess any disparities in compensation between genders and racial groups. Fair pay practices are fundamental to an equitable workplace.</p>
+
+      <div class="button_bottom_container">
+
+        <a type="button" href="index.html" class="ls_button"> Back to Results</a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- <section class="index_section" id="ls_why">
+  <div class="container wsf_container">
+    <div class="image_container_left">
+      <img id="wsf_img" src="https://source.unsplash.com/FPQlXQtjkqU">
+    </div>
+    <div class="wsf_text">
+      <div class="wfs_title">
+        <h2> Why Shop Fair?</h2>
+        <div class="wsf_seperatorBar"></div>
+      </div>
+      <div class="wsf_content">
+        <div class="wsfc1">
+          <div class="explainer">
+            <h3>Racial Diversity</h3>
+            <p>By cultivating a workforce with varied perspectives, organizations can better navigate global
+              markets and create a more dynamic and empathetic workplace environment. </p>
+          </div>
+          <div class="explainer">
+            <h3>Gender Equality</h3>
+            <p>By promoting equality in the workplace, organizations unlock the full potential of their workforce,
+              fostering creativity, collaboration, and innovation.</p>
+          </div>
+        </div>
+        <div class="wsfc2">
+          <div class="explainer">
+            <h3>Representation Matters</h3>
+            <p>When employees see themselves reflected in leadership, policies, and initiatives, it fosters a
+              sense of belonging and empowerment.</p>
+          </div>
+          <div class="explainer">
+            <h3>Spread The Wealth</h3>
+            <p>Employees feel valued and motivated to contribute their best work knowing that their efforts
+              are being recognized and rewarded fairly</p>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="index_section" id="methodology-data">
-    <h2>Data Sources</h2>
-    <div class="wsf_seperatorBar"></div>
-    <p>We utilize a combination of publicly available datasets and proprietary information to compile our rankings. Our primary data sources include:</p>
+<section class="index_section" id="ls_met">
+  <div class="container met_container">
+    <div class="metleft">
+      <div class="mettext">
+        <h2>Understand our Methodology</h2>
+        <p>Learn how we assigned our ratings on fairness for the non-for-profits below.</p>
+      </div>
+      <div class="met-button-cont">
+        <a href="methodology.html" type="button" class="met-button">Click to learn more</a>
+      </div>
+    </div>
+    <div class="metright">
+      <img id="met_img" src="https://source.unsplash.com/fvJ9VGJ9xI0">
+    </div>
+  </div>
+</section> -->
+
+<div id="listPage" class="container">
+  <div id="heading">Methodology and Background</div>
+  <div id="seperatorBar"></div>
+  <div id="explanation">
+
+
+    <h2>Leadership</h2>
+    <p>Here we evaluate the gender composition of three levels of employees. We can access this data as the IRS requires organizations to report on leadership only.  Note: some organizations also disclose their non-binary employees. </p>
     <ul>
-      <li>Guidestar/Candid</li>
-      <li>Charity Navigator</li>
-      <li>IRS Form 990</li>
+      <li>Although women constitute 73 percent of the U.S. nonprofit workforce, they predominantly occupy lower-level positions.</li>
+      <li>According to an <a href="https://www.aauw.org/" target="_blank">AAUW study</a>, in organizations with budgets less than $1M, 56 percent of CEOs are women.</li>
+      <li>This figure drops to 22 percent in larger organizations with budgets over $50 million.</li>
+      <li>However, board/trustee representation is more balanced, averaging 48% women.</li>
     </ul>
-  </section>
+
+    <h2>Pay</h2>
+    <p>Equal Pay is a  workplace issue that women care most about–according to research performed for Gender Fair by ABX, surveying 2,500 Americans. In addition to revealing gender pay gaps, our ratings show the ratio between average pay and top salary, which is significant as 20 percent of nonprofit employees struggle from paycheck to <a href="https://independentsector.org/wp-content/uploads/2023/11/2023-Health-of-the-U.S.-Nonprofit-Sector-Annual-Review.pdf" target="_blank">paycheck</a>.</p>
+    <ul>
+      <li>The overall pay gap in the US is:
+        <ul>
+          <li>83 cents for white women</li>
+          <li>64 cents for black women</li>
+          <li>49 cents for Bangladeshi women</li>
+        </ul>
+      </li>
+      <li>The National Council of Nonprofits reports: "Females on average earn around 24.8% less than males."</li>
+      <li>The gap extends to top jobs:
+        <ul>
+          <li>Women CEOs at organizations with annual budgets of less than $1 million experience median pay gaps of between 6 percent and 13 percent relative to male CEOs.</li>
+        </ul>
+      </li>
+      <li>At larger nonprofits, the gap is larger: female CEOs face a median 18 percent pay gap at nonprofits with the largest budgets.</li>
+    </ul>
+
+
+    <h2>Diversity</h2>
+    <p>The United States encompasses a diversity of cultures and ethnicities that are not typically represented in this sector. Nonprofit organizations are not required to report on workforce diversity as companies are, although a petition to the IRS is now circulating to change that.  A small percentage of nonprofits voluntarily report this information to the Candid organization, and we rely on this reporting for our ratings.  </p>
+    <ul>
+      <li>Approximately 75% of the nonprofit workforce is white.</li>
+      <li>The Urban Institute reports that 16 percent of nonprofits focusing on serving people of color are governed by all-white boards.</li>
+    </ul>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <h2>Scoring Methodology</h2>
+    <p><strong>51 Points</strong> are based on Gender Diversity In Leadership:</p>
+    <ul>
+      <li>17 points for Trustees</li>
+      <li>17 points for Officers</li>
+      <li>17 points for Highest Compensated employees</li>
+    </ul>
+
+    <p><strong>33 Points</strong> are rewarded based on Pay Equality:</p>
+    <ul>
+      <li>17 points for the pay gap in leadership</li>
+      <li>8 points for the average salary</li>
+      <li>8 points for the CEO to average salary ratio</li>
+    </ul>
+
+    <p><strong>16 Points</strong> for Overall Diversity:</p>
+    <ul>
+      <li>8 points for Diversity reporting</li>
+      <li>8 points for Staff Diversity</li>
+    </ul>
+
+    <h3>Percentile Scoring</h3>
+    <p>To evaluate each company, we divide the performance data into five distinct groups based on percentiles—these are essentially benchmarks that split the data into five equal parts. Depending on a company's performance in a specific metric, such as gender diversity or pay equality, it falls into one of these groups. Each group corresponds to a different score, ranging from lowest to highest. So, a company performing in the top percentile group would score the highest possible points for that metric, reflecting excellent performance, while a company in the bottom percentile group would receive the lowest score, indicating significant room for improvement. This method ensures that the scoring is both fair and reflective of how each company's efforts compare to others in the same field.</p>
+
+    <h2>Individual Score Breakdown</h2>
+
+    <h3>51 <i>POINTS</i>: Trustees, Officers, and Highest Compensated Employee Scores</h3>
+    <p>These scores are determined based on the percentage of females in leadership roles.</p>
+    <ul>
+      <li><strong>Scoring Rule:</strong>
+        <ul>
+          <li>Above 50% Female: Scores will receive a perfect 17 for a category if the percentage exceeds 50%, reflecting higher gender diversity.</li>
+          <li>Incremental Scoring: Points are assigned incrementally from the 50% mark. For example, if you score a 47%, you would be rewarded a 13.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3><i>17 POINTS</i>: Pay Gap Score</h3>
+    <p>Assesses the disparity in compensation in leadership between genders. We analyzed the ratio of average pay of women compared to men in leadership. The lower your ratio, the higher your score.</p>
+
+    <h3><i>16 POINTS</i>: Average Salary and CEO Pay Ratio Scores</h3>
+    <ul>
+      <li><b>8 POINTS</b>: Average Salary: Evaluated by comparing the ratio of average employee compensation to total revenue. The higher your ratio, the better you score.</li>
+      <li><b>8 POINTS</b>: CEO Pay Ratio: Assesses how the CEO's compensation compares to the average employee compensation. The lower the ratio, the better you score.</li>
+    </ul>
+
+    <h3><i>16 POINTS</i>: Candid Reporting and Diversity Reporting Scores</h3>
+    <ul>
+      <li><b>8 POINTS</b>: Candid Reporting: Companies receive 8 points if they report their staff and diversity with Candid.</li>
+      <li><b>8 POINTS</b>: Diversity: Companies are awarded 8 points if they report staff with Candid and have a higher percentage of minorities than the national average.</li>
+    </ul>
+
+    <h3>Overall Scoring</h3>
+    <p>After individual metrics are scored and scaled, they are summed to produce a final score for each organization. This aggregate score represents an overall evaluation of the organization's practices in gender diversity, compensation equity, and transparency. This requires a balanced approach across all key metrics to achieve a high score.</p>
+
+    <h3>How Can Organizations Be More Fair?</h3>
+    <ul>
+      <li>Participate in Gender and Racial diversity reporting.</li>
+      <li>Appoint more women to positions of leadership.</li>
+      <li>Hire employees from diverse backgrounds.</li>
+      <li>Pay employees more equitably.</li>
+      <li>Decrease disparities in pay among leadership and highly compensated positions.</li>
+    </ul>
+    <h2>SOURCES</h2>
+    <p>Our team sourced gender and pay data from IRS 990 Schedule J forms. Data on diversity is derived from Candid’s database; nonprofits can opt in to share their demographics, yet only 10 percent of organizations choose to do so. If a nonprofit does not share demographic data with Candid, their score drops by 16 points.</p>
+    <p>Four computer science students aggregated and conglomerated 50 Gigabytes of data (equivalent to about 1.3 million pages of paper) and used artificial intelligence (GPT) to categorize the organizations. Gender identity was determined probabilistically using a gender name dictionary from Harvard, found here: <a href="https://dataverse.harvard.edu/file.xhtml?fileId=4750351&version=1.1" target="_blank">Harvard Dataverse</a>. The work can be found at <a href="https://github.com/rhit-duffdl/GenderFair" target="_blank">rhit-duffdl/GenderFair</a>.</p>
+
+    <h3>Contributors:</h3>
+    <ul>
+      <li><a href="https://www.linkedin.com/in/babacar-diatta-46a141201" target="_blank">Babacar Diatta</a></li>
+      <li><a href="https://www.linkedin.com/in/dillonduff/" target="_blank">Dillon Duff</a></li>
+      <li><a href="https://www.linkedin.com/in/richard-eaddie-953923238/" target="_blank">Richie Eaddie</a></li>
+      <li><a href="https://www.linkedin.com/in/hayden-mattick-079393242/" target="_blank">Hayden Mattick</a></li>
+    </ul>
+
+    <h3>Acknowledgments:</h3>
+    <p>Gender Fair would like to thank: the Faculty of Computer Science at Rose-Hulman Institute of Technology--notably, Dr. Gloria Liou; Dr. Jean Camp, Director of Center for Security and Privacy in Informatics, Computing, and Engineering; and Candid.</p>
+  </div>
+
+
+  <!-- <div class="dropdown-container">
+    <div id="dropdown" class="dropdown">
+      <text id="filterTitle">Filter by category:</text>
+      <label><input type="checkbox" value="Community Needs">Community Needs</label>
+      <label><input type="checkbox" value="Children">Children</label>
+      <label><input type="checkbox" value="Healthcare">Healthcare</label>
+      <label><input type="checkbox" value="Other">Other</label>
+      <label><input type="checkbox" value="Education">Education</label>
+      <label><input type="checkbox" value="College">College</label>
+      <label><input type="checkbox" value="Arts">Arts</label>
+      <label><input type="checkbox" value="Hospital">Hospital</label>
+      <label><input type="checkbox" value="Environmental">Environmental</label>
+      <label><input type="checkbox" value="STEM">STEM</label>
+      <label><input type="checkbox" value="Hunger">Hunger</label>
+    </div> -->
+</div>
+
+
+
+
+<
 
 </div>
+</div>
+<script>
+    // JavaScript to set background image
+    document.addEventListener("DOMContentLoaded", function() {
+      var container = document.querySelector("#ls_intro > .container");
+      container.style.backgroundImage = "url('GroupPicture.jpg')";
+    });
+  </script>
 </body>
+
+<script src="https://d3js.org/d3.v6.min.js"></script>
 <script src="scripts/front_page.js" type="module"></script>
+
+
 </html>

@@ -141,15 +141,12 @@ class ScoreCalculator:
 
         else: return 0
 
-        # ... Implement other scoring methods here
 
     def officers(self,ratio,percentiles):
         if ratio:  # placeholder
             ratio = float(ratio)
 
 
-            # if ratio == self.avgOffset(50):
-            #     return 10
 
             if ratio > 50:
                 return 10
