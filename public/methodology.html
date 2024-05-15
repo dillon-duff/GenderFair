@@ -9,7 +9,9 @@
   <link rel="stylesheet" href="styles/main.css" />
   <style>
     #ls_intro > .container {
-      background-blend-mode: unset; /* or background-blend-mode: initial; */
+      background-position: center;
+      background-blend-mode: color-burn; 
+      background-color: #06060687;/* or background-blend-mode: initial; */
     }
   </style>
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
@@ -32,10 +34,8 @@
     </div>
     <div class="bottom_container">
       <div class="text_container">
-        <h1> Choose Fairness </h1>
-        <p>If you care about gender equality, you can choose to donate to organizations that are making progress on
-          that
-          issue within their own organizations
+        <h1> Methodology </h1>
+        <p>The insights presented herein are the product of a collaborative effort by our cross-functional team of domain experts. From Right to Left: Richie Eaddie, Babacar Diatta, Hayden Mattick, and Dillon Duff
 
         </p>
       </div>
@@ -175,7 +175,7 @@
     <h3>Percentile Scoring</h3>
     <p>To evaluate each company, we divide the performance data into five distinct groups based on percentiles—these are essentially benchmarks that split the data into five equal parts. Depending on a company's performance in a specific metric, such as gender diversity or pay equality, it falls into one of these groups. Each group corresponds to a different score, ranging from lowest to highest. So, a company performing in the top percentile group would score the highest possible points for that metric, reflecting excellent performance, while a company in the bottom percentile group would receive the lowest score, indicating significant room for improvement. This method ensures that the scoring is both fair and reflective of how each company's efforts compare to others in the same field.</p>
 
-    <h2>Individual Score Breakdown</h2>
+    <!-- <h2>Individual Score Breakdown</h2> -->
 
     <h3>51 <i>POINTS</i>: Trustees, Officers, and Highest Compensated Employee Scores</h3>
     <p>These scores are determined based on the percentage of females in leadership roles.</p>
@@ -260,6 +260,7 @@
     document.addEventListener("DOMContentLoaded", function() {
       var container = document.querySelector("#ls_intro > .container");
       container.style.backgroundImage = "url('GroupPicture.jpg')";
+      container.style.backgroundpPosition = "background-position: center;"
     });
   </script>
 </body>

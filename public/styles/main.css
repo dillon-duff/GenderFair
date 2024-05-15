@@ -318,8 +318,8 @@ body {
 
 /* index.js css */
 .trans_logo {
-  width: 50px;
-  height: 50px;
+  width: 125px;
+  height: 125px;
   margin: 0 1%;
 }
 
@@ -510,7 +510,8 @@ body {
 
 .navbar>h2 {
   font-family: Inter;
-  color: white
+  color: white;
+  font-size:2.4em;
 }
 
 .nav-links {
@@ -1600,8 +1601,8 @@ label {
 
   /* index.js css */
   .trans_logo {
-    width: 75px;
-    height: 75px;
+    width: 180px;
+    height: 180px;
     margin: 0 1%;
   }
 
@@ -1773,7 +1774,7 @@ label {
   .navbar>h2 {
     font-family: Inter;
     color: white;
-    font-size: 1.8em;
+    font-size: 3.4em;
   }
 
   .nav-links {
@@ -2934,8 +2935,8 @@ label {
 
   /* index.js css */
   .trans_logo {
-    width: 150px;
-    height: 150px;
+    width: 375px;
+    height: 375px;
     margin: 0 1%;
   }
 
@@ -3107,7 +3108,7 @@ label {
   .navbar>h2 {
     font-family: Inter;
     color: white;
-    font-size: 3.4em;
+    font-size: 4.4em;
   }
 
   .nav-links {
