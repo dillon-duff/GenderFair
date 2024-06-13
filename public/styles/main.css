@@ -353,7 +353,7 @@ body {
 }
 
 #ls_intro>.container {
-  background-image: url(https://source.unsplash.com/Cns0h4ypRyA);
+  background-image: url(../ismael-paramo-Cns0h4ypRyA-unsplash.jpg);
   background-size: cover;
   background-color: #06060687;
   display: flex;
@@ -1617,7 +1617,7 @@ label {
   }
 
   #ls_intro>.container {
-    background-image: url(https://source.unsplash.com/Cns0h4ypRyA);
+    background-image: url(../ismael-paramo-Cns0h4ypRyA-unsplash.jpg);
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -2951,7 +2951,7 @@ label {
   }
 
   #ls_intro>.container {
-    background-image: url(https://source.unsplash.com/Cns0h4ypRyA);
+    background-image: url(../ismael-paramo-Cns0h4ypRyA-unsplash.jpg);
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -3653,7 +3653,7 @@ label {
   }
 
   .breakdown_intro_container {
-    background-image: url(https://source.unsplash.com/qvzjG2pF4bE);
+    background-image: url('public/ls_intro.webp');
     height: 100vh;
     background-size: cover;
     display: flex;
