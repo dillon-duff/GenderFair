@@ -4069,3 +4069,7 @@ label {
   transform: rotate(45deg);
 }
 
+#genderLegend {
+  margin-bottom: 40px;
+  margin-top: 0px;
+}
