@@ -265,12 +265,30 @@ document.getElementById('searchIcon').addEventListener('click', function (event)
 });
 
 var checkList = document.getElementById('list1');
-var dropdown_items =document.getElementById('d_items');
-checkList.getElementsByClassName('dropdown-check-list')[0].onclick = function(evt) {
-  if (dropdown_items.classList.contains('item-visible'))
-  dropdown_items.classList.remove('item-visible');
-  else
-  dropdown_items.classList.add('item-visible');
+var dropdown_items = document.getElementById('d_items');
+var dropdown_button = checkList.getElementsByClassName('dropdown-check-list')[0];
+
+dropdown_button.onclick = function(evt) {
+    dropdown_items.classList.toggle('item-visible');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    if (!checkList.contains(event.target)) {
+        dropdown_items.classList.remove('item-visible');
+    }
+});
+
+// Make entire row clickable
+var listItems = dropdown_items.getElementsByTagName('li');
+for (var i = 0; i < listItems.length; i++) {
+    listItems[i].addEventListener('click', function(e) {
+        var checkbox = this.querySelector('input[type="checkbox"]');
+        if (e.target !== checkbox) {
+            e.preventDefault(); // Prevent default only if not clicking directly on checkbox
+            checkbox.checked = !checkbox.checked;
+        }
+    });
 }
 
 changePage(0);

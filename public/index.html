@@ -107,52 +107,48 @@
     <div id="explanation">
       <p>
         Gender Fair has added nonprofits to its series of fairness rankings. This complements the indexes
-        we have created for public companies as well as colleges & universities. Our rankings cover a 
-        universe of 20,000 organizations. The nonprofit sector experiences challenges when it comes to 
-        gender balanced leadership, equal pay and diversity--and needs to do better. Use these ratings to 
-        make sure the nonprofits you support align with your values of equality.  We encourage all 
-        organizations to use our custom rankings to raise the bar on fairness, and we welcome your feedback. 
-        Our hope is that the act of charitable giving can be better informed so that fairness is better rewarded. 
+        we have created for public companies as well as colleges & universities. Our rankings cover a
+        universe of 20,000 organizations. The nonprofit sector experiences challenges when it comes to
+        gender balanced leadership, equal pay and diversity--and needs to do better. Use these ratings to
+        make sure the nonprofits you support align with your values of equality. We encourage all
+        organizations to use our custom rankings to raise the bar on fairness, and we welcome your feedback.
+        Our hope is that the act of charitable giving can be better informed so that fairness is better rewarded.
       </p>
     </div>
     <div class="orimgcon">
       <img class="trans_logo_orange" src="orange_trans_logo.png">
     </div>
     <div id="searchFilterContainer">
-        <div class="search_div">
-          <form id="searchbar" class="header-search">
-            <input id="searchBox" type="search" placeholder="Search for a non-profit...." />
-          </form>
-
-          <i id="searchIcon" class="fa fa-arrow-right"></i>
-          <!-- <i id="filterIcon" class="fa fa-filter"></i> -->
-        </div>
-
+      <div class="search_div">
+        <form id="searchbar" class="header-search">
+          <input id="searchBox" type="search" placeholder="Search for a non-profit...." />
+        </form>
         <div id="list1" class="dropdownz">
           <div id="d_butt" class="dropdown-check-list">
-               <p>
-                Filter by Category:
-              </p>
-              <p>
-              &#9660;
-            </p>
-           </div>
-          <ul id="d_items" class="items">
-            <li><input type="checkbox" value="Arts"/>Arts </li>
-            <li><input type="checkbox" value="Children"/>Children</li>
-            <li><input type="checkbox" value="College"/>College </li>
-            <li><input type="checkbox" value="Community Needs"/>Community Needs </li>
-            <li><input type="checkbox" value="Education"/>Education </li>
-            <li><input type="checkbox" value="Environmental"/>Environmental </li>
-            <li><input type="checkbox" value="Healthcare"/>Healthcare</li>
-            <li><input type="checkbox" value="Hospital"/>Hospital</li>
-            <li><input type="checkbox" value="Hunger"/>Hunger</li>
-            <li><input type="checkbox" value="STEM"/>STEM</li>
-            <li><input type="checkbox" value="Other"/>Other</li>
-          </ul>
-        </div>
+              <p>Filter by Category</p>
+              <p>&#9660;</p>
+          </div>
+          <ul id="d_items">
+              <li><input type="checkbox" id="arts" value="Arts"/><label for="arts">Arts</label></li>
+              <li><input type="checkbox" id="children" value="Children"/><label for="children">Children</label></li>
+              <li><input type="checkbox" id="college" value="College"/><label for="college">College</label></li>
+              <li><input type="checkbox" id="community" value="Community Needs"/><label for="community">Community Needs</label></li>
+              <li><input type="checkbox" id="education" value="Education"/><label for="education">Education</label></li>
+              <li><input type="checkbox" id="environmental" value="Environmental"/><label for="environmental">Environmental</label></li>
+              <li><input type="checkbox" id="healthcare" value="Healthcare"/><label for="healthcare">Healthcare</label></li>
+              <li><input type="checkbox" id="hospital" value="Hospital"/><label for="hospital">Hospital</label></li>
+              <li><input type="checkbox" id="hunger" value="Hunger"/><label for="hunger">Hunger</label></li>
+              <li><input type="checkbox" id="stem" value="STEM"/><label for="stem">STEM</label></li>
+              <li><input type="checkbox" id="other" value="Other"/><label for="other">Other</label></li>
+          </ul>          
+      </div>
+        <i id="searchIcon" class="fa fa-arrow-right"></i>
+        <!-- <i id="filterIcon" class="fa fa-filter"></i> -->
+      </div>
+
+
     </div>
-      <!-- <div class="dropdown-container">
+    <!-- <div class="dropdown-container">
         <div id="dropdown" class="dropdown">
           <text id="filterTitle">Filter by category:</text>
           <label><input type="checkbox" value="Community Needs">Community Needs</label>
@@ -167,34 +163,34 @@
           <label><input type="checkbox" value="STEM">STEM</label>
           <label><input type="checkbox" value="Hunger">Hunger</label>
         </div> -->
-      </div>
-  
+  </div>
 
-    <div class="table-container">
-      <div class="scoreboard">
-        <div class="header-row">
-          <div class="header-rank">
-            <h3>Rank</h3>
-          </div>
-          <div class="header-org">
-            <h3>Organization</h3>
-          </div>
-          <div class="header-name">
-            <h3 id="fairnessScore">Fairness Score</h3>
-          </div>
-          <p hidden="true" id="selectedCategoriesText">Selected Categories: <span id="selected-items"></span></p>
+
+  <div class="table-container">
+    <div class="scoreboard">
+      <div class="header-row">
+        <div class="header-rank">
+          <h3>Rank</h3>
         </div>
-        <div class="data-rows"></div>
+        <div class="header-org">
+          <h3>Organization</h3>
+        </div>
+        <div class="header-name">
+          <h3 id="fairnessScore">Fairness Score</h3>
+        </div>
+        <p hidden="true" id="selectedCategoriesText">Selected Categories: <span id="selected-items"></span></p>
       </div>
+      <div class="data-rows"></div>
     </div>
+  </div>
 
-    <div class="pagination-container">
-      <div id="paginationControls">
-        <button onclick="changePage(-1)" class="pagination-btn">&#60;</button>
-        <span id="currentPage">1</span>
-        <button onclick="changePage(1)" class="pagination-btn">&#62;</button>
-      </div>
+  <div class="pagination-container">
+    <div id="paginationControls">
+      <button onclick="changePage(-1)" class="pagination-btn">&#60;</button>
+      <span id="currentPage">1</span>
+      <button onclick="changePage(1)" class="pagination-btn">&#62;</button>
     </div>
+  </div>
 
   </div>
   </div>
