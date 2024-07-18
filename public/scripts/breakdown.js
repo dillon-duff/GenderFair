@@ -161,10 +161,26 @@ let diversity_bar = `
 document.querySelector("#diversity").insertAdjacentHTML('beforeend', diversity_bar);
 
 // Create and add all visualzations
-let genderDataStaff = getGenderDataStaff(this_org_data);
-let genderDataSenior = getGenderDataSenior(this_org_data);
-let genderDataBoard = getGenderDataBoard(this_org_data);
-createBoardGenderCompositionViz("board")
+let genderDataOfficer = {
+    Male: 100 - parseFloat(this_org_data.metrics.OfficerInd_percent_female),
+    Female: parseFloat(this_org_data.metrics.OfficerInd_percent_female)
+}
+let genderDataKey = {
+    Male: 100 - parseFloat(this_org_data.metrics.KeyEmployeeInd_percent_female),
+    Female: parseFloat(this_org_data.metrics.KeyEmployeeInd_percent_female)
+}
+let genderDataTrustee = {
+    Male: 100 - parseFloat(this_org_data.metrics.IndividualTrusteeOrDirectorInd_percent_female),
+    Female: parseFloat(this_org_data.metrics.IndividualTrusteeOrDirectorInd_percent_female)
+}
+let genderDataHighestComp = {
+    Male: 100 - parseFloat(this_org_data.metrics.HighestCompensatedEmployeeInd_percent_female),
+    Female: parseFloat(this_org_data.metrics.HighestCompensatedEmployeeInd_percent_female)
+}
+createBoardGenderCompositionViz("officer")
+createBoardGenderCompositionViz("key")
+createBoardGenderCompositionViz("trustee")
+createBoardGenderCompositionViz("highestComp")
 createPayGraph(this_org_data)
 createCircleComparison(this_org_data)
 ethnicityDataStaff = getEthnicityDataStaff(this_org_data);
@@ -184,49 +200,51 @@ function createBoardGenderCompositionViz(genderDataString) {
     let titleText;
 
     switch (genderDataString) {
-        case "senior":
-            genderData = genderDataSenior;
-            titleText = "Senior Staff";
+        case "officer":
+            genderData = genderDataOfficer;
+            titleText = "Officer";
             break;
-        case "board":
-            genderData = genderDataBoard;
-            titleText = "Board"
+        case "key":
+            genderData = genderDataKey;
+            titleText = "Key Employee"
             break;
-        case "staff":
-            genderData = genderDataStaff;
-            titleText = "Staff"
+        case "trustee":
+            genderData = genderDataTrustee;
+            titleText = "Trustee"
+            break;
+        case "highestComp":
+            genderData = genderDataHighestComp;
+            titleText = "Highest Compensated Employee"
             break;
         default:
             return;
     }
-    let allZeros = Object.values(genderData).every(value => value === 0)
+    let allZeros = Object.values(genderData).every(value => Number.isNaN(value))
 
     /* Keeping this global because the tooltip won't work otherwise, oddly */
     currentGenderData = genderData;
 
-    const width = 600, height = 450;
+    const width = 400, height = 350;
     const radius = Math.min(width, height) / 2 - 40;
 
-    const svgExists = d3.select("#leadershipGraph svg").empty() === false;
+    const svgExists = d3.select(`#${genderDataString}Graph svg`).empty() === false;
     let svg;
 
     if (!svgExists) {
-        svg = d3.select("#leadershipGraph")
+        svg = d3.select(`#${genderDataString}Graph`)
             .append("svg")
             .attr("width", width)
             .attr("height", height)
             .append("g")
             .attr("transform", "translate(" + (width / 2 + 50) + "," + height / 2 + ")");
     } else {
-        svg = d3.select("#leadershipGraph svg g");
+        svg = d3.select(`#${genderDataString}Graph svg g`);
     }
-    if (allZeros)
-        genderData['Unknown'] = 1;
 
 
     const color = d3.scaleOrdinal()
-        .domain(["Female", "Male", "Non-Binary", "Decline to State", "Unknown"])
-        .range([femaleColor, maleColor, "green", "purple", "grey"]);
+        .domain(["Female", "Male"])
+        .range([femaleColor, maleColor]);
 
     const pie = d3.pie()
         .value(d => d[1]);
@@ -251,13 +269,9 @@ function createBoardGenderCompositionViz(genderDataString) {
     paths.enter()
         .append('path')
         .on("mouseover", function (event, d) {
-            let currentTotal = Object.entries(getCurrentGenderData()).reduce((acc, curr) => acc + (+curr[1]), 0);
-            let categoryCount = d.data[1];
-            let categoryPercentage = ((parseFloat(categoryCount) / parseFloat(currentTotal)) * 100).toFixed(2);
-
             d3.select("#tooltip")
                 .style("display", "block")
-                .html(d.data[0] + ": " + ((parseFloat(categoryCount) / parseFloat(currentTotal)) * 100).toFixed(2) + "% (" + categoryCount + " members)")
+                .html(d.data[0] + ": " + Math.round(parseFloat(d.data[1])*100)/100 + "%")
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY - 20) + "px");
         })
@@ -299,80 +313,66 @@ function createBoardGenderCompositionViz(genderDataString) {
         .attr("id", "compTitle")
         .attr("x", 0)
         .attr("y", -height / 2 + 15)
-        .text(titleText + " Composition by Gender")
+        .text(titleText + "s")
         .attr("text-anchor", "middle")
         .style("font-size", "20px")
         .style("font-weight", "bold")
         .attr("font-family", "Raleway");
 
-    // Add a label for the total number of board members
-    svg.append("text")
-        .attr("id", "totalMembers")
-        .attr("x", 0)
-        .attr("y", -height / 2 + 35)
-        .text("Total Members: " + total)
-        .attr("text-anchor", "middle")
-        .style("font-size", "14px")
-        .style("font-weight", "bold")
-        .attr("font-family", "Raleway");
+    // const legendSpacing = 5;
+    // const legendRectSize = 18;
+    // const legendX = -width / 2 - 35;
+    // const legendY = -height / 2 + legendRectSize * 3;
 
-    const legendSpacing = 5;
-    const legendRectSize = 18;
-    const legendX = -width / 2 - 35;
-    const legendY = -height / 2 + legendRectSize * 3;
+    // svg.append("rect")
+    //     .attr("id", "legendRect")
+    //     .attr("x", legendX - legendSpacing)
+    //     .attr("y", legendY - legendRectSize)
+    //     .attr("width", 130)
+    //     .attr("height", legendRectSize * 7 + legendSpacing)
+    //     .attr("fill", "white")
+    //     .style("opacity", 0.3)
+    //     .attr("rx", 10)
+    //     .attr("ry", 10);
 
-    svg.append("rect")
-        .attr("id", "legendRect")
-        .attr("x", legendX - legendSpacing)
-        .attr("y", legendY - legendRectSize)
-        .attr("width", 130)
-        .attr("height", legendRectSize * 7 + legendSpacing)
-        .attr("fill", "white")
-        .style("opacity", 0.3)
-        .attr("rx", 10)
-        .attr("ry", 10);
+    // const data = [
+    //     { gender: 'Male', color: maleColor },
+    //     { gender: 'Female', color: femaleColor },
+    // ];
 
-    const data = [
-        { gender: 'Male', color: maleColor },
-        { gender: 'Female', color: femaleColor },
-        { gender: "Non-Binary", color: "green" },
-        { gender: "Decline to State", color: "purple" },
-        { gender: "Unknown", color: "grey" },
-    ];
+    // const legend = svg.selectAll(".legend")
+    //     .data(data)
+    //     .enter().append("g")
+    //     .attr("class", "legend")
+    //     .attr("transform", (d, i) => `translate(${legendX},${legendY + i * (legendRectSize + legendSpacing)})`);
 
-    const legend = svg.selectAll(".legend")
-        .data(data)
-        .enter().append("g")
-        .attr("class", "legend")
-        .attr("transform", (d, i) => `translate(${legendX},${legendY + i * (legendRectSize + legendSpacing)})`);
+    // legend.append("circle")
+    //     .attr("r", legendRectSize / 2)
+    //     .attr("cx", legendRectSize / 2)
+    //     .attr("fill", d => d.color);
 
-    legend.append("circle")
-        .attr("r", legendRectSize / 2)
-        .attr("cx", legendRectSize / 2)
-        .attr("fill", d => d.color);
+    // legend.append("text")
+    //     .attr("x", legendRectSize + legendSpacing)
+    //     .attr("y", legendRectSize / 3.5)
+    //     .attr("font-size", ".75rem")
+    //     .text(d => d.gender)
+    //     .style("font-family", "sans-serif");
 
-    legend.append("text")
-        .attr("x", legendRectSize + legendSpacing)
-        .attr("y", legendRectSize / 3.5)
-        .attr("font-size", ".75rem")
-        .text(d => d.gender)
-        .style("font-family", "sans-serif");
-
-    if (d3.select("#leadershipGraph svg #didnt-report-text").empty()) {
+    if (d3.select(`#${genderDataString}Graph svg #didnt-report-text`).empty()) {
         if (allZeros) {
             svg.append("text")
                 .attr("text-anchor", "middle")
                 .attr("id", "didnt-report-text")
                 .attr("x", 0)
                 .attr("y", 0)
-                .text("Did Not Report")
-                .attr("fill", "#b01313");
+                .text("None")
+                .attr("fill", "#f");
             genderData['Unknown'] = 0;
 
         }
     } else {
         if (!allZeros) {
-            d3.select("#leadershipGraph svg #didnt-report-text").remove()
+            d3.select(`#${genderDataString}Graph svg #didnt-report-text`).remove()
         } else {
             genderData['Unknown'] = 0;
 
@@ -963,68 +963,6 @@ function getEthnicityDataStaff(orgData) {
 }
 
 
-function getGenderDataBoard(orgData) {
-    if (orgData.board_gender) {
-        return {
-            "Female": orgData.board_gender.female || 0,
-            "Male": orgData.board_gender.male || 0,
-            "Non-Binary": orgData.board_gender.non_binary || 0,
-            "Decline to State": orgData.board_gender.declined || 0,
-            "Unknown": orgData.board_gender.unknown || 0,
-        }
-    } else {
-        return {
-            "Female": 0,
-            "Male": 0,
-            "Non-Binary": 0,
-            "Decline to State": 0,
-            "Unknown": 0,
-        }
-    }
-}
-
-function getGenderDataSenior(orgData) {
-    if (orgData.senior_staff_gender) {
-        return {
-            "Female": orgData.senior_staff_gender.female || 0,
-            "Male": orgData.senior_staff_gender.male || 0,
-            "Non-Binary": orgData.senior_staff_gender.non_binary || 0,
-            "Decline to State": orgData.senior_staff_gender.declined || 0,
-            "Unknown": orgData.senior_staff_gender.unknown || 0,
-        }
-    }
-    else {
-        return {
-            "Female": 0,
-            "Male": 0,
-            "Non-Binary": 0,
-            "Decline to State": 0,
-            "Unknown": 0,
-        }
-    }
-}
-
-function getGenderDataStaff(orgData) {
-    if (orgData.staff_gender) {
-        return {
-            "Female": orgData.staff_gender.female || 0,
-            "Male": orgData.staff_gender.male || 0,
-            "Non-Binary": orgData.staff_gender.non_binary || 0,
-            "Decline to State": orgData.staff_gender.declined || 0,
-            "Unknown": orgData.staff_gender.unknown || 0
-        }
-    } else {
-        return {
-            "Female": 0,
-            "Male": 0,
-            "Non-Binary": 0,
-            "Decline to State": 0,
-            "Unknown": 0,
-        }
-    }
-
-}
-
 function scoreToAngle(score) {
     // Assuming score is in range 0-100
     const maxScore = 100;
@@ -1053,16 +991,18 @@ document.querySelectorAll('#ethnicityBtnGroup button').forEach(button => {
     });
 });
 
-document.querySelector("#genderBtnGroup button#senior").addEventListener("click", function () {
-    createBoardGenderCompositionViz("senior")
+document.querySelector("#genderBtnGroup button#officer").addEventListener("click", function () {
+    createBoardGenderCompositionViz("officer")
 });
-document.querySelector("#genderBtnGroup button#board").addEventListener("click", function () {
-    createBoardGenderCompositionViz("board")
+document.querySelector("#genderBtnGroup button#keyEmployee").addEventListener("click", function () {
+    createBoardGenderCompositionViz("key")
 });
-document.querySelector("#genderBtnGroup button#staff").addEventListener("click", function () {
-    createBoardGenderCompositionViz("staff")
+document.querySelector("#genderBtnGroup button#trustee").addEventListener("click", function () {
+    createBoardGenderCompositionViz("trustee")
 });
-
+document.querySelector("#genderBtnGroup button#highestComp").addEventListener("click", function () {
+    createBoardGenderCompositionViz("highestComp")
+});
 document.querySelectorAll('#genderBtnGroup button').forEach(button => {
     button.addEventListener('click', function () {
         document.querySelectorAll('#genderBtnGroup button').forEach(btn => btn.classList.remove('active'));
