@@ -10,7 +10,6 @@ class MultiprocessSafeLogger:
         self.level = level
         self.lock = Lock()
         
-        # Ensure the directory exists
         os.makedirs(os.path.dirname(self.log_file), exist_ok=True)
 
     def log(self, message, level=logging.INFO):
@@ -45,11 +44,3 @@ def with_logging(logger):
                 raise
         return wrapper
     return decorator
-
-# Usage
-logger = MultiprocessSafeLogger('logs/npo_rankings_pipeline.log')
-
-@with_logging(logger)
-def some_function():
-    # Your function code here
-    pass
