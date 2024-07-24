@@ -1,69 +1,10 @@
 import firebase_admin
 from firebase_admin import firestore
 from firebase_admin import credentials
-import csv
-import os
 
-
-import openpyxl
-
-##WHAT TO DO WITH CREDENTIAL JSON?
-# Insecure to store in public repository
-#TODO: MAKE SECURE
-cred = credentials.Certificate("/Users/afrodaddy/Downloads/gender-fair-82d21-firebase-adminsdk-xzaw3-1fcb30d6c4.json")
-
+cred = credentials.Certificate("gender-fair-82d21-firebase-adminsdk-xzaw3-9b1027afcf.json")
 firebase_admin.initialize_app(cred)
-
-
 db = firestore.client()
-batch = db.batch()
-
-
-def connect_to_database():
-    #TODO: IMPLEMENT METHOD
-    return
-def add_company(company_json):
-    #TODO: IMPLEMENT METHOD
-    #ADD COMPANY TO FIREBASE
-    return
-def remove_company(company_id):
-    #TODO: IMPLEMENT METHOD
-    #REMOVE COMPANY FROM FIREBASE
-    return
-
-def populate_database():
-    add_candid_data()
-    add_990_data()
-    return
-
-
-def add_990_data():
-    #LOOP THROUGH CSV ADDING TO FIREBASE
-    # default_excel_file = "PercentageCalculated.xlsx"
-    # workbook = openpyxl.load_workbook(default_excel_file)
-    # sheet = workbook.active  # Gets the active sheet
-    # header_row = sheet[1]
-    # COLUMN_MAP = {cell.value: count for count,cell in enumerate(header_row)}
-    files = os.listdir('split_csvs')
-
-# Loop through each file in the folder
-    for file_name in files:
-        # Create the full file path
-        file_path = os.path.join('split_csvs', file_name)
-        with open(file_path) as f:
-            reader = csv.DictReader(f)
-            for row in enumerate(reader):
-                docRef = db.collection("non-for-profits").document(); #automatically generate unique id
-                entry = build_company_from_990_data(row[1])
-                batch.set(docRef, entry);
-        batch.commit()
-    return
-
-
-def get_company(company):
-    #RETURN COMPANY FROM FIREBASE
-    #TODO: IMPLEMENT METHOD
-    return
 
 def build_company_from_990_data(csv_row):
     csv_json = {"ein": csv_row["ein"],
@@ -189,15 +130,3 @@ def build_company_from_candid_data(csv_row):
                 }        
     }
     return csv_json
-
-def add_candid_data():
-    with open('Candid-Top-2-3.csv','r') as f:
-        reader = csv.DictReader(f)
-        for row in enumerate(reader):
-            docRef = db.collection("non-for-profits").document(); #automatically generate unique id
-            entry = build_company_from_candid_data(row[1])
-            batch.set(docRef, entry);
-    batch.commit()
-    return
-
-populate_database()
