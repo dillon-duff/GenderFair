@@ -59,7 +59,17 @@ async function fetchDocumentsForEINs(db, name, allEINs, categories) {
         }
     }
 
-    return documents.sort((a, b) => a.rank - b.rank);
+    console.log(documents)
+
+    // Stops duplicate EINs, but why is this happening when you sort only by 'Women'...?
+    return Array.from(
+        documents.reduce((uniqueMap, doc) => {
+          if (!uniqueMap.has(doc.ein)) {
+            uniqueMap.set(doc.ein, doc);
+          }
+          return uniqueMap;
+        }, new Map()).values()
+      ).sort((a, b) => a.rank - b.rank);
 }
 
 async function fetchDocumentByNameAndCategories(name, categories) {
@@ -102,7 +112,7 @@ async function fetchDocumentsByRankRange(startRank, endRank) {
 }
 
 
-const allCategories = ["community needs", "children", "healthcare", "other", "education", "college", "arts", "hospital", "environmental", "stem", "hunger"];
+const allCategories = ["animals", "community needs", "children", "healthcare", "other", "education", "college", "arts", "hospital", "environmental", "stem", "hunger", "women"];
 
 let currentPage = 1;
 const recordsPerPage = 50;
